@@ -1,5 +1,31 @@
-import '@/styles/globals.css'
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
+
+/* 
+Frontend:
+Nextjs
+tailwind
+swr
+
+Backend:
+Nextjs api routes
+mongodb
+
+Steps:
+1. setup environment
+  1. Build app header
+  2. Create Blog Preview Card
+  3. Layout 
+
+2. Homepage UI
+3. Understand SSG
+4. Setup mdx, database, and make homepage static
+5. generate static blog page
+6. style blog page
+7. build the view counter
+8. Implement autocomplete blog
+9. Deploy
+*/
