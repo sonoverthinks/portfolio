@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useToggle } from "@/hooks/useToggle";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import AppHeader from "@/components/AppHeader";
+import BlogPreviewCard from "@/components/blog-preview/BlogPreviewCard";
+import BlogPreviewList from "@/components/BlogPreviewList";
 
 const Home = () => {
   const [searchBar, toggleSearchBar] = useToggle();
@@ -22,6 +24,7 @@ const Home = () => {
         toggleSearchBar={toggleSearchBar}
       />
       {searchBar && <div>SEARCHBAR</div>}
+      <BlogPreviewList />
     </div>
   );
 };
