@@ -7,7 +7,8 @@ import BlogPreviewList from "@/components/BlogPreviewList";
 
 const Home = () => {
   const [searchBar, toggleSearchBar] = useToggle();
-  const [dark, toggleDark] = useToggle();
+  const [isDark, toggleIsDark] = useToggle();
+  const [sideNav, toggleSideNav] = useToggle();
   const combo = useKeyPress("k");
 
   useEffect(() => {
@@ -19,9 +20,11 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full p-3">
       <AppHeader
-        dark={dark}
-        toggleDark={toggleDark}
+        isDark={isDark}
+        toggleIsDark={toggleIsDark}
         toggleSearchBar={toggleSearchBar}
+        sideNav={sideNav}
+        toggleSideNav={toggleSideNav}
       />
       {searchBar && <div>SEARCHBAR</div>}
       <BlogPreviewList />
