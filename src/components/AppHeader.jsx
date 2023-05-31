@@ -1,11 +1,12 @@
-import Image from "next/image";
-import SearchButton from "./header/SearchButton";
-import menuIcon from "@/image/menuIcon.svg";
-import closeIcon from "@/image/closeIcon.svg";
-import sunIcon from "@/image/sunIcon.svg";
-import moonIcon from "@/image/moonIcon.svg";
 import { navItems } from "@/data";
+import closeIcon from "@/image/closeIcon.svg";
+import menuIcon from "@/image/menuIcon.svg";
+import moonIcon from "@/image/moonIcon.svg";
+import sunIcon from "@/image/sunIcon.svg";
 import { nanoid } from "nanoid";
+import Image from "next/image";
+import Link from "next/link";
+import SearchButton from "./header/SearchButton";
 
 const AppHeader = ({
   toggleSearchBar,
@@ -16,9 +17,12 @@ const AppHeader = ({
 }) => {
   return (
     <div className="flex items-center justify-between w-full">
-      <a href="#" className="text-xl font-semibold md:text-2xl lg:text-3xl">
+      <Link
+        href="/blog"
+        className="text-xl font-semibold md:text-2xl lg:text-3xl"
+      >
         <span className="text-sky-500">Son</span>Dao_
-      </a>
+      </Link>
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
       </div>
@@ -32,10 +36,10 @@ const AppHeader = ({
         <ul className="items-center hidden gap-8 text-lg font-normal lg:flex ">
           {navItems.map((item) => (
             <li
-              className="hover:cursor-pointer hover:text-sky-500"
               key={nanoid()}
+              className="hover:cursor-pointer hover:text-sky-500"
             >
-              <a href="">{item}</a>
+              <Link href="/blog">{item}</Link>
             </li>
           ))}
           <li onClick={toggleIsDark}>
@@ -57,10 +61,10 @@ const AppHeader = ({
             <ul className="flex flex-col px-3 text-4xl gap-9">
               {navItems.map((item) => (
                 <li
-                  className="hover:cursor-pointer hover:text-sky-500"
                   key={nanoid()}
+                  className="hover:cursor-pointer hover:text-sky-500"
                 >
-                  <a href="">{item}</a>
+                  <Link href={"/blog"}>{item}</Link>
                 </li>
               ))}
               <li onClick={toggleIsDark}>

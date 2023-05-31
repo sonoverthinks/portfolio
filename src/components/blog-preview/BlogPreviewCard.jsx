@@ -2,14 +2,16 @@ import React from "react";
 import Image from "next/image";
 import cat from "@/image/cat.jpg";
 import ArrowRight from "@/image/ArrowRight.svg";
+import Link from "next/link";
 
 const handleClick = () => {
-  alert("Clicked");
+  // alert("Clicked");
 };
 
 const BlogPreviewCard = () => {
   return (
-    <div
+    <Link
+      href="/blog"
       className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden"
       onClick={handleClick}
     >
@@ -43,7 +45,7 @@ const BlogPreviewCard = () => {
           alt="arrow"
         />
       </div>
-    </div>
+    </Link>
   );
 };
 
