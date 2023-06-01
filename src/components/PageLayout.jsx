@@ -16,8 +16,15 @@ const PageLayout = ({ children }) => {
     console.log(combo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [combo]);
+  useEffect(() => {
+    localStorage.setItem("current-theme", isDark ? "dark" : "light");
+  }, [isDark]);
   return (
-    <div className="flex flex-col items-center justify-center w-full p-3">
+    <div
+      className={`relative flex flex-col items-center justify-start w-full h-auto min-h-screen p-3 ${
+        isDark ? "dark bg-black" : ""
+      }`}
+    >
       <AppHeader
         isDark={isDark}
         toggleIsDark={toggleIsDark}
@@ -26,6 +33,8 @@ const PageLayout = ({ children }) => {
         toggleSideNav={toggleSideNav}
       />
       {children}
+      {isDark && <div>dark</div>}
+      <p className="text-slate-400 dark:text-softOrange">hello</p>
       <AppFooter />
     </div>
   );

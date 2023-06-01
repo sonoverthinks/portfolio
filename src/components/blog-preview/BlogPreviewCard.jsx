@@ -30,7 +30,9 @@ const BlogPreviewCard = () => {
           <span>100 views</span>
           <span>4 min read</span>
         </div>
-        <p className="text-2xl font-bold">How to create beautiful blog</p>
+        <p className="text-2xl font-bold dark:text-softOrange">
+          How to create beautiful blog
+        </p>
         <p className="text-sm">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
         </p>

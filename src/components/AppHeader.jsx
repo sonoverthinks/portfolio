@@ -17,11 +17,8 @@ const AppHeader = ({
 }) => {
   return (
     <div className="flex items-center justify-between w-full">
-      <Link
-        href="/blog"
-        className="text-xl font-semibold md:text-2xl lg:text-3xl"
-      >
-        <span className="text-sky-500">Son</span>Dao_
+      <Link href="/" className="text-xl font-semibold md:text-2xl lg:text-3xl">
+        <span className="dark:text-orange-500 text-sky-500 dark:">Son</span>Dao_
       </Link>
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
