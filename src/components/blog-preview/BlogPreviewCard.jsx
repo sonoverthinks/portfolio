@@ -19,9 +19,10 @@ const BlogPreviewCard = ({
   totalViews,
   customID,
 }) => {
+  const link = `/blog/${slug}`;
   return (
     <Link
-      href="/blog"
+      href={link}
       className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden"
       onClick={handleClick}
     >
