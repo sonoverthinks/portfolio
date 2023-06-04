@@ -6,11 +6,12 @@ import { serialize } from "next-mdx-remote/serialize";
 // import MdxComponents from "@/components/MDX/MdxComponents";
 import BlogHead from "@/components/blog-page/BlogHead";
 import components from "@/components/MDX/MDXComponents";
+import rehypeImgSize from "rehype-img-size";
 
 const BlogPage = ({ mdxSource, blogData }) => {
   return (
-    <div>
-      <BlogHead {...blogData} />
+    <div className="w-full">
+      {/* <BlogHead {...blogData} /> */}
       <MDXRemote {...mdxSource} components={components} />
     </div>
   );
@@ -28,7 +29,11 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
   const result = await Blog.findOne({ slug }, project);
   const { content, createdAt, ...blogData } = result.toObject();
-  const mdxSource = await serialize(content);
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      rehypePlugins: [[rehypeImgSize, { dir: "public" }]],
+    },
+  });
   blogData.createdAt = createdAt.toDateString();
 
   return {

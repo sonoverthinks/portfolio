@@ -11,9 +11,9 @@ const BlogHead = ({
 }) => {
   return (
     <div className="flex items-center justify-center gap-3">
-      <div className="">{title}</div>
+      {/* <div className="">{title}</div>
       <div>{createdAt}</div>
-      <div>{readingTime}</div>
+      <div>{readingTime}</div> */}
     </div>
   );
 };
