@@ -27,7 +27,6 @@ components.p = (props) => (
 );
 
 components.a = (props) => {
-  console.log(props);
   return <LinkTypography {...props} />;
 };
 // components.a = (props) => (
