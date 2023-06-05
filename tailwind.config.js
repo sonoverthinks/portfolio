@@ -17,10 +17,16 @@ module.exports = {
       colors: {
         softOrange: "hsl(35,77%,62%)",
         softRed: "hsl(5,85%,63%)",
+        white: "#f9fafe",
         offWhite: "hsl(36,100%,99%)",
         grayishBlue: "hsl(233, 8%, 79%)",
-        darkGrayishBlue: "hsl(236,13%,42%)",
-        darkBlue: "hsl(240, 100%, 5%)",
+        lightBlue: "#4d5b7c",
+        darkBlue1: "#24335a",
+        darkBlue2: "#081b4b",
+        darkBlue3: "hsl(240, 100%, 10%)",
+      },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
       },
     },
   },

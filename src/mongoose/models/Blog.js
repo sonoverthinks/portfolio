@@ -22,6 +22,10 @@ const schema = new Schema({
     type: Number,
     default: 0,
   },
+  tags: {
+    type: Array,
+    required: true,
+  },
 });
 
 export default mongoose.models.blog || model("blog", schema);

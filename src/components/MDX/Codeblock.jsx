@@ -16,8 +16,8 @@ const Codeblock = ({ children }) => {
       language={language}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div className="w-auto text-sm">
-          <pre className="overflow-auto" style={style}>
+        <div className="w-full text-sm md:text-base">
+          <pre className="p-3 overflow-auto rounded-lg" style={style}>
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
                 {/* <span>{i + 1}</span> */}

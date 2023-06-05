@@ -1,7 +1,9 @@
 let components = {};
 
 function ListItem({ children }) {
-  return <li className="text-base dark:text-white">{children}</li>;
+  return (
+    <li className="text-base text-lightBlue dark:text-white">{children}</li>
+  );
 }
 
 function UnorderedList({ children }) {

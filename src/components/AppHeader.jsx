@@ -17,8 +17,11 @@ const AppHeader = ({
 }) => {
   return (
     <div className="flex items-center justify-between w-full">
-      <Link href="/" className="text-xl font-semibold md:text-2xl lg:text-3xl">
-        <span className="dark:text-orange-500 text-sky-500 dark:">Son</span>Dao_
+      <Link
+        href="/"
+        className="text-xl font-semibold md:text-2xl lg:text-3xl dark:text-offWhite"
+      >
+        <span className="dark:text-darkBlue text-softOrange">Son</span>Dao_
       </Link>
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
@@ -30,11 +33,11 @@ const AppHeader = ({
           alt="menu"
           onClick={toggleSideNav}
         />
-        <ul className="items-center hidden gap-8 text-lg font-normal lg:flex ">
+        <ul className="items-center hidden gap-8 text-base font-semibold lg:flex ">
           {navItems.map((item) => (
             <li
               key={nanoid()}
-              className="hover:cursor-pointer hover:text-sky-500"
+              className="text-darkBlue2 dark:text-offWhite hover:cursor-pointer hover:text-softRed"
             >
               <Link href="/blog">{item}</Link>
             </li>
@@ -51,7 +54,7 @@ const AppHeader = ({
       {sideNav && (
         <div className="fixed top-0 left-0 z-10 grid h-full min-w-full grid-cols-5">
           <div
-            className="col-span-2 opacity-10 bg-darkBlue"
+            className="col-span-2 opacity-10 bg-darkBlue3"
             onClick={toggleSideNav}
           ></div>
           <div className="col-span-3 pt-16 bg-white">
