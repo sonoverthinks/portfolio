@@ -21,7 +21,7 @@ const AppHeader = ({
         href="/"
         className="text-xl font-semibold md:text-2xl lg:text-3xl dark:text-offWhite"
       >
-        <span className="dark:text-darkBlue text-softOrange">Son</span>Dao_
+        <span className="dark:text-darkBlue text-fourth">My</span>Portfolio_
       </Link>
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
@@ -33,11 +33,12 @@ const AppHeader = ({
           alt="menu"
           onClick={toggleSideNav}
         />
-        <ul className="items-center hidden gap-8 text-base font-semibold lg:flex ">
+
+        <ul className="items-center hidden gap-8 text-base font-normal lg:flex ">
           {navItems.map((item) => (
             <li
               key={nanoid()}
-              className="text-darkBlue2 dark:text-offWhite hover:cursor-pointer hover:text-softRed"
+              className="text-darkBlue2 dark:text-offWhite hover:cursor-pointer dark:hover:text-second hover:text-fourth"
             >
               <Link href="/blog">{item}</Link>
             </li>

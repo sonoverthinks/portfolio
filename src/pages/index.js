@@ -8,12 +8,26 @@ import Blog from "@/mongoose/models/Blog";
 
 const Home = ({ topBlogs, recentBlogs }) => {
   return (
-    <>
-      <h1>TOP BLOGS</h1>
-      <BlogPreviewList blogs={topBlogs} />
-      <h1>RECENT BLOGS</h1>
-      <BlogPreviewList blogs={recentBlogs} />
-    </>
+    <div className="w-full mt-5">
+      <div>
+        <p className="flex items-center gap-5 text-xl">
+          MOST RECENT CONTENT{" "}
+          {/* <span>
+            <Image src={rightArrow} width={20} height={20} alt="arrow" />
+          </span> */}
+        </p>
+        <BlogPreviewList blogs={recentBlogs} />
+      </div>
+      <div className="mt-5">
+        <p className="flex items-center gap-5 text-xl">
+          MOST VIEWED CONTENT{" "}
+          {/* <span>
+            <Image src={rightArrow} width={20} height={20} alt="arrow" />
+          </span> */}
+        </p>
+        <BlogPreviewList blogs={topBlogs} />
+      </div>
+    </div>
   );
 };
 
@@ -56,7 +70,7 @@ export const getStaticProps = async () => {
   };
 
   // get the top blogs and most recent blogs
-  const limit = 1;
+  const limit = 3;
   const topBlogsResult = await Blog.find({}, project)
     .sort("-totalViews")
     .limit(limit);

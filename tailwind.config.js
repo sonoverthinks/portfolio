@@ -15,6 +15,11 @@ module.exports = {
       },
       screens: {},
       colors: {
+        first: "#2B3467",
+        second: "#BAD7E9",
+        third: "#FCFFE7",
+        fourth: "#EB455F",
+        fifth: "#333",
         softOrange: "hsl(35,77%,62%)",
         softRed: "hsl(5,85%,63%)",
         white: "#f9fafe",
@@ -27,6 +32,7 @@ module.exports = {
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
+        openSans: ["Open Sans", "sans-serif"],
       },
     },
   },

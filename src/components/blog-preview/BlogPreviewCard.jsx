@@ -24,15 +24,16 @@ const BlogPreviewCard = ({
   return (
     <Link
       href={link}
-      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden"
+      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden bg-white text-first"
       onClick={handleClick}
     >
       <div className="relative w-full h-auto">
         <Image
           src={banner}
           alt={altText}
+          // fill={true}
           width={850}
-          height={478}
+          height={600}
           style={{ width: "100%", height: "auto" }}
         />
       </div>
@@ -42,10 +43,10 @@ const BlogPreviewCard = ({
           <span>{readingTime}</span>
           <span>{views} views</span>
         </div>
-        <p className="text-2xl font-bold dark:text-softOrange">{title}</p>
-        <p className="text-sm">{description}</p>
+        <p className="text-2xl font-bold ">{title}</p>
+        <p className="text-sm text-gray-500">{description}</p>
       </div>
-      <div className="flex items-center justify-between w-full px-3 py-2 border-[1px] border-t-slate-300 group-hover:border-t-sky-300">
+      <div className="flex items-center justify-between w-full px-3 py-2 border-t-[2px] group-hover:border-t-second">
         <span className="font-semibold">READ BLOG</span>
         <Image
           className="transition-all duration-150 group-hover:translate-x-1"

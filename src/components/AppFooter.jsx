@@ -9,7 +9,7 @@ const DIMENSION = 25;
 
 const AppFooter = () => {
   return (
-    <ul className="flex items-center self-start justify-between gap-4 mt-2 text-3xl text-gray-700">
+    <ul className="flex items-center self-start justify-between gap-4 mt-2 mt-5 text-3xl text-gray-700">
       <li>
         <Link href="/">
           <Image
