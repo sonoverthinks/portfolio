@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import cat from "@/image/cat.jpg";
 import ArrowRight from "@/image/ArrowRight.svg";
 import Link from "next/link";
+import useGetViews from "@/hooks/useGetViews";
 
 const handleClick = () => {
   // alert("Clicked");
@@ -19,6 +19,7 @@ const BlogPreviewCard = ({
   totalViews,
   customID,
 }) => {
+  const { data: views } = useGetViews(customID, totalViews);
   const link = `/blog/${slug}`;
   return (
     <Link
@@ -39,7 +40,7 @@ const BlogPreviewCard = ({
         <div className="flex items-center w-full gap-2 text-xs text-gray-500 flex-start">
           <span>{createdAt}</span>
           <span>{readingTime}</span>
-          <span>{totalViews}</span>
+          <span>{views} views</span>
         </div>
         <p className="text-2xl font-bold dark:text-softOrange">{title}</p>
         <p className="text-sm">{description}</p>

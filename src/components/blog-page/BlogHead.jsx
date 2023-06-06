@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { nanoid } from "nanoid";
+import axios from "axios";
+import useGetViews from "@/hooks/useGetViews";
 
 const BlogHead = ({
   banner,
@@ -11,7 +13,21 @@ const BlogHead = ({
   customID,
   tags,
 }) => {
-  console.log(tags);
+  // GET
+  const { data: views, mutate } = useGetViews(customID, totalViews);
+  // POST
+  useEffect(() => {
+    const url = `/api/views/${customID}`;
+    (async () => {
+      try {
+        await axios.post(url);
+        mutate();
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+  // console.log(tags);
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center gap-3 mt-3">
@@ -30,7 +46,7 @@ const BlogHead = ({
       <div className="flex gap-4 text-sm text-lightBlue dark:text-white">
         <span>{createdAt}</span>
         <span>{readingTime}</span>
-        <span>{totalViews} views</span>
+        <span>{views} views</span>
       </div>
     </div>
   );
