@@ -1,43 +1,31 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import twitterIcon from "@/image/twitterIcon.svg";
-import youtubeIcon from "@/image/youtubeIcon.svg";
-import linkedinIcon from "@/image/linkedinIcon.svg";
+import { YoutubeIcon, LinkedinIcon, TwitterIcon } from "./svgComponents";
 
 const DIMENSION = 25;
 
 const AppFooter = () => {
   return (
-    <ul className="flex items-center self-start justify-between gap-4 mt-2 mt-5 text-3xl text-gray-700">
+    <ul className="flex items-center self-start justify-between gap-4 mt-5 text-3xl text-gray-700">
       <li>
         <Link href="/">
-          <Image
-            src={twitterIcon}
-            width={DIMENSION}
-            height={DIMENSION}
-            alt="twitter link"
-          ></Image>
+          <div className="w-[25px] text-primary hover:text-secondary">
+            <TwitterIcon />
+          </div>
         </Link>
       </li>
       <li>
         <Link href="/">
-          <Image
-            src={linkedinIcon}
-            width={DIMENSION}
-            height={DIMENSION}
-            alt="linkedin link"
-          ></Image>
+          <div className="w-[25px] text-primary hover:text-secondary">
+            <LinkedinIcon />
+          </div>
         </Link>
       </li>
       <li>
         <Link href="/">
-          <Image
-            src={youtubeIcon}
-            width={DIMENSION}
-            height={DIMENSION}
-            alt="youtube link"
-          ></Image>
+          <div className="w-[25px] text-primary hover:text-secondary">
+            <YoutubeIcon />
+          </div>
         </Link>
       </li>
     </ul>

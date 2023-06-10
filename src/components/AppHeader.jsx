@@ -1,10 +1,6 @@
 import { navItems } from "@/data";
-import closeIcon from "@/image/closeIcon.svg";
-import menuIcon from "@/image/menuIcon.svg";
-import moonIcon from "@/image/moonIcon.svg";
-import sunIcon from "@/image/sunIcon.svg";
+import { SunIcon, MoonIcon, CloseIcon, MenuIcon } from "./svgComponents";
 import { nanoid } from "nanoid";
-import Image from "next/image";
 import Link from "next/link";
 import SearchButton from "./header/SearchButton";
 
@@ -19,36 +15,35 @@ const AppHeader = ({
     <div className="flex items-center justify-between w-full">
       <Link
         href="/"
-        className="text-xl font-semibold md:text-2xl lg:text-3xl dark:text-offWhite"
+        className="text-xl font-semibold text-secondary md:text-2xl lg:text-3xl dark:text-white"
       >
-        <span className="dark:text-darkBlue text-fourth">My</span>Portfolio_
+        <span className="text-primary">{"〈✎〉"}</span>
+        Sonny
       </Link>
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
       </div>
       <div className="flex items-center gap-5 md:gap-10 lg:gap-20">
-        <Image
-          className="z-20 w-8 h-8 hover:cursor-pointer lg:hidden"
-          src={!sideNav ? menuIcon : closeIcon}
-          alt="menu"
+        <div
+          className="z-20 w-8 h-auto lg:hidden hover:cursor-pointer"
           onClick={toggleSideNav}
-        />
+        >
+          {!sideNav ? <MenuIcon /> : <CloseIcon />}
+        </div>
 
         <ul className="items-center hidden gap-8 text-base font-normal lg:flex ">
           {navItems.map((item) => (
             <li
               key={nanoid()}
-              className="text-darkBlue2 dark:text-offWhite hover:cursor-pointer dark:hover:text-second hover:text-fourth"
+              className="text-secondary dark:text-white hover:cursor-pointer hover:text-primary dark:hover:text-primary"
             >
               <Link href="/blog">{item}</Link>
             </li>
           ))}
           <li onClick={toggleIsDark}>
-            <Image
-              className="w-5 h-5 hover:cursor-pointer"
-              src={isDark ? sunIcon : moonIcon}
-              alt="menu"
-            />
+            <div className="w-[25px] hover:cursor-pointer text-darkBlue2 hover:text-primary dark:text-tertiary1 dark:hover:text-tertiary2">
+              {isDark ? <SunIcon /> : <MoonIcon />}
+            </div>
           </li>
         </ul>
       </div>
@@ -69,11 +64,14 @@ const AppHeader = ({
                 </li>
               ))}
               <li onClick={toggleIsDark}>
-                <Image
+                {/* <Image
                   className="w-8 h-8 hover:cursor-pointer"
                   src={isDark ? sunIcon : moonIcon}
                   alt="menu"
-                />
+                /> */}
+                <div className="w-8 h-auto">
+                  {isDark ? <SunIcon /> : <MoonIcon />}
+                </div>
               </li>
             </ul>
           </div>
