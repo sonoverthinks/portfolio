@@ -1,7 +1,12 @@
 import { nanoid } from "nanoid";
 import BlogPreviewCard from "./blog-preview/BlogPreviewCard";
+import CustomButton from "./CustomButton";
+import { RightArrowIcon } from "./svgComponents";
 
 const BlogPreviewList = ({ blogs }) => {
+  const handleClick = () => {
+    alert("I was clicked");
+  };
   return (
     <div className="w-full mt-5">
       {/* <h3 className="text-3xl font-bold">Latest Blogs</h3> */}

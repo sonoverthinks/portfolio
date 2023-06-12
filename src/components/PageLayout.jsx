@@ -21,8 +21,8 @@ const PageLayout = ({ children }) => {
   }, [isDark]);
   return (
     <div
-      className={`font-openSans relative flex flex-col items-center justify-start w-full h-auto min-h-screen p-3 ${
-        isDark ? "dark bg-[#121212]" : ""
+      className={`font-openSans relative flex flex-col items-center justify-start w-full h-auto min-h-screen px-3 ${
+        isDark ? "dark bg-neutral-navy" : ""
       }`}
     >
       <AppHeader

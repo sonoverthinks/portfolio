@@ -22,7 +22,7 @@ const BlogPreviewCard = ({
   return (
     <Link
       href={link}
-      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden bg-white dark:bg-[#404040] text-primary dark:text-white"
+      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden bg-white dark:bg-neutral-gray text-dark dark:text-whisper"
       onClick={handleClick}
     >
       <div className="relative w-full h-auto">
@@ -47,7 +47,7 @@ const BlogPreviewCard = ({
       </div>
       <div className="flex items-center justify-between w-full px-3 py-2 border-t-[2px] group-hover:text-tertiary1">
         <span className="font-semibold">READ BLOG</span>
-        <div className="w-5 transition-all duration-150 group-hover:translate-x-1 ">
+        <div className="w-5 transition-all duration-150 group-hover:translate-x-1 group-hover:text-secondary">
           <RightArrowIcon />
         </div>
       </div>

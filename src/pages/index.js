@@ -5,27 +5,51 @@ import readBlogFiles from "@/utils/ReadBlogFiles";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 import Blog from "@/mongoose/models/Blog";
+import CustomButton from "@/components/CustomButton";
+import { useState } from "react";
 
 const Home = ({ topBlogs, recentBlogs }) => {
+  const [shownTopCards, setShownTopCards] = useState(1);
+  const [shownRecentCards, setShownRecentCards] = useState(1);
+  const incrementTopCards = () => {
+    setShownTopCards((prev) => prev + 1);
+    console.log(shownTopCards);
+  };
+  const incrementRecentCards = () => {
+    setShownRecentCards((prev) => prev + 1);
+    console.log(shownTopCards);
+  };
   return (
-    <div className="w-full mt-5">
+    <div className="mt-[70px] w-full [&>*]:mt-5 text-midnight dark:text-whisper">
       <div>
-        <p className="flex items-center gap-5 text-xl">
-          MOST RECENT CONTENT{" "}
-          {/* <span>
-            <Image src={rightArrow} width={20} height={20} alt="arrow" />
-          </span> */}
-        </p>
-        <BlogPreviewList blogs={recentBlogs} />
+        <div className="flex items-center gap-5 justify-normal">
+          <p className="text-xl">MOST RECENT BLOGS </p>
+          <CustomButton primary={false}>View All</CustomButton>
+        </div>
+        <BlogPreviewList blogs={recentBlogs.slice(0, shownRecentCards)} />
+        <div className="flex justify-center w-full mt-5">
+          <CustomButton
+            disabled={shownRecentCards >= recentBlogs.length}
+            handleClick={incrementRecentCards}
+          >
+            Load More
+          </CustomButton>
+        </div>
       </div>
-      <div className="mt-5">
-        <p className="flex items-center gap-5 text-xl">
-          MOST VIEWED CONTENT{" "}
-          {/* <span>
-            <Image src={rightArrow} width={20} height={20} alt="arrow" />
-          </span> */}
-        </p>
-        <BlogPreviewList blogs={topBlogs} />
+      <div>
+        <div className="flex items-center gap-5 justify-normal">
+          <p className="text-xl">MOST VIEWED BLOGS </p>
+          <CustomButton primary={false}>View All</CustomButton>
+        </div>
+        <BlogPreviewList blogs={topBlogs.slice(0, shownTopCards)} />
+        <div className="flex justify-center w-full mt-5">
+          <CustomButton
+            disabled={shownTopCards >= recentBlogs.length}
+            handleClick={incrementTopCards}
+          >
+            Load More
+          </CustomButton>
+        </div>
       </div>
     </div>
   );

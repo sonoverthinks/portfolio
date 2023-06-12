@@ -16,20 +16,15 @@ module.exports = {
       screens: {},
       colors: {
         primary: "#08D9D6",
-        secondary: "#252A34",
-        tertiary1: "#FF2E63",
-        tertiary2: "#EAEAEA",
+        secondary: "#FF2E63",
+        midnight: "#252A34",
+        whisper: "#EAEAEA",
 
-        first: "#2B3467",
-        second: "#BAD7E9",
-        third: "#FCFFE7",
-        fourth: "#EB455F",
-        fifth: "#333",
+        neutral: {
+          navy: "#1a202c",
+          gray: "#2d3748",
+        },
 
-        softOrange: "hsl(35,77%,62%)",
-        softRed: "hsl(5,85%,63%)",
-        white: "#f9fafe",
-        offWhite: "hsl(36,100%,99%)",
         grayishBlue: "hsl(233, 8%, 79%)",
         lightBlue: "#4d5b7c",
         darkBlue1: "#24335a",
