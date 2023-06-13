@@ -37,7 +37,7 @@ const AppHeader = ({
               key={nanoid()}
               className="text-dark dark:text-whisper hover:cursor-pointer hover:text-primary dark:hover:text-primary"
             >
-              <Link href="/blog">{item}</Link>
+              <Link href="/blogs">{item}</Link>
             </li>
           ))}
           <li onClick={toggleIsDark}>

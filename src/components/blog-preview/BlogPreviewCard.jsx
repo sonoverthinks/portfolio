@@ -22,7 +22,7 @@ const BlogPreviewCard = ({
   return (
     <Link
       href={link}
-      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden bg-white dark:bg-neutral-gray text-dark dark:text-whisper"
+      className="w-auto max-w-[592px] h-auto hover:cursor-pointer hover:translate-y-[-5px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-lg overflow-hidden bg-white dark:bg-neutral-licorice text-dark dark:text-whisper"
       onClick={handleClick}
     >
       <div className="relative w-full h-auto">
@@ -35,19 +35,19 @@ const BlogPreviewCard = ({
         />
       </div>
       <div className="w-full p-3">
-        <div className="flex items-center w-full gap-2 text-xs text-gray-500 dark:text-[#b3b3b3] flex-start">
+        <div className="flex items-center w-full gap-2 text-xs text-gray-500 dark:text-neutral-lavenderGray flex-start">
           <span>{createdAt}</span>
           <span>{readingTime}</span>
           <span>{views} views</span>
         </div>
         <p className="text-2xl font-bold ">{title}</p>
-        <p className="text-sm text-gray-500 dark:text-[#b3b3b3]">
+        <p className="text-sm text-gray-500 dark:text-neutral-lavenderGray">
           {description}
         </p>
       </div>
       <div className="flex items-center justify-between w-full px-3 py-2 border-t-[2px] group-hover:text-tertiary1">
         <span className="font-semibold">READ BLOG</span>
-        <div className="w-5 transition-all duration-150 group-hover:translate-x-1 group-hover:text-secondary">
+        <div className="w-5 transition-all duration-150 group-hover:translate-x-1 group-hover:text-primary">
           <RightArrowIcon />
         </div>
       </div>

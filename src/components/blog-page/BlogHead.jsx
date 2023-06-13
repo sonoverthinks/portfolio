@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import useGetViews from "@/hooks/useGetViews";
+import Tag from "./Tag";
 
 const BlogHead = ({
   banner,
@@ -27,23 +28,17 @@ const BlogHead = ({
       }
     })();
   }, []);
-  // console.log(tags);
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="mt-[50px] flex flex-col justify-center w-full items-center">
       <div className="flex items-center justify-center gap-3 mt-3">
         {tags.map((tag) => (
-          <button
-            className="px-3 py-2 text-base font-semibold transition-all duration-200 rounded-md bg-second hover:bg-third"
-            key={nanoid()}
-          >
-            {tag}
-          </button>
+          <Tag key={nanoid()} name={tag} />
         ))}
       </div>
-      <div className="text-[56px] leading-[64px] font-bold text-darkBlue1 dark:text-offWhite mt-4">
+      <div className="text-[56px] leading-[64px] font-bold text-midnight dark:text-whisper mt-4">
         {title}
       </div>
-      <div className="flex gap-4 mt-2 text-sm text-lightBlue dark:text-white">
+      <div className="flex gap-4 mt-2 text-sm text-lavenderGray dark:text-white">
         <span>{createdAt}</span>
         <span>{readingTime}</span>
         <span>{views} views</span>

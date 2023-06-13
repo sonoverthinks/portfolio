@@ -22,10 +22,10 @@ module.exports = {
 
         neutral: {
           navy: "#1a202c",
-          gray: "#2d3748",
+          licorice: "#2d3748",
+          lavenderGray: "#C1C3D2",
         },
 
-        grayishBlue: "hsl(233, 8%, 79%)",
         lightBlue: "#4d5b7c",
         darkBlue1: "#24335a",
         darkBlue2: "#081b4b",

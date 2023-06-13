@@ -1,57 +1,21 @@
-import BlogPreviewList from "@/components/BlogPreviewList";
 import connectDB from "@/mongoose/connectDB";
-import getFileNames from "@/utils/getFileNames";
+import Blog from "@/mongoose/models/Blog";
 import readBlogFiles from "@/utils/ReadBlogFiles";
+import getFileNames from "@/utils/getFileNames";
 import matter from "gray-matter";
 import readingTime from "reading-time";
-import Blog from "@/mongoose/models/Blog";
-import CustomButton from "@/components/CustomButton";
-import { useState } from "react";
 
-const Home = ({ topBlogs, recentBlogs }) => {
-  const [shownTopCards, setShownTopCards] = useState(1);
-  const [shownRecentCards, setShownRecentCards] = useState(1);
-  const incrementTopCards = () => {
-    setShownTopCards((prev) => prev + 1);
-    console.log(shownTopCards);
-  };
-  const incrementRecentCards = () => {
-    setShownRecentCards((prev) => prev + 1);
-    console.log(shownTopCards);
-  };
+const Home = ({ recentBlogs }) => {
   return (
-    <div className="mt-[70px] w-full [&>*]:mt-5 text-midnight dark:text-whisper">
-      <div>
-        <div className="flex items-center gap-5 justify-normal">
-          <p className="text-xl">MOST RECENT BLOGS </p>
-          <CustomButton primary={false}>View All</CustomButton>
-        </div>
-        <BlogPreviewList blogs={recentBlogs.slice(0, shownRecentCards)} />
-        <div className="flex justify-center w-full mt-5">
-          <CustomButton
-            disabled={shownRecentCards >= recentBlogs.length}
-            handleClick={incrementRecentCards}
-          >
-            Load More
-          </CustomButton>
-        </div>
+    <main className="mt-[70px] w-full h-auto text-midnight dark:text-whisper grid gap-2 lg:grid-cols-3 lg:grid-rows-3">
+      <div className="lg:col-span-2 lg:row-span-2">
+        <p>Blogs</p>
       </div>
-      <div>
-        <div className="flex items-center gap-5 justify-normal">
-          <p className="text-xl">MOST VIEWED BLOGS </p>
-          <CustomButton primary={false}>View All</CustomButton>
-        </div>
-        <BlogPreviewList blogs={topBlogs.slice(0, shownTopCards)} />
-        <div className="flex justify-center w-full mt-5">
-          <CustomButton
-            disabled={shownTopCards >= recentBlogs.length}
-            handleClick={incrementTopCards}
-          >
-            Load More
-          </CustomButton>
-        </div>
-      </div>
-    </div>
+      <div className="lg:row-span-2 bg-midnight">Blogs</div>
+      <div className="">First Project</div>
+      <div className="">Second Project</div>
+      <div className="">Third Project</div>
+    </main>
   );
 };
 
@@ -95,19 +59,10 @@ export const getStaticProps = async () => {
 
   // get the top blogs and most recent blogs
   const limit = 3;
-  const topBlogsResult = await Blog.find({}, project)
-    .sort("-totalViews")
-    .limit(limit);
   const recentBlogsResult = await Blog.find({}, project)
     .sort("-createdAt")
     .limit(limit);
 
-  // convert mongoose objects to normal objects
-  const topBlogs = topBlogsResult.map((blog) => {
-    const blogObject = blog.toObject();
-    blogObject.createdAt = blogObject.createdAt.toDateString();
-    return blogObject;
-  });
   const recentBlogs = recentBlogsResult.map((blog) => {
     const blogObject = blog.toObject();
     blogObject.createdAt = blogObject.createdAt.toDateString();
@@ -115,6 +70,6 @@ export const getStaticProps = async () => {
   });
 
   return {
-    props: { topBlogs, recentBlogs },
+    props: { recentBlogs },
   };
 };

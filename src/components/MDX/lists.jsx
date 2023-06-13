@@ -2,7 +2,7 @@ let components = {};
 
 function ListItem({ children }) {
   return (
-    <li className="text-base text-lightBlue dark:text-white">{children}</li>
+    <li className="text-base text-midnight dark:text-whisper">{children}</li>
   );
 }
 

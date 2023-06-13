@@ -1,7 +1,5 @@
 import { nanoid } from "nanoid";
-import BlogPreviewCard from "./blog-preview/BlogPreviewCard";
-import CustomButton from "./CustomButton";
-import { RightArrowIcon } from "./svgComponents";
+import BlogPreviewCard from "./BlogPreviewCard";
 
 const BlogPreviewList = ({ blogs }) => {
   const handleClick = () => {

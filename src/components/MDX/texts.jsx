@@ -4,7 +4,7 @@ function Typography({ className, children }) {
 
 function LinkTypography({ href, children }) {
   return (
-    <a href={href} className="text-base text-blue-500 dark:text-blue-300">
+    <a href={href} className="text-base text-blue-500 dark:text-blue-400">
       {children}
     </a>
   );
@@ -17,14 +17,14 @@ headings.forEach((tag, index) => {
   const size = 6 - index;
   let className = `text-${
     size !== 1 ? size : ""
-  }xl dark:text-offWhite font-bold text-lightBlue my-2`;
+  }xl dark:text-offWhite font-bold text-midnight dark:text-whisper my-2`;
   components[tag] = (props) => <Typography className={className} {...props} />;
 });
 
 components.p = (props) => (
   <Typography
     {...props}
-    className={"text-base text-lightBlue dark:text-white"}
+    className={"text-base text-midnight dark:text-whisper"}
   />
 );
 

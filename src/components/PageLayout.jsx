@@ -33,8 +33,6 @@ const PageLayout = ({ children }) => {
         toggleSideNav={toggleSideNav}
       />
       {children}
-      {isDark && <div>dark</div>}
-      {/* <p className="text-slate-400 dark:text-softOrange">hello</p> */}
       <AppFooter />
     </div>
   );
