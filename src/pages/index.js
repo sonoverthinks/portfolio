@@ -1,20 +1,18 @@
+import SideBar from "@/components/front-page/SideBar";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import readBlogFiles from "@/utils/ReadBlogFiles";
 import getFileNames from "@/utils/getFileNames";
 import matter from "gray-matter";
 import readingTime from "reading-time";
-
+import ProjectSwiper from "@/components/front-page/ProjectSwiper";
 const Home = ({ recentBlogs }) => {
   return (
-    <main className="mt-[70px] w-full h-auto text-midnight dark:text-whisper grid gap-2 lg:grid-cols-3 lg:grid-rows-3">
-      <div className="lg:col-span-2 lg:row-span-2">
-        <p>Blogs</p>
-      </div>
-      <div className="lg:row-span-2 bg-midnight">Blogs</div>
-      <div className="">First Project</div>
-      <div className="">Second Project</div>
-      <div className="">Third Project</div>
+    <main className="mt-[70px] w-full h-auto text-midnight dark:text-whisper grid gap-4 lg:grid-cols-3 lg:grid-rows-3">
+      <div className="lg:col-span-2 lg:row-span-2">This is about me</div>
+      <SideBar recentBlogs={recentBlogs} />
+
+      <ProjectSwiper />
     </main>
   );
 };
