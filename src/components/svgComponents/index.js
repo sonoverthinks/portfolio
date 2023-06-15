@@ -1,21 +1,25 @@
-import SearchIcon from "./SearchIcon";
-import YoutubeIcon from "./YoutubeIcon";
-import TwitterIcon from "./TwitterIcon";
+import LeftArrowIcon from "./LeftArrowIcon";
 import LinkedinIcon from "./LinkedinIcon";
-import CloseIcon from "./closeIcon";
 import MenuIcon from "./MenuIcon";
 import MoonIcon from "./MoonIcon";
-import SunIcon from "./SunIcon";
 import RightArrowIcon from "./RightArrowIcon";
+import SearchIcon from "./SearchIcon";
+import SunIcon from "./SunIcon";
+import TwitterIcon from "./TwitterIcon";
+import YoutubeIcon from "./YoutubeIcon";
+import CloseIcon from "./closeIcon";
+import ChatBubbleIcon from "./ChatBubbleIcon";
 
 export {
-  SearchIcon,
-  YoutubeIcon,
-  TwitterIcon,
-  LinkedinIcon,
   CloseIcon,
+  LeftArrowIcon,
+  LinkedinIcon,
   MenuIcon,
   MoonIcon,
-  SunIcon,
   RightArrowIcon,
+  SearchIcon,
+  SunIcon,
+  TwitterIcon,
+  YoutubeIcon,
+  ChatBubbleIcon,
 };

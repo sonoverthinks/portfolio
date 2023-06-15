@@ -24,6 +24,8 @@ module.exports = {
           navy: "#1a202c",
           licorice: "#2d3748",
           lavenderGray: "#C1C3D2",
+          gray: "#b3b3b3",
+          nickel: "#727472",
         },
 
         lightBlue: "#4d5b7c",

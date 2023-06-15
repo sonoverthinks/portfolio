@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 
 const SideBar = ({ recentBlogs }) => {
   return (
-    <div className="text-base p-7 lg:row-span-2 bg-midnight group">
+    <div className="text-base p-7 bg-midnight group">
       <Link
         href="/blogs"
         className="text-2xl font-bold text-whisper group-hover:text-primary"
