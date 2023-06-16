@@ -4,7 +4,7 @@ function Typography({ className, children }) {
 
 function LinkTypography({ href, children }) {
   return (
-    <a href={href} className="text-base text-blue-500 dark:text-blue-400">
+    <a href={href} className="text-xl text-blue-500 dark:text-blue-400">
       {children}
     </a>
   );
@@ -24,7 +24,9 @@ headings.forEach((tag, index) => {
 components.p = (props) => (
   <Typography
     {...props}
-    className={"text-base text-midnight dark:text-whisper"}
+    className={
+      "text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray"
+    }
   />
 );
 

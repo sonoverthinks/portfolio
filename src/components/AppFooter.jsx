@@ -6,7 +6,7 @@ const DIMENSION = 25;
 
 const AppFooter = () => {
   return (
-    <ul className="flex items-center self-start justify-between gap-4 mt-5 text-3xl text-gray-700">
+    <ul className="mt-[100px] mb-2 flex items-center justify-between gap-4 text-3xl text-gray-700">
       <li>
         <Link href="/">
           <div className="w-[25px] text-primary hover:text-midnight">
@@ -27,6 +27,9 @@ const AppFooter = () => {
             <YoutubeIcon />
           </div>
         </Link>
+      </li>
+      <li>
+        <p className="text-base dark:text-whisper">© 2023 Son Dao</p>
       </li>
     </ul>
   );

@@ -21,7 +21,7 @@ const PageLayout = ({ children }) => {
   }, [isDark]);
   return (
     <div
-      className={`font-inter relative flex flex-col items-center justify-start w-full h-auto min-h-screen px-5 ${
+      className={`font-openSans relative flex flex-col items-center justify-start w-full h-auto min-h-screen px-5 ${
         isDark ? "dark bg-neutral-navy" : ""
       }`}
     >
@@ -33,7 +33,7 @@ const PageLayout = ({ children }) => {
         toggleSideNav={toggleSideNav}
       />
       {children}
-      {/* <AppFooter /> */}
+      <AppFooter />
     </div>
   );
 };

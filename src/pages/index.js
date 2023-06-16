@@ -9,10 +9,11 @@ import matter from "gray-matter";
 import readingTime from "reading-time";
 const Home = ({ recentBlogs }) => {
   return (
-    <main className="mt-[80px] w-full h-auto text-midnight dark:text-whisper grid gap-4 lg:grid-cols-3 lg:grid-rows-2">
-      {/* <div className="lg:col-span-2">This is about me</div> */}
-      <About />
-      <SideBar recentBlogs={recentBlogs} />
+    <main className="mt-[100px] w-full max-w-[1300px] h-auto text-midnight dark:text-whisper">
+      <div className="grid gap-4 max-w lg:grid-cols-3">
+        <About />
+        <SideBar recentBlogs={recentBlogs} />
+      </div>
       <ProjectSwiper />
     </main>
   );

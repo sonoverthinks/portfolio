@@ -27,6 +27,9 @@ module.exports = {
           gray: "#b3b3b3",
           nickel: "#727472",
         },
+        typo: {
+          bistre: "#372822",
+        },
 
         lightBlue: "#4d5b7c",
         darkBlue1: "#24335a",
@@ -36,6 +39,7 @@ module.exports = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         openSans: ["Open Sans", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
     },
   },
