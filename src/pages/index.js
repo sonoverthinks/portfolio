@@ -28,7 +28,7 @@ const Home = ({ recentBlogs }) => {
       <p className="flex flex-col text-6xl leading-[90px] text-midnight dark:text-whisper my-3">
         <span className="">
           I{" "}
-          <span class="before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:-skew-y-3 before:bg-secondary relative inline-block">
+          <span className="relative inline-block before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:-skew-y-3 before:bg-secondary">
             <Link
               href="/blogs"
               class="relative text-whisper hover:text-midnight"
@@ -65,7 +65,12 @@ const Home = ({ recentBlogs }) => {
           <LinkedinIcon />
         </Link>
       </div>
-      <BlogPreviewList blogs={recentBlogs} />
+      <div className="w-full">
+        <BlogPreviewList blogs={recentBlogs} />
+      </div>
+      <div className="w-full mt-6">
+        <BlogPreviewList blogs={recentBlogs} />
+      </div>
     </main>
   );
 };
