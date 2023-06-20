@@ -1,20 +1,71 @@
-import About from "@/components/front-page/About";
-import ProjectSwiper from "@/components/front-page/ProjectSwiper";
-import SideBar from "@/components/front-page/SideBar";
+import BlogPreviewList from "@/components/blog-preview/BlogPreviewList";
+import {
+  YoutubeIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "@/components/svgComponents";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import readBlogFiles from "@/utils/ReadBlogFiles";
 import getFileNames from "@/utils/getFileNames";
 import matter from "gray-matter";
+import Link from "next/link";
 import readingTime from "reading-time";
 const Home = ({ recentBlogs }) => {
   return (
-    <main className="mt-[100px] w-full max-w-[1300px] h-auto text-midnight dark:text-whisper">
-      <div className="grid gap-4 max-w lg:grid-cols-3">
-        <About />
-        <SideBar recentBlogs={recentBlogs} />
+    <main className="relative mt-[100px] w-full max-w-[1300px] h-auto text-midnight dark:text-whisper">
+      <p className="text-3xl font-semibold">
+        Hi,{" "}
+        <span class="before:block before:absolute before:top-8 hover:before:top-0 before:bottom-0 before:-inset-1 before:bg-primary relative inline-block before:transition-all duration-100">
+          <Link
+            href="/about"
+            class="relative text-midnight dark:text-whisper hover:text-whisper dark:hover:text-midnight"
+          >
+            I am Son
+          </Link>
+        </span>
+      </p>
+      <p className="flex flex-col text-6xl leading-[90px] text-midnight dark:text-whisper my-3">
+        <span className="">
+          I{" "}
+          <span class="before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:-skew-y-3 before:bg-secondary relative inline-block">
+            <Link
+              href="/blogs"
+              class="relative text-whisper hover:text-midnight"
+            >
+              make
+            </Link>
+          </span>{" "}
+          websites,
+        </span>
+        <span>
+          and{" "}
+          <span class="before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:skew-y-3 before:bg-secondary relative inline-block">
+            <Link
+              href="/blogs"
+              class="relative text-whisper hover:text-midnight"
+            >
+              write
+            </Link>
+          </span>{" "}
+          related content.
+        </span>
+      </p>
+      <p className="text-xl font-semibold">
+        Check out my Youtube for guitar covers!
+      </p>
+      <div className="flex gap-3 mt-5">
+        <Link href="/" className="hover:text-primary w-[40px]">
+          <YoutubeIcon />
+        </Link>
+        <Link href="/" className="hover:text-primary w-[40px]">
+          <TwitterIcon />
+        </Link>
+        <Link href="/" className="hover:text-primary w-[40px]">
+          <LinkedinIcon />
+        </Link>
       </div>
-      <ProjectSwiper />
+      <BlogPreviewList blogs={recentBlogs} />
     </main>
   );
 };

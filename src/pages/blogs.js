@@ -31,7 +31,7 @@ const Blogs = ({ topBlogs, recentBlogs }) => {
         return (
           <Link
             href={link}
-            className="w-full p-5 text-midnight bg-whisper dark:bg-midnight"
+            className="w-full p-5 text-midnight dark:bg-midnight"
             key={nanoid()}
           >
             <div className="flex items-center gap-4 text-sm flex-normal text-neutral-nickel dark:text-neutral-lavenderGray">

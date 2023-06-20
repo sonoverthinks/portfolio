@@ -31,17 +31,20 @@ const AppHeader = ({
           {!sideNav ? <MenuIcon /> : <CloseIcon />}
         </div>
 
-        <ul className="items-center hidden gap-8 text-base font-normal lg:flex ">
+        <ul className="items-center hidden gap-8 text-lg font-normal lg:flex ">
           {navItems.map((item) => (
             <li
               key={nanoid()}
               className="text-dark dark:text-whisper hover:cursor-pointer hover:text-primary dark:hover:text-primary"
             >
-              <Link href="/blogs">{item}</Link>
+              <Link href={item.href}>{item.title}</Link>
             </li>
           ))}
-          <li onClick={toggleIsDark}>
-            <div className="w-[25px] hover:cursor-pointer text-midnight hover:text-primary dark:text-whisper dark:hover:text-primary">
+          <li
+            onClick={toggleIsDark}
+            className="p-3 rounded-full bg-whisper dark:bg-neutral-licorice hover:cursor-pointer"
+          >
+            <div className="w-[20px] text-midnight hover:text-primary dark:text-whisper dark:hover:text-primary">
               {isDark ? <SunIcon /> : <MoonIcon />}
             </div>
           </li>
@@ -60,7 +63,7 @@ const AppHeader = ({
                   key={nanoid()}
                   className="hover:cursor-pointer dark:text-dark hover:text-primary dark:hover:text-primary"
                 >
-                  <Link href={"/blog"}>{item}</Link>
+                  <Link href={item.href}>{item.title}</Link>
                 </li>
               ))}
               <li onClick={toggleIsDark}>

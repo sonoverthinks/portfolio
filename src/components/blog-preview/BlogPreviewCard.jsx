@@ -45,14 +45,31 @@ const BlogPreviewCard = ({
           {description}
         </p>
       </div>
-      <div className="flex items-center justify-between w-full px-3 py-2 border-t-[2px] group-hover:text-tertiary1">
+      {/* <div className="flex items-center justify-between w-full px-3 py-2 border-t-[2px] group-hover:text-tertiary1">
         <span className="font-semibold">READ BLOG</span>
         <div className="w-5 transition-all duration-150 group-hover:translate-x-1 group-hover:text-primary">
           <RightArrowIcon />
         </div>
-      </div>
+      </div> */}
     </Link>
   );
+
+  //   <Link
+  //     href={link}
+  //     className="min-w-[275px] max-w-[325px] h-[400px] group overflow-hidden rounded-lg mx-auto"
+  //   >
+  //     <div className="relative w-full h-[50%] bg-midnight transition-all duration-300 ease-in group-hover:h-[100%]">
+  //       <Image src={banner} alt={altText} fill style={{ objectFit: "cover" }} />
+  //     </div>
+  //     <div className="w-full h-full">
+  //       <div className="flex items-center w-full gap-2 text-xs text-gray-500 dark:text-neutral-lavenderGray flex-start">
+  //         <span>{createdAt}</span>
+  //         <span>{readingTime}</span>
+  //         <span>{views} views</span>
+  //       </div>
+  //     </div>
+  //   </Link>
+  // );
 };
 
 export default BlogPreviewCard;
