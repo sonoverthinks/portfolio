@@ -19,15 +19,15 @@ const CustomButton = ({ primary = true, disabled, handleClick, children }) => {
   );
 };
 
-export const NavigationButton = ({ rest, children }) => {
-  return (
-    <button
-      className="p-4 transition-all duration-75 rounded-full bg-midnight text-whisper dark:bg-whisper dark:text-midnight hover:bg-primary"
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-};
+// export const NavigationButton = ({ rest, children }) => {
+//   return (
+//     <button
+//       className="p-4 transition-all duration-75 rounded-full bg-midnight text-whisper dark:bg-whisper dark:text-midnight hover:bg-primary"
+//       {...rest}
+//     >
+//       {children}
+//     </button>
+//   );
+// };
 
 export default CustomButton;

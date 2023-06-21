@@ -9,6 +9,7 @@ import TwitterIcon from "./TwitterIcon";
 import YoutubeIcon from "./YoutubeIcon";
 import CloseIcon from "./closeIcon";
 import ChatBubbleIcon from "./ChatBubbleIcon";
+import TagIcon from "../blog-page/Tag";
 
 export {
   CloseIcon,
@@ -22,4 +23,5 @@ export {
   TwitterIcon,
   YoutubeIcon,
   ChatBubbleIcon,
+  TagIcon,
 };

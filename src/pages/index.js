@@ -16,10 +16,10 @@ const Home = ({ recentBlogs }) => {
     <main className="relative mt-[100px] w-full max-w-[1300px] h-auto text-midnight dark:text-whisper">
       <p className="text-3xl font-semibold">
         Hi,{" "}
-        <span class="before:block before:absolute before:top-8 hover:before:top-0 before:bottom-0 before:-inset-1 before:bg-primary relative inline-block before:transition-all duration-100">
+        <span className="relative inline-block duration-100 before:block before:absolute before:top-8 hover:before:top-0 before:bottom-0 before:-inset-1 before:bg-primary before:transition-all">
           <Link
             href="/about"
-            class="relative text-midnight dark:text-whisper hover:text-whisper dark:hover:text-midnight"
+            className="relative text-midnight dark:text-whisper hover:text-whisper dark:hover:text-midnight"
           >
             I am Son
           </Link>
@@ -31,7 +31,7 @@ const Home = ({ recentBlogs }) => {
           <span className="relative inline-block before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:-skew-y-3 before:bg-secondary">
             <Link
               href="/blogs"
-              class="relative text-whisper hover:text-midnight"
+              className="relative text-whisper hover:text-midnight"
             >
               make
             </Link>
@@ -40,10 +40,10 @@ const Home = ({ recentBlogs }) => {
         </span>
         <span>
           and{" "}
-          <span class="before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:skew-y-3 before:bg-secondary relative inline-block">
+          <span className="relative inline-block before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:skew-y-3 before:bg-secondary">
             <Link
               href="/blogs"
-              class="relative text-whisper hover:text-midnight"
+              className="relative text-whisper hover:text-midnight"
             >
               write
             </Link>

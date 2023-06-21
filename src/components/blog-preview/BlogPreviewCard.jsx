@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useGetViews from "@/hooks/useGetViews";
-import { RightArrowIcon } from "../svgComponents";
+import { RightArrowIcon, TagIcon } from "../svgComponents";
 import { nanoid } from "nanoid";
 
 const handleClick = () => {};
@@ -37,18 +37,15 @@ const BlogPreviewCard = ({
         />
       </div> */}
       <div className="relative w-full p-4">
-        <p className="text-xl font-bold ">{title}</p>
-        <div className="flex items-center w-full gap-2 mt-2 text-xs text-gray-500 dark:text-neutral-lavenderGray flex-start">
+        <p className="text-xl font-bold">{title}</p>
+        <div className="flex items-center w-full gap-3 mt-1 text-xs text-neutral-nickel dark:text-neutral-lavenderGray">
           <span>{createdAt}</span>
           <span>{readingTime}</span>
           <span>{views} views</span>
         </div>
-        {/* <p className="mt-4 text-base text-gray-500 dark:text-neutral-lavenderGray">
-          {description}
-        </p> */}
         {tags.map((tag) => (
           <button
-            className="hover:cursor-pointer py-[1px] px-1 text-sm text-primary underline hover:text-secondary"
+            className="mr-3 text-sm underline hover:cursor-pointer text-primary hover:text-secondary"
             key={nanoid}
           >
             {tag}
