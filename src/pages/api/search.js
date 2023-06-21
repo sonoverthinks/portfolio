@@ -32,7 +32,7 @@ const handler = async (req, res) => {
       },
       {
         $project: {
-          _id: 0,
+          //   _id: 0,
           banner: 0,
           content: 0,
           altText: 0,

@@ -31,6 +31,7 @@ const PageLayout = ({ children }) => {
         toggleSearchBar={toggleSearchBar}
         sideNav={sideNav}
         toggleSideNav={toggleSideNav}
+        searchBar={searchBar}
       />
       {children}
       <AppFooter />
