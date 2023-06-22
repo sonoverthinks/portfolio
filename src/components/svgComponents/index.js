@@ -10,6 +10,7 @@ import YoutubeIcon from "./YoutubeIcon";
 import CloseIcon from "./closeIcon";
 import ChatBubbleIcon from "./ChatBubbleIcon";
 import TagIcon from "../blog-page/Tag";
+import EnterIcon from "./EnterIcon";
 
 export {
   CloseIcon,
@@ -24,4 +25,5 @@ export {
   YoutubeIcon,
   ChatBubbleIcon,
   TagIcon,
+  EnterIcon,
 };

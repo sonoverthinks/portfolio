@@ -1,10 +1,11 @@
 import { navItems } from "@/data";
-import { SunIcon, MoonIcon, CloseIcon, MenuIcon } from "./svgComponents";
+import axios from "axios";
 import { nanoid } from "nanoid";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import SearchModal from "./SearchModal";
 import SearchButton from "./header/SearchButton";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./svgComponents";
 
 const AppHeader = ({
   toggleSearchBar,
@@ -46,37 +47,13 @@ const AppHeader = ({
       <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
         {searchBar && (
-          <div
-            className="fixed top-0 left-0 z-10 w-full h-full bg-white/30 backdrop-blur-lg"
-            // onClick={toggleSearchBar}
-          >
-            <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px]">
-              <input
-                type="text"
-                placeholder="search..."
-                autoFocus
-                className="flex items-center justify-between w-full px-3 py-4 text-base border-none rounded-md outline-none bg-neutral-licorice text-whisper"
-                value={searchText}
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                }}
-              />
-              {searchResults.map((item) => (
-                <Link
-                  className="w-full rounded-md bg-neutral-licorice"
-                  href="/"
-                  key={item._id}
-                >
-                  <p className="w-full text-lg text-whisper">{item.title}</p>
-                  <p className="flex gap-2 text-whisper">
-                    <span>{item.readingTime}</span>
-                    <span>{item.totalViews}</span>
-                    <span></span>
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <SearchModal
+            searchResults={searchResults}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            toggleSearchBar={toggleSearchBar}
+            setSearchText={setSearchText}
+          />
         )}
       </div>
       <div className="flex items-center gap-5 md:gap-10 lg:gap-20 text-dark dark:text-whisper">
