@@ -52,7 +52,6 @@ const AppHeader = ({
             searchText={searchText}
             setSearchText={setSearchText}
             toggleSearchBar={toggleSearchBar}
-            setSearchText={setSearchText}
           />
         )}
       </div>

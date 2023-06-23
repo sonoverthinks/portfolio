@@ -42,6 +42,19 @@ const handler = async (req, res) => {
     ];
 
     const blogs = await Blog.aggregate(agg);
+    // const blogs = results.map((blog) => {
+    //   const blogObject = blog.toObject();
+    //   blogObject.createdAt = blogObject.createdAt.toDateString();
+    //   return blogObject;
+    // });
+
+    /* 
+      const recentBlogs = recentBlogsResult.map((blog) => {
+    const blogObject = blog.toObject();
+    blogObject.createdAt = blogObject.createdAt.toDateString();
+    return blogObject;
+  });
+     */
 
     return res.send(blogs);
   } catch (_) {

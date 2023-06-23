@@ -1,27 +1,22 @@
-import connectDB from "@/mongoose/connectDB";
+import React from "react";
 import Blog from "@/mongoose/models/Blog";
-import { nanoid } from "nanoid";
+import connectDB from "@/mongoose/connectDB";
 import Link from "next/link";
-import CustomButton from "@/components/CustomButton";
+import { nanoid } from "nanoid";
 
-const Blogs = ({ recentBlogs, tagFrequency, uniqueTags }) => {
-  const tags = Object.entries(tagFrequency);
+const Tag = ({ blogs }) => {
   return (
     <div className="w-full max-w-[1000px] mt-[100px] mx-auto flex flex-col items-start gap-3">
       <div className="flex items-center w-full gap-3 px-5 py-3 justify-normal">
-        {tags.map((pair) => {
-          return (
-            <Link
-              className="px-4 py-1 rounded-full bg-midnight text-whisper hover:bg-primary hover:text-midnight"
-              key={nanoid()}
-              href={`/tags/${pair[0]}`}
-            >
-              {`${pair[0]} (${pair[1]})`}
-            </Link>
-          );
-        })}
+        <Link
+          className="px-4 py-1 rounded-full bg-midnight text-whisper hover:bg-primary hover:text-midnight"
+          key={nanoid()}
+          href="/blogs"
+        >
+          all tags
+        </Link>
       </div>
-      {recentBlogs.map((blog) => {
+      {blogs.map((blog) => {
         const link = `/blog/${blog.slug}`;
         return (
           <Link
@@ -57,40 +52,57 @@ const Blogs = ({ recentBlogs, tagFrequency, uniqueTags }) => {
     </div>
   );
 };
-
-export default Blogs;
-
-export const getStaticProps = async () => {
-  // connect to db
+export const getStaticProps = async ({ params: { tag } }) => {
   await connectDB();
-  // get the top blogs and most recent blogs
-  const limit = 3;
   const project = {
     _id: 0,
     _v: 0,
     content: 0,
   };
+  const results = await Blog.find({ tags: tag }, project);
 
-  const recentBlogsResult = await Blog.find({}, project)
-    .sort("-createdAt")
-    .limit(limit);
-
-  const tagFrequency = {};
-  const tagArray = [];
-
-  const recentBlogs = recentBlogsResult.map((blog) => {
+  const blogs = results.map((blog) => {
     const blogObject = blog.toObject();
-    tagArray.push(blogObject.tags);
     blogObject.createdAt = blogObject.createdAt.toDateString();
     return blogObject;
   });
 
-  for (const tag of tagArray.flat()) {
-    tagFrequency[tag] = tagFrequency[tag] ? tagFrequency[tag] + 1 : 1;
-  }
-  const uniqueTags = [...[...new Set(tagArray.flat())]];
-
   return {
-    props: { recentBlogs, tagFrequency, uniqueTags },
+    props: { blogs },
   };
 };
+
+// nextjs needs to know the possible values of slug so that it can create the static routes and pages
+export const getStaticPaths = async () => {
+  await connectDB();
+  let tagArray = [];
+
+  const project = {
+    _id: 0,
+    _v: 0,
+    content: 0,
+  };
+  // find all docs
+  const docs = await Blog.find({}, project);
+
+  // extract all the tags
+  docs.forEach((doc) => {
+    // const blogObject = doc.toObject();
+    tagArray.push(doc.tags);
+  });
+  // get the unique tags
+  const uniqueTags = [...[...new Set(tagArray.flat())]];
+
+  // create the possible paths
+  const paths = uniqueTags.map((tag) => ({
+    params: {
+      tag: tag,
+    },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export default Tag;

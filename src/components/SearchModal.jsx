@@ -3,6 +3,7 @@ import { EnterIcon } from "./svgComponents";
 import Link from "next/link";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { useEffect } from "react";
+import { navItems } from "@/data";
 
 const SearchModal = ({
   searchText,
@@ -33,6 +34,7 @@ const SearchModal = ({
         />
         {searchResults.map((item) => {
           const link = `/blog/${item.slug}`;
+          console.log(typeof item.createdAt);
           return (
             <Link
               className="flex flex-col items-start w-full gap-2 p-3 bg-neutral-licorice group"
@@ -48,8 +50,8 @@ const SearchModal = ({
               <div className="flex justify-between w-full text-neutral-lavenderGray">
                 <p className="flex gap-2 text-sm">
                   <span>{item.readingTime}</span>
-                  <span>{item.totalViews} views</span>
-                  <span></span>
+                  {/* <span>{item.totalViews} views</span> */}
+                  {/* <span>{item.createdAt}</span> */}
                 </p>
                 <div className="w-5 mr-3 transition-all duration-150 group-hover:translate-x-2">
                   <EnterIcon />

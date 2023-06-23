@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import axios from "axios";
 import useGetViews from "@/hooks/useGetViews";
 import Tag from "./Tag";
+import Link from "next/link";
 
 const BlogHead = ({
   banner,
@@ -30,9 +31,15 @@ const BlogHead = ({
   }, []);
   return (
     <div className="mt-[50px] flex flex-col justify-center w-full items-center">
-      <div className="flex items-center justify-center gap-3 mt-3">
+      <div className="flex items-center w-full gap-3 py-3 justify-normal">
         {tags.map((tag) => (
-          <Tag key={nanoid()} name={tag} />
+          <Link
+            className="px-4 py-1 rounded-full bg-midnight text-whisper hover:bg-primary hover:text-midnight"
+            key={nanoid()}
+            href={`/tags/${tag}`}
+          >
+            {tag}
+          </Link>
         ))}
       </div>
       <div className="text-[56px] leading-[64px] font-bold text-midnight dark:text-whisper mt-4">
