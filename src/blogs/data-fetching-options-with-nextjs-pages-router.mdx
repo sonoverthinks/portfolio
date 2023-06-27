@@ -1,0 +1,141 @@
+---
+title: Data Fetching Options with Next.js Pages Router
+description: In Next.js, you have a range of options for fetching data, providing flexibility to cater to your specific needs and requirements. The framework offers various methods and libraries that accommodate different scenarios, allowing you to choose the most suitable approach for your application.
+banner: /blogs/my-first-blog/cat.jpg
+altText: data fetching
+customID: e20cb3b6-7828-4c78-b3c7-c1876629b2d9
+tags: ["react", "nextjs"]
+---
+
+In Next.js, you have a range of options for fetching data, providing flexibility to cater to your specific needs and requirements. The framework offers various methods and libraries that accommodate different scenarios, allowing you to choose the most suitable approach for your application.
+
+#### Client-side data fetching with useEffect
+
+In the traditional approach, developers often rely on the `useEffect` hook to handle data fetching operations. This allows them to initiate the fetch request and update the component's state based on the retrieved data. The `fetch()` function, a built-in browser API, is frequently used to make HTTP requests and fetch data from a server. Alternatively, developers may opt for the `axios` library, a popular choice known for its simplicity and additional features. Here's an example showcasing the usage of `useEffect` and the `fetch()` function to fetch data:
+
+```jsx
+const App = () => {
+  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "https://pokeapi.co/api/v2/pokemon?limit=1"
+        );
+        const data = await response.json();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  if (isLoading) return <p>Loading...</p>;
+  if (!data) return <p>No data</p>;
+  return <h3>{data?.results[0]?.name}</h3>;
+};
+export default App;
+```
+
+Alternatively, we can utilize the Axios library as an alternative to `fetch()`.
+
+```jsx
+const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=1");
+setData(response.data);
+```
+
+On the client side, we also have the option to utilize data fetching libraries such as `useSWR` or `react-query` for data fetching. Here's an example that demonstrates data fetching using `useSWR` on the client side.
+
+```jsx
+import useSWR from "swr";
+
+const fetcher = async (...args) => {
+  const response = await fetch(...args);
+  const data = response.json();
+  return data;
+};
+
+const App = () => {
+  const { data, error, isLoading } = useSWR(
+    "https://pokeapi.co/api/v2/pokemon?limit=10",
+    fetcher
+  );
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+  return <div>{data.results[0].name}</div>;
+};
+
+export default App;
+```
+
+#### getStaticProps
+
+Static Generation is a featured offered by Next.js that enables the generation of static HTML pages during the build process. When a page is statically generated, its content is pre-rendered into static HTML files. To implement Static Generation, we can export the `getStaticProps` function from that page, which fetches data at build time and passes it as props to the statically generated page.
+
+```jsx
+export const getStaticProps = async () => {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1");
+  const data = await res.json();
+  return { props: { data } };
+};
+
+export default function Page({ data }) {
+  return <div>{data.results[0].name}</div>;
+}
+```
+
+#### getStaticProps and getStaticPaths
+
+When dealing with dynamic routes in a page, the combined usage of `getStaticProps` and `getStaticPaths` is necessary. The underlying principle is that `getStaticPaths` generates a list of all potential paths for the dynamic routes, while `getStaticProps` is tasked with fetching data unique to each of these paths. Here's an illustrative example that demonstrates this concept:
+
+```jsx
+// pages/blog/[slug].jsx
+export const getStaticPaths = async () => {
+  await connectDB();
+  const slugs = await Blog.find({}, "slug");
+  const paths = slugs.map((item) => ({
+    params: {
+      slug: item.slug,
+    },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
+export const getStaticProps = async ({ params: { slug } }) => {
+  await connectDB();
+  const result = await Blog.findOne({ slug });
+  const { content, createdAt, ...blogData } = result.toObject();
+  const mdxSource = await serialize(content);
+  blogData.createdAt = createdAt.toDateString();
+  return {
+    props: { mdxSource, blogData },
+  };
+};
+const BlogPage = ({ mdxSource, blogData }) => {
+  // display blog
+};
+```
+
+#### GetServerSideProps
+
+When a server-side page is requested, Next.js will call the `getServerSideProps` function on the server, fetch the data, and pre-render the page with the fetched data. Similarly to getStaticProps, both methods allow you to fetch data for your Next.js pages, `getServerSideProps` provides server-side rendering on each request, whereas `getStaticProps` generates static HTML files during the build process. The provided example for `getServerSideProps` is identical to the previous `getStaticProps` example, the choice between them depends on the specific use case and the nature of the data.
+
+```jsx
+export const getServerSideProps = async () => {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1");
+  const data = await res.json();
+  return { props: { data } };
+};
+
+export default function Page({ data }) {
+  return <div>{data.results[0].name}</div>;
+}
+```
+
+In conclusion, each data fetching method has its advantages and use cases. It's important to consider factors such as data requirements, performance, caching, and server vs. client-side rendering when choosing the appropriate method for your Next.js application.
