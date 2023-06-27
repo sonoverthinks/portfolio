@@ -10,7 +10,7 @@ import components from "@/components/MDX/MDXComponents";
 
 const BlogPage = ({ mdxSource, blogData }) => {
   return (
-    <div className="w-full max-w-[760px] mt-5 flex flex-col items-start gap-4">
+    <div className="w-full max-w-[1000px] mt-5 flex flex-col items-start gap-4">
       <BlogHead {...blogData} />
       <div className="w-full">
         <MDXRemote {...mdxSource} components={components} />

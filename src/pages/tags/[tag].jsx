@@ -3,18 +3,14 @@ import Blog from "@/mongoose/models/Blog";
 import connectDB from "@/mongoose/connectDB";
 import Link from "next/link";
 import { nanoid } from "nanoid";
+// import Tag as MyTag from "@/components/Tag";
+import LinkTag from "@/components/LinkTag";
 
 const Tag = ({ blogs }) => {
   return (
     <div className="w-full max-w-[1000px] mt-[100px] mx-auto flex flex-col items-start gap-3">
-      <div className="flex items-center w-full gap-3 px-5 py-3 justify-normal">
-        <Link
-          className="px-4 py-1 rounded-full bg-midnight text-whisper hover:bg-primary hover:text-midnight"
-          key={nanoid()}
-          href="/blogs"
-        >
-          all tags
-        </Link>
+      <div className="flex flex-wrap items-center w-full gap-3 px-5 py-3 justify-normal">
+        <LinkTag href="/blogs" title="all tags" />
       </div>
       {blogs.map((blog) => {
         const link = `/blog/${blog.slug}`;
@@ -32,7 +28,7 @@ const Tag = ({ blogs }) => {
             <p className="mt-1 text-3xl font-bold hover:text-primary dark:hover:text-primary dark:text-whisper">
               {blog.title}
             </p>
-            <p className="text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray">
+            <p className="text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray line-clamp-3 md:line-clamp-2">
               {blog.description}
             </p>
             <div className="flex items-center gap-2 text-base flex-normal">

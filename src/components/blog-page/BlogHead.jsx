@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
-import { nanoid } from "nanoid";
-import axios from "axios";
 import useGetViews from "@/hooks/useGetViews";
-import Tag from "./Tag";
-import Link from "next/link";
-
+import axios from "axios";
+import { nanoid } from "nanoid";
+import { useEffect } from "react";
+import LinkTag from "../LinkTag";
 const BlogHead = ({
-  banner,
   title,
-  altText,
   createdAt,
   readingTime,
   totalViews,
@@ -31,21 +27,16 @@ const BlogHead = ({
   }, []);
   return (
     <div className="mt-[50px] flex flex-col justify-center w-full items-center">
-      <div className="flex items-center w-full gap-3 py-3 justify-normal">
+      <div className="flex flex-wrap items-center w-full gap-3 py-3 justify-normal">
+        <LinkTag href="/blogs" title="all tags" />
         {tags.map((tag) => (
-          <Link
-            className="px-4 py-1 rounded-full bg-midnight text-whisper hover:bg-primary hover:text-midnight"
-            key={nanoid()}
-            href={`/tags/${tag}`}
-          >
-            {tag}
-          </Link>
+          <LinkTag key={nanoid()} href={`/tags/${tag}`} title={tag} />
         ))}
       </div>
-      <div className="text-[56px] leading-[64px] font-bold text-midnight dark:text-whisper mt-4">
+      <div className="text-[33px] md:text-[40px] lg:text-[42px] leading-[40px] md:leading-[47px] lg:leading-[49px] font-bold text-midnight dark:text-whisper mt-4">
         {title}
       </div>
-      <div className="flex gap-4 mt-2 text-sm text-lavenderGray dark:text-white">
+      <div className="flex gap-4 mt-2 text-sm md:text-base text-neutral-nickel dark:text-whisper">
         <span>{createdAt}</span>
         <span>{readingTime}</span>
         <span>{views} views</span>

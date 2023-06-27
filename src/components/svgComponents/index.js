@@ -9,7 +9,7 @@ import TwitterIcon from "./TwitterIcon";
 import YoutubeIcon from "./YoutubeIcon";
 import CloseIcon from "./closeIcon";
 import ChatBubbleIcon from "./ChatBubbleIcon";
-import TagIcon from "../blog-page/Tag";
+import TagIcon from "./TagIcon";
 import EnterIcon from "./EnterIcon";
 
 export {

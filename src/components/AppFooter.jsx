@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { YoutubeIcon, LinkedinIcon, TwitterIcon } from "./svgComponents";
 
-const DIMENSION = 25;
+// const DIMENSION = 25;
 
 const AppFooter = () => {
   return (

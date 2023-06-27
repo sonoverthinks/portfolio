@@ -17,7 +17,7 @@ headings.forEach((tag, index) => {
   const size = 6 - index;
   let className = `text-${
     size !== 1 ? size : ""
-  }xl dark:text-offWhite font-bold text-midnight dark:text-whisper my-2`;
+  }xl font-bold text-midnight dark:text-whisper my-4`;
   components[tag] = (props) => <Typography className={className} {...props} />;
 });
 
@@ -25,7 +25,7 @@ components.p = (props) => (
   <Typography
     {...props}
     className={
-      "text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray"
+      "text-[18px] leading-[29px] md:text-[20px] md:leading-[32px] lg:text-[22px] lg:leading-[34px] text-typo-bistre dark:text-neutral-lavenderGray"
     }
   />
 );
@@ -33,8 +33,5 @@ components.p = (props) => (
 components.a = (props) => {
   return <LinkTypography {...props} />;
 };
-// components.a = (props) => (
-//   <Typography className="inline text-base text-blue-500" {...props} />
-// );
 
 export default components;

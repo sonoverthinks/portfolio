@@ -10,13 +10,9 @@ const Codeblock = ({ children }) => {
   const language = className ? className.replace(/language-/, "") : "";
 
   return (
-    <Highlight
-      theme={themes.shadesOfPurple}
-      code={code.trim()}
-      language={language}
-    >
+    <Highlight theme={themes.palenight} code={code.trim()} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div className="w-full text-sm md:text-base">
+        <div className="w-full my-5 text-sm md:text-base lg:text-lg">
           <pre className="p-3 overflow-auto rounded-lg" style={style}>
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
