@@ -6,6 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.masonry-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: masonry;
+}
+
 /* .swiper-container {
   width: 100%;
   max-width: 100%;

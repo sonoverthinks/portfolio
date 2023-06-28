@@ -6,7 +6,6 @@ import { serialize } from "next-mdx-remote/serialize";
 // import MdxComponents from "@/components/MDX/MdxComponents";
 import BlogHead from "@/components/blog-page/BlogHead";
 import components from "@/components/MDX/MDXComponents";
-// import rehypeImgSize from "rehype-img-size";
 
 const BlogPage = ({ mdxSource, blogData }) => {
   return (

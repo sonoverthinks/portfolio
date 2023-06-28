@@ -12,7 +12,7 @@ const Codeblock = ({ children }) => {
   return (
     <Highlight theme={themes.palenight} code={code.trim()} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div className="w-full my-5 text-sm md:text-base lg:text-lg">
+        <div className="w-full my-5 text-sm md:text-base xl:text-lg">
           <pre className="p-3 overflow-auto rounded-lg" style={style}>
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
