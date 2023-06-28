@@ -1,13 +1,13 @@
 ---
 title: Data Fetching Options with Next.js Pages Router
-description: In Next.js, you have a range of options for fetching data, providing flexibility to cater to your specific needs and requirements. The framework offers various methods and libraries that accommodate different scenarios, allowing you to choose the most suitable approach for your application.
+description: Next.js presents various approaches to data fetching. In this blog post, we will explore Next.js' handling of data retrieval on the client-side, server-side, and through static site generation.
 banner: /blogs/my-first-blog/cat.jpg
 altText: data fetching
 customID: e20cb3b6-7828-4c78-b3c7-c1876629b2d9
 tags: ["react", "nextjs"]
 ---
 
-In Next.js, you have a range of options for fetching data, providing flexibility to cater to your specific needs and requirements. The framework offers various methods and libraries that accommodate different scenarios, allowing you to choose the most suitable approach for your application.
+Next.js presents various approaches to data fetching. In this blog post, we will explore Next.js' handling of data retrieval on the client-side, server-side, and through static site generation.
 
 #### Client-side data fetching with useEffect
 
@@ -72,7 +72,7 @@ const App = () => {
 export default App;
 ```
 
-#### getStaticProps
+#### Fetching data with getStaticProps
 
 Static Generation is a featured offered by Next.js that enables the generation of static HTML pages during the build process. When a page is statically generated, its content is pre-rendered into static HTML files. To implement Static Generation, we can export the `getStaticProps` function from that page, which fetches data at build time and passes it as props to the statically generated page.
 
@@ -88,7 +88,7 @@ export default function Page({ data }) {
 }
 ```
 
-#### getStaticProps and getStaticPaths
+#### Fetching data with getStaticProps and getStaticPaths
 
 When dealing with dynamic routes in a page, the combined usage of `getStaticProps` and `getStaticPaths` is necessary. The underlying principle is that `getStaticPaths` generates a list of all potential paths for the dynamic routes, while `getStaticProps` is tasked with fetching data unique to each of these paths. Here's an illustrative example that demonstrates this concept:
 
@@ -122,9 +122,9 @@ const BlogPage = ({ mdxSource, blogData }) => {
 };
 ```
 
-#### GetServerSideProps
+#### Server-side data fetching with getServerSideProps
 
-When a server-side page is requested, Next.js will call the `getServerSideProps` function on the server, fetch the data, and pre-render the page with the fetched data. Similarly to getStaticProps, both methods allow you to fetch data for your Next.js pages, `getServerSideProps` provides server-side rendering on each request, whereas `getStaticProps` generates static HTML files during the build process. The provided example for `getServerSideProps` is identical to the previous `getStaticProps` example, the choice between them depends on the specific use case and the nature of the data.
+When a server-side page is requested, Next.js will call the `getServerSideProps` function on the server, fetch the data, and pre-render the page with the fetched data. Similarly to getStaticProps, both methods allow us to fetch data for our Next.js pages, `getServerSideProps` provides server-side rendering on each request, whereas `getStaticProps` generates static HTML files during the build process. The provided example for `getServerSideProps` is identical to the previous `getStaticProps` example, the choice between them depends on the specific use case and the nature of the data.
 
 ```jsx
 export const getServerSideProps = async () => {
@@ -138,4 +138,4 @@ export default function Page({ data }) {
 }
 ```
 
-In conclusion, each data fetching method has its advantages and use cases. It's important to consider factors such as data requirements, performance, caching, and server vs. client-side rendering when choosing the appropriate method for your Next.js application.
+In conclusion, each data fetching method has its advantages and use cases. It's important to consider factors such as data requirements, performance, caching, and server vs. client-side rendering when choosing the appropriate method for our Next.js application.

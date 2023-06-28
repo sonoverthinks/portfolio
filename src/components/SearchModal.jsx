@@ -1,9 +1,7 @@
-import React from "react";
-import { EnterIcon } from "./svgComponents";
-import Link from "next/link";
 import { useKeyPress } from "@/hooks/useKeyPress";
+import Link from "next/link";
 import { useEffect } from "react";
-import { navItems } from "@/data";
+import { EnterIcon } from "./svgComponents";
 
 const SearchModal = ({
   searchText,
@@ -44,14 +42,10 @@ const SearchModal = ({
               <p className="w-full text-base group-hover:text-primary text-whisper">
                 {item.title}
               </p>
-              {/* <p className="text-sm line-clamp-1 text-whisper">
-          {item.description}
-        </p> */}
+
               <div className="flex justify-between w-full text-neutral-lavenderGray">
                 <p className="flex gap-2 text-sm">
                   <span>{item.readingTime}</span>
-                  {/* <span>{item.totalViews} views</span> */}
-                  {/* <span>{item.createdAt}</span> */}
                 </p>
                 <div className="w-5 mr-3 transition-all duration-150 group-hover:translate-x-2">
                   <EnterIcon />

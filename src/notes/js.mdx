@@ -1,0 +1,351 @@
+---
+title: Javascript
+customID: e32a03aa-5053-4828-be9e-14bb1112c03a
+---
+
+TESTING 123
+
+```javascript
+// array destructuring
+const arr = [2, 3, 4];
+const [x, y, z] = arr; // x = 2, y = 3, z = 4
+const [x, , z] = arr; // x = 2, z = 4
+const [z, x] = [x, z]; // z = 2, x = 4
+const [a, ...rest] = arr; // rest = [3, 4]
+const nested = [2, 4, , [5, 6]];
+const [i, , [j, k]] = nest; // j = 4, k = 6
+const [p = 1, q = 1, r = 1] = [8]; // 8, 1, 1
+```
+
+```javascript
+// object destructuring
+const {a, b} = obj;
+const {a: x, b: y} = obj; // new variable names
+const example = {a: 1, b: 2}
+const {a, b, c: c1 = 3} // a = 1, b = 2, c1 = 3
+let x = 1;
+let y = 2;
+const foo = {x: 11, y: 22};
+({x, y} = foo); // x = 11, y = 22, cannot assign inside a code block {}, wrap it in a parenthesis ()
+```
+
+```javascript
+// spread operator
+const arr = [7, 8, 9];
+const newArr = [1, 2, ...arr] // 1, 2, 7, 8, 9
+// concatenation
+let arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+arr1 = [...arr1, arr2]; // 1, 2, 3, 4, 5, 6
+const newMenu = [...restaurant.mainMenu, "Gnocci"] //restaurant is an object
+// spread operator does not create new variables
+const newMenu = [...restaurant.menu]; // copy array
+// spread operator works on iterables
+const str = "son";
+const letters = [..str]; // ["s", "o", "n"]
+// only itereable objects can be spread in an array and function parameters
+const obj = {foo: "bar"};
+const array = [...obj]; // this does not work
+const myFunction(x,y,z) {};
+const args = [1,2,3];
+myFunction(...args); // === myFunction.apply(null, args);
+```
+
+```javascript
+// rest operator packs elements into an array
+// opposite of spread
+// spread is on the RIGHT side of =
+cost arr = [1, 2, ...[3, 4]];
+// rest is on the LEFT side of =
+const [a, b, ...rest] = [1, 2, 3, 4, 5]; // rest = [3, 4, 5]
+// rest is always the last in the destructuring assignment
+```
+
+```javascript
+// nullish coalescing operator
+// ?? operator works almost the same as the operator
+// nullish value: null and undefined
+// only nullish value would short-circuit evalutation with nullish operator
+// def: a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
+const foo = null ?? "hello"; // foo = "hello"
+const foo = 0 ?? "hello"; // foo = 0
+```
+
+```javascript
+// logical OR assignment ||=
+// the logical OR assignment operator (x ||= y) only assigns if x is falsy
+const a = { duration: 50, title: "" };
+a.duration ||= 10; // duration = 50
+a.title ||= "hello"; // title = "hello"
+```
+
+```javascript
+// logical nullish coalescing operator ??=
+// same as logical OR operator, but only assigns if nullish
+const a = { duration: 50, title: "" };
+a.duration ??= 10; // duration = 50
+a.speed ??= 20; // speed = 20
+a.title ??= "hello"; // title = ""
+```
+
+```javascript
+// The logical AND assignment (x &&= y) operator only assigns if x is truthy.
+let a = 1;
+let b = 0;
+a &&= 2; // a = 2
+b &&= 2; // b = 0
+```
+
+```javascript
+// the for-of loop
+// The for...of statement executes a loop that operates on a sequence of values sourced from an iterable object.
+const array1 = ["a", "b", "c"];
+for (const element of array1) {
+  console.log(element);
+}
+for (const element of array1.entries()) {
+  // element can also be destructure [index, value]
+  console.log(element); // [[0, "a"], [1, "b"], [2, "C"] ]
+}
+// with this loop, we can still use the continue and break keywords
+```
+
+```javascript
+// optional chaining ?.
+// The optional chaining (?.) operator accesses an object's property or calls a function. If the object accessed or function called using this operator is undefined or null, the expression short circuits and evaluates to undefined instead of throwing an error.
+const adventurer = {
+  name: "Alice",
+  cat: {
+    name: "Dinah",
+  },
+};
+const dogName = adventurer.dog?.name ?? "Frank";
+console.log(dogName);
+// Expected output: Frank
+console.log(adventurer.someNonExistentMethod?.());
+// Expected output: undefined
+```
+
+```javascript
+// The Object.keys() static method returns an array of a given object's own enumerable string-keyed property names.
+const object1 = {
+  a: "somestring",
+  b: 42,
+  c: false,
+};
+console.log(Object.keys(object1));
+// Expected output: Array ["a", "b", "c"]
+// The Object.values() static method returns an array of a given object's own enumerable string-keyed property values.
+const object1 = {
+  a: "somestring",
+  b: 42,
+  c: false,
+};
+console.log(Object.values(object1));
+// Expected output: Array ["somestring", 42, false]
+// The Object.entries() static method returns an array of a given object's own enumerable string-keyed property key-value pairs.
+const object1 = {
+  a: "somestring",
+  b: 42,
+};
+for (const [key, value] of Object.entries(object1)) {
+  console.log(`${key}: ${value}`);
+}
+// Expected output:
+// "a: somestring"
+// "b: 42"
+```
+
+```javascript
+// simple array methods
+// The slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array.
+// slice()
+// slice(start)
+// slice(start, end)
+const animals = ["ant", "bison", "camel", "duck", "elephant"];
+console.log(animals.slice(2));
+// Expected output: Array ["camel", "duck", "elephant"]
+```
+
+```javascript
+// splice() is smilar to slice() but it mutates the original array
+// The splice() method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place
+const months = ["Jan", "March", "April", "June"];
+months.splice(1, 0, "Feb");
+// Inserts at index 1
+console.log(months);
+// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+```
+
+```javascript
+// reverse()
+// The reverse() method reverses an array in place and returns the reference to the same array
+// in other word, it mutates the original array
+// toReversed() is reverse() but no mutation
+// The join() method creates and returns a new string by concatenating all of the elements in an array
+// The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+```
+
+```javascript
+// forEach is a higher-order function
+// The forEach() method executes a provided function once for each array element.
+// does not work with break and continue
+// not chainable
+const array1 = ["a", "b", "c"];
+array1.forEach((element) => console.log(element)); // a. b, c
+// forEach(callbackFn)
+// forEach(callbackFn, thisArg)
+// forEach(callbackFn(element, index, array), thisArg)
+```
+
+```javascript
+// map method
+// The map() method creates a new array populated with the results of calling a provided function on every element in the calling array.
+const array1 = [1, 4, 9, 16];
+// Pass a function to map
+const map1 = array1.map((x) => x * 2); // [2, 8, 18, 32]
+// map(callbackFn)
+// map(callbackFn, thisArg)
+// map(callbackFn(ele, i, arr), thisArg)
+```
+
+```javascript
+// The filter() method creates a shallow copy of a portion of a given array, filtered down to just the elements from the given array that pass the test implemented by the provided function.
+const words = [
+  "spray",
+  "limit",
+  "elite",
+  "exuberant",
+  "destruction",
+  "present",
+];
+const result = words.filter((word) => word.length > 6); // ["exuberant", "destruction", "present"]
+// filter(callbackFn)
+// filter(callbackFn, thisArg)
+// filter(callbackFn(ele, i, arr), thisArg)
+```
+
+```javascript
+// The reduce() method executes a user-supplied "reducer" callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value.
+const array1 = [1, 2, 3, 4];
+// 0 + 1 + 2 + 3 + 4
+// accumulator is like a snowball
+const initialValue = 0;
+const sumWithInitial = array1.reduce(
+  (accumulator, currentValue) => accumulator + currentValue,
+  initialValue
+);
+```
+
+```javascript
+// The find() method returns the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+const array1 = [5, 12, 8, 130, 44];
+const found = array1.find((element) => element > 10);
+// find(callbackFn)
+// find(callbackFn, thisArg)
+// find(callbackFn(ele, i, arr), thisArg)
+```
+
+```javascript
+// The findIndex() method returns the index of the first element in an array that satisfies the provided testing function. If no elements satisfy the testing function, -1 is returned.
+const array1 = [5, 12, 8, 130, 44];
+const isLargeNumber = (element) => element > 13; // 3
+```
+
+```javascript
+// The includes() method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+const array1 = [1, 2, 3];
+console.log(array1.includes(2)); // true
+// includes(searchElement)
+// includes(searchElement, fromIndex)
+```
+
+```javascript
+// The some() method tests whether at least one element in the array passes the test implemented by the provided function. It returns true if, in the array, it finds an element for which the provided function returns true; otherwise it returns false. It doesn't modify the array.
+const array = [1, 2, 3, 4, 5];
+// Checks whether an element is even
+const even = (element) => element % 2 === 0; // true
+// some() is similar to includes(), includes() checks for equality, some() checks if a condition is true
+```
+
+```javascript
+// The every() method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
+const isBelowThreshold = (currentValue) => currentValue < 40;
+const array1 = [1, 30, 39, 29, 10, 13];
+console.log(array1.every(isBelowThreshold)); // true
+```
+
+```javascript
+// The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+const arr1 = [0, 1, 2, [3, 4]];
+console.log(arr1.flat()); // [0, 1, 2, 3, 4]
+const arr2 = [0, 1, 2, [[[3, 4]]]];
+console.log(arr2.flat(2)); // [0, 1, 2, Array [3, 4]]
+const arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+arr4.flat(Infinity); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// flat()
+// flat(depth)
+```
+
+```javascript
+// The flatMap() method returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. It is identical to a map() followed by a flat() of depth 1 (arr.map(...args).flat()), but slightly more efficient than calling those two methods separately.
+const arr1 = [1, 2, 1];
+const result = arr1.flatMap((num) => (num === 2 ? [2, 2] : 1)); // [1, 2, 2, 1]
+```
+
+```javascript
+// sorting array
+// The sort() method sorts the elements of an array in place and returns the reference to the same array, now sorted. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+// sort()
+// sort(compareFn(a, b))
+function compareFn(a, b) {
+  if (a < b) {
+    // sort a before b, e.g. [a, b]
+    return -1;
+  }
+  if (a > b) {
+    // sort a after b, e.g. [b, a]
+    return 1;
+  }
+  // a must be equal to b, keep original order of a and b
+  return 0;
+}
+```
+
+```javascript
+// ways of creating and filling array
+const x = new Array(7).fill(1);
+//fill(value)
+// fill(value, start)
+// fill(value, start, end)
+// The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object.
+console.log(Array.from("foo")); // ["f", "o", "o"]
+console.log(Array.from([1, 2, 3], (x) => x + x)); // Array [2, 4, 6]
+// Array.from(arrayLike)
+// Array.from(arrayLike, mapFn)
+// Array.from(arrayLike, mapFn, thisArg)
+```
+
+```javascript
+// which array to use
+// to mutate the original array
+// // add: push(), unshift()
+// // rm: pop(), shift(), splice()
+// // others: reverse(), sort(), fill()
+// to create a new array
+// // map(), filter(), slice(), concat(), flat(), flatMap()
+// to find the an array index
+// // based on value: indexOf()
+// // based on condition: findIndex()
+// to find an array element
+// // based on condition: find()
+// to know if array includes:
+// // based on value: includes()
+// // based on condition: some(), every()
+// to transform array into a string
+// // join()
+// to transform to value
+// // reduce()
+// to just loop
+// // forEach()
+```

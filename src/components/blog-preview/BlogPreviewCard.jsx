@@ -20,7 +20,7 @@ const BlogPreviewCard = ({
   return (
     <Link
       href={link}
-      className="w-auto max-w-full h-auto hover:cursor-pointer hover:translate-y-[-2px] transition-all duration-500 shadow-md hover:shadow-xl group rounded-xl overflow-hidden bg-stone-50 dark:bg-neutral-licorice text-dark dark:text-whisper flex flex-col justify-between"
+      className="w-auto max-w-full h-auto hover:cursor-pointer hover:translate-y-[-2px] transition-all duration-500 shadow-md hover:shadow-lg group rounded-xl overflow-hidden dark:bg-neutral-licorice text-dark dark:text-whisper flex flex-col justify-between"
     >
       <div className="relative w-full p-4">
         <p className="text-xl font-bold">{title}</p>
