@@ -89,7 +89,7 @@ export const getStaticProps = async () => {
   for (const tag of tagArray.flat()) {
     tagFrequency[tag] = tagFrequency[tag] ? tagFrequency[tag] + 1 : 1;
   }
-  const uniqueTags = [...[...new Set(tagArray.flat())]];
+  // const uniqueTags = [...[...new Set(tagArray.flat())]];
 
   return {
     props: { recentBlogs, tagFrequency },
