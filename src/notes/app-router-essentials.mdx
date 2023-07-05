@@ -1,0 +1,328 @@
+---
+title: App Router Essentials
+customID: 48babc37-baa0-41ba-bef9-df5c1bf770cd
+---
+
+```jsx
+// advangates of Server Components:
+// Server Components allows devs to better leverage server infrustructure.
+// move data fetching to server, closer to database, keeping large dependencies on the server
+// all componnents inside the App router are server components by default
+// opt-in to Client Component inside App router with "use client"
+// Client components are pre-rendered on the server and hydrated on the client. Hydration means attatching ent handlers to the HTML elements, making it dynamic.
+```
+
+```jsx
+// moving client components to the leaves
+// SearchBar is a Client Component
+import SearchBar from "./searchbar";
+// Logo is a Server Component
+import Logo from "./logo";
+
+// Layout is a Server Component by default
+export default function Layout({ children }) {
+  return (
+    <>
+      <nav>
+        <Logo />
+        <SearchBar />
+      </nav>
+      <main>{children}</main>
+    </>
+  );
+}
+```
+
+```jsx
+// composing client and server components
+// on the server, react renders all Server Components before sending results to the client
+// this includes server components nested inside client components
+// client components encounted during this stage are skipped
+// on the client, react renders Client COmponents and slots in the rendered result of Server Components, merging the work done on server and client.
+```
+
+```jsx
+// nesting Server Components inside Client Components
+// YOU CANNOT IMPORT A SERVER COMPONENT INTO A CLIENT COMPONENT
+'use client'
+
+// This pattern will **not** work!
+// You cannot import a Server Component into a Client Component.
+import ExampleServerComponent from './example-server-component'
+
+export default function ExampleClientComponent({ children }) {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+
+      <ExampleServerComponent />
+    </>
+  )
+}
+
+// RECOMMENDED PATTERN: PASSING SERVER COMPONENTS TO CLIENT COMPONENTS AS PROPS
+'use client'
+
+import { useState } from 'react'
+
+export default function ExampleClientComponent({ children }) {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+
+      {children}
+    </>
+  )
+}
+
+// This pattern works:
+// You can pass a Server Component as a child or prop of a
+// Client Component.
+import ExampleClientComponent from './example-client-component'
+import ExampleServerComponent from './example-server-component'
+
+// Pages in Next.js are Server Components by default
+export default function Page() {
+  return (
+    <ExampleClientComponent>
+      <ExampleServerComponent />
+    </ExampleClientComponent>
+  )
+}
+```
+
+```jsx
+// passing props from Server to Client Components (Serialization)
+// props passed from the server to client components need to be serializable.
+// Serialization means The process whereby an object or data structure
+// is translated into a format suitable for transfer over a network,
+// or storage (e.g. in an array buffer or file format).
+// In the App Router, the network boundary is between Server
+// Components and Client Components.
+// Data fetched inside Server Components do not need to be serialized
+// as it doesn't cross the network boundary unless it is passed to
+// a Client Component.
+```
+
+```jsx
+// keeping server-only code out of client components
+//  it's possible for code that was only ever intended to be run on the server to sneak its way into the client.
+export async function getData() {
+  const res = await fetch("https://external-service.com/data", {
+    headers: {
+      authorization: process.env.API_KEY,
+    },
+  });
+
+  return res.json();
+}
+// At first glance, it appears that getData works on both the server and the client
+//  the environment variable API_KEY is not prefixed with NEXT_PUBLIC,
+// it's a private variable that can only be accessed on the server.
+// Next.js replaces private environment variables with the empty
+// string in client code to prevent leaking secure information.
+// As a result, even though getData() can be imported and executed
+// on the client, it won't work as expected.
+// To prevent this sort of unintended client usage of server code,
+// we can use the server-only
+
+// npm install server-only
+import "server-only";
+
+export async function getData() {}
+// any Client Component that imports getData() will receive a build-time error
+```
+
+```js
+// data fetching
+//  it's possible to fetch data in Client Components,
+// we recommend fetching data in Server Components unless you
+// have a specific reason for fetching data on the client.
+```
+
+```jsx
+// third party packages
+// Since Server Components are new, third-party packages in the
+// ecosystem are just beginning to add the "use client" directive
+// to components that use client-only features like useState,
+// useEffect, and createContext.
+// to use third party components inside a server component, wrap
+// third party components that rely on client-only features in your
+// own Client Components
+
+'use client'
+import { Carousel } from 'acme-carousel'
+export default Carousel
+
+// Now, you can use <Carousel /> directly within a Server Component:
+import Carousel from './carousel'
+
+export default function Page() {
+  return (
+    <div>
+      <p>View pictures</p>
+
+      {/*  Works, since Carousel is a Client Component */}
+      <Carousel />
+    </div>
+  )
+}
+// We don't expect you to need to wrap most third-party
+// components since it's likely you'll be using them within
+// Client Components. However, one exception is provider components,
+// since they rely on React state and context, and are typically
+// needed at the root of an application.
+```
+
+```jsx
+// Context
+// All of the context APIs are fully supported within Client Components
+"use client";
+
+import { createContext, useContext, useState } from "react";
+
+const SidebarContext = createContext();
+
+export function Sidebar() {
+  const [isOpen, setIsOpen] = useState();
+
+  return (
+    <SidebarContext.Provider value={{ isOpen }}>
+      <SidebarNav />
+    </SidebarContext.Provider>
+  );
+}
+
+function SidebarNav() {
+  let { isOpen } = useContext(SidebarContext);
+
+  return (
+    <div>
+      <p>Home</p>
+
+      {isOpen && <Subnav />}
+    </div>
+  );
+}
+```
+
+```jsx
+// context providers are typically rendered near the root of an
+// application to share global concerns, like the current theme.
+// Because context is not supported in Server Components, trying
+// to create a context at the root of your application will cause an error
+import { createContext } from "react";
+
+//  createContext is not supported in Server Components
+export const ThemeContext = createContext({});
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <ThemeContext.Provider value="dark">{children}</ThemeContext.Provider>
+      </body>
+    </html>
+  );
+}
+```
+
+```jsx
+// To fix this, create your context and render its provider inside of a Client Component
+'use client'
+
+import { createContext } from 'react'
+
+export const ThemeContext = createContext({})
+
+export default function ThemeProvider({ children }) {
+  return <ThemeContext.Provider value="dark">{children}</ThemeContext.Provider>
+}
+
+import ThemeProvider from './theme-provider'
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+```jsx
+// Rendering third-party context providers in Server Components
+//  wrap third-party providers in your own Client Component:
+"use client";
+
+import { ThemeProvider } from "acme-theme";
+import { AuthProvider } from "acme-auth";
+
+export function Providers({ children }) {
+  return (
+    <ThemeProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+```jsx
+// Now, you can import and render <Providers /> directly within your root layout.
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+```jsx
+// Sharing data between server components
+// Since Server Components are not interactive and therefore do not read from React state, you don't need React context to share data. Instead, you can use native JavaScript patterns for common data that multiple Server Components need to access. For example, a module can be used to share a database connection across multiple components:
+
+// utils/database.js
+export const db = new DatabaseConnection();
+
+// app/users/layout.js
+import { db } from "@utils/database";
+
+export async function UsersLayout() {
+  let users = await db.query();
+  // ...
+}
+
+// app/users/[id]/page.js
+import { db } from "@utils/database";
+
+export async function DashboardPage() {
+  let user = await db.query();
+  // ...
+}
+// In the above example, both the layout and page need to make database queries. Each of these components shares access to the database by importing the @utils/database module. This JavaScript pattern is called global singletons.
+```
+
+```jsx
+// sharing fetch requests between server components
+// When fetching data, you may want to share the result of a
+// fetch between a page or layout and some of its children components.
+// This is an unnecessary coupling between the components and can
+// lead to passing props back and forth between components.
+
+// Instead, we recommend colocating data fetching alongside the
+// component that consumes the data. fetch requests are automatically
+// deduped in Server Components, so each route segment can request
+// exactly the data it needs without worrying about duplicate requests.
+// Next.js will read the same value from the fetch cache.
+```
