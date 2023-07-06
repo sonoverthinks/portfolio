@@ -1,0 +1,354 @@
+---
+title: Routing with App Router
+customID: 6af23481-91ea-4514-b86e-6a98e9161916
+---
+
+```jsx
+// A page is UI that is unique to a route. You can define
+// pages by exporting a component from a page.js
+// `app/page.js` is the UI for the `/` URL
+export default function Page() {
+  return <h1>Hello, Home page!</h1>;
+}
+```
+
+```jsx
+// A layout is UI that is shared between multiple pages.
+// On navigation, layouts preserve state, remain interactive,
+// and do not re-render. Layouts can also be nested.
+// You can define a layout by default exporting a React
+// component from a layout.js file. The component should accept
+// a children prop that will be populated with a child layout
+// (if it exists) or a child page during rendering.
+// app/dashboard/layout.js
+export default function DashboardLayout({
+  children, // will be a page or nested layout
+}) {
+  return (
+    <section>
+      {/* Include shared UI here e.g. a header or sidebar */}
+      <nav></nav>
+
+      {children}
+    </section>
+  );
+}
+```
+
+```jsx
+// The root layout is defined at the top level of the app
+// directory and applies to all routes. This layout enables
+// you to modify the initial HTML returned from the server.
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+```jsx
+// In the app directory, you can modify the <head> HTML
+// elements such as title and meta using the built-in SEO support.
+export const metadata = {
+  title: "Next.js",
+};
+export default function Page() {
+  return "...";
+}
+```
+
+```jsx
+// The Next.js router uses server-centric routing with
+// client-side navigation. Two ways: Link component and useROuter hook
+```
+
+```jsx
+// You can use usePathname() to determine if a link is active.
+"use client";
+
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+
+export function Navigation({ navLinks }) {
+  const pathname = usePathname();
+
+  return (
+    <>
+      {navLinks.map((link) => {
+        const isActive = pathname.startsWith(link.href);
+
+        return (
+          <Link
+            className={isActive ? "text-blue" : "text-black"}
+            href={link.href}
+            key={link.name}
+          >
+            {link.name}
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+```
+
+```jsx
+// The useRouter hook allows you to programmatically
+// change routes inside Client Components.
+"use client";
+
+import { useRouter } from "next/navigation";
+
+export default function Page() {
+  const router = useRouter();
+
+  return (
+    <button type="button" onClick={() => router.push("/dashboard")}>
+      Dashboard
+    </button>
+  );
+}
+// The useRouter provides methods such as push(), refresh()
+```
+
+```jsx
+// A Dynamic Segment can be created by wrapping a folder's
+// name in square brackets: [folderName]. For example, [id] or [slug].
+export default function Page({ params }) {
+  return <div>My Post: {params.slug}</div>;
+}
+```
+
+```jsx
+// generating static params
+// The generateStaticParams function can be used in combination
+// with dynamic route segments to statically generate routes at
+// build time instead of on-demand at request time.
+export async function generateStaticParams() {
+  const posts = await fetch("https://.../posts").then((res) => res.json());
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+```
+
+```jsx
+// catch-all segments
+// Dynamic Segments can be extended to catch-all subsequent
+// segments by adding an ellipsis inside the brackets [...folderName].
+// optional catch-all segments
+// Catch-all Segments can be made optional by including the
+// in double square brackets: [[...folderName]].
+// For example, app/shop/[[...slug]]/page.js will also
+// match /shop, in addition to /shop/clothes, /shop/clothes/tops,
+// /shop/clothes/tops/t-shirts.
+// The difference between catch-all and optional catch-all
+// segments is that with optional, the route without the parameter
+// is also matched (/shop in the example above).
+```
+
+```jsx
+// The special file loading.js helps you create meaningful
+// Loading UI with React Suspense. With this convention, you
+// can show an instant loading state from the server while the
+// content of a route segment loads.
+```
+
+```jsx
+// With SSR, there's a series of steps that need to be completed
+// before a user can see and interact with a page:
+
+// First, all data for a given page is fetched on the server.
+// The server then renders the HTML for the page.
+// The HTML, CSS, and JavaScript for the page are sent to the client.
+// A non-interactive user interface is shown using the generated HTML, and CSS.
+// Finally, React hydrates the user interface to make it interactive.
+// These steps are sequential and blocking, meaning the server
+// can only render the HTML for a page once all the data has
+// been fetched. And, on the client, React can only hydrate the
+// UI once the code for all components in the page has been downloaded.
+
+// Streaming allows you to break down the page's HTML into
+// smaller chunks and progressively send those chunks from
+// the server to the client.
+```
+
+```jsx
+// <Suspense> works by wrapping a component
+// that performs an asynchronous action (e.g. fetch data),
+// showing fallback UI (e.g. skeleton, spinner) while it's
+// happening, and then swapping in your component once the
+// action completes
+import { Suspense } from "react";
+import { PostFeed, Weather } from "./Components";
+
+export default function Posts() {
+  return (
+    <section>
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <PostFeed />
+      </Suspense>
+      <Suspense fallback={<p>Loading weather...</p>}>
+        <Weather />
+      </Suspense>
+    </section>
+  );
+}
+```
+
+```jsx
+// By using Suspense, you get the benefits of:
+
+// Streaming Server Rendering - Progressively rendering
+// HTML from the server to the client.
+// Selective Hydration - React prioritizes what components
+// to make interactive first based on user interaction.
+```
+
+```jsx
+// The error.js file convention allows you to gracefully
+// handle runtime errors in nested routes.
+"use client"; // Error components must be Client Components
+
+import { useEffect } from "react";
+
+export default function Error({ error, reset }) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error);
+  }, [error]);
+
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  );
+}
+```
+
+```jsx
+// Parallel Routing allows you to simultaneously or
+// conditionally render one or more pages in the same layout.
+// Parallel routes are created using named slots. Slots are
+// defined with the @folder convention, and are passed to the
+// same-level layout as props.
+// Slots are not route segments and do not affect the URL
+// structure. The file path /@team/members would be accessible
+// at /members.
+// For example, the following file structure defines two
+// explicit slots: @analytics and @team.
+export default function Layout(props) {
+  return (
+    <>
+      {props.children}
+      {props.team}
+      {props.analytics}
+    </>
+  );
+}
+```
+
+```jsx
+// Route Handlers allow you to create custom request handlers
+// for a given route using the Web Request and Response APIs.
+// Route Handlers are defined in a route.js|ts file inside the
+// app directory
+//  there cannot be a route.js file at the same route segment
+// level as page.js.
+export async function GET(request) {}
+```
+
+```jsx
+// Route Handlers are statically evaluated by default when
+// using the GET method with the Response object.
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const res = await fetch("https://data.mongodb-api.com/...", {
+    headers: {
+      "Content-Type": "application/json",
+      "API-Key": process.env.DATA_API_KEY,
+    },
+  });
+  const data = await res.json();
+
+  return NextResponse.json({ data });
+}
+```
+
+```jsx
+// Route handlers are evaluated dynamically when:
+// Using the Request object with the GET method.
+// Using any of the other HTTP methods.
+// Using Dynamic Functions like cookies and headers.
+// The Segment Config Options manually specifies dynamic mode.
+import { NextResponse } from "next/server";
+
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  const res = await fetch(`https://data.mongodb-api.com/product/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "API-Key": process.env.DATA_API_KEY,
+    },
+  });
+  const product = await res.json();
+
+  return NextResponse.json({ product });
+}
+
+import { NextResponse } from "next/server";
+
+export async function POST() {
+  const res = await fetch("https://data.mongodb-api.com/...", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "API-Key": process.env.DATA_API_KEY,
+    },
+    body: JSON.stringify({ time: new Date().toISOString() }),
+  });
+
+  const data = await res.json();
+
+  return NextResponse.json(data);
+}
+```
+
+```jsx
+// You can revalidate static data fetches using the
+// next.revalidate option
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const res = await fetch("https://data.mongodb-api.com/...", {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
+  const data = await res.json();
+
+  return NextResponse.json(data);
+}
+```
+
+```jsx
+// You can read the Request body using the standard Web
+// API methods
+import { NextResponse } from "next/server";
+
+export async function POST(request) {
+  const res = await request.json();
+  return NextResponse.json({ res });
+}
+```
