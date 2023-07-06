@@ -21,7 +21,7 @@ export const getStaticProps = async () => {
   await connectDB();
   const project = {
     _id: 0,
-    _v: 0,
+    // _v: 0,
     content: 0,
   };
   const results = await MyNote.find({}, project);
