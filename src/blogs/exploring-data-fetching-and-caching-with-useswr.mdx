@@ -1,0 +1,101 @@
+---
+title: Exploring Data Fetching and Caching with useSWR
+description: useSWR is a custom React Hook used for data fetching and caching. This custom hook reduces the complexities associated with storing and caching API responses.
+banner: /blogs/my-first-blog/cat.jpg
+altText: data fetching
+customID: c1b6c090-bf02-43fd-8fd0-d59fc9c56ee9
+tags: ["react", "useswr"]
+---
+
+#### Introduction to useSWR
+
+`useSWR` is a custom React Hook used for data fetching and caching. This custom hook reduces the complexities associated with storing and caching API responses. I personally find it useful enough to eliminate the need for global state management.
+
+The `useSWR` hook accepts three parameters: `key`, `fetcher`, and `options`. The `key` parameter is a unique string used as an identifier for the request. The `fetcher` parameter is a function solely responsible for fetching data. Additionally, the hook allows an optional `options` object to be passed as well.
+
+```jsx
+const { data, error, isLoading, isValidating, mutate } = useSWR(
+  key,
+  fetcher,
+  options
+);
+```
+
+To understand `useSWR`, we must understand three core concepts associated with it: Data Fetching, Cache Usage, and Stale-While-Revalidate.
+
+Data Fetching: When a request is made to fetch data from a remote server or API, SWR fetches the data and also stores it in a local cache. The fetched data is then displayed to the user.
+
+Cache Usage: Subsequent requests for the same data will first be fulfilled from the local cache rather than making a new network request. This helps reduce the number of unnecessary requests to the server, improving the application's performance and reducing latency.
+
+Stale-While-Revalidate: While using the cached data, SWR also sends a background request to the server to fetch fresh data (revalidate). If the server's response contains new data, SWR updates the cache, ensuring that the user always receives the latest data when available.
+
+#### Creating our custom hook with useSWR
+
+Now let's built a custom hook `useFetchDog` to fetch data from the dog API.
+
+First, we need to install and import `useSWR`
+
+```bash
+npm install swr
+```
+
+```js
+import useSWR from "swr";
+```
+
+The we create the fetcher function:
+
+```jsx
+// hooks/useFetchDog.jsx
+import useSWR from "swr";
+const fetcher = async (...args) => {
+  const response = await fetch(...args);
+  const data = await response.json();
+  return data;
+};
+```
+
+Now we create a custom `useFetchDog` as follows:
+
+```js
+// hooks/useFetchDog.jsx
+import useSWR from "swr";
+const fetcher = async (...args) => {
+  const response = await fetch(...args);
+  const data = await response.json();
+  return data;
+};
+
+function useFetchDog() {
+  const { data, error, isLoading } = useSWR(
+    "https://dog.ceo/api/breeds/image/random",
+    fetcher
+  );
+
+  return {
+    dog: data,
+    isLoading,
+    isError: error,
+  };
+}
+export default useFetchDog;
+```
+
+Now, we can use our custom hook `useFetchDog` in any component in our project:
+
+```jsx
+// App.jsx
+import useFetchDog from "./hooks/useFetchDog";
+const App = () => {
+  const { dog, isLoading, isError } = useFetch();
+  if (isError) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+  return (
+    <div>
+      <img src={dog.message} />
+    </div>
+  );
+};
+```
+
+Whenever we refocus a page or switch between tabs, `useSWR` automatically revalidates the data, resulting in a different puppy being displayed each time. And that is how `useSWR` works in a nutshell. Enjoy!
