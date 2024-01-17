@@ -1,13 +1,15 @@
 import "@/styles/globals.css";
-import PageLayout from "@/components/PageLayout";
+import { ThemeProvider } from "next-themes";
+import PageLayout from "@/layout/PageLayout";
 
 export default function App({ Component, pageProps }) {
   return (
-    <PageLayout>
-      <Component {...pageProps} />
-    </PageLayout>
+    <ThemeProvider attribute="class">
+      <PageLayout>
+        <Component {...pageProps} />
+      </PageLayout>
+    </ThemeProvider>
   );
-  // return <Component {...pageProps} />;
 }
 
 /* 

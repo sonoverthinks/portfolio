@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const { MONGO_URI } = process.env;
-
+// how does this even work???
 if (!MONGO_URI) {
   throw new Error("No connection string availabel on environment variable");
 }

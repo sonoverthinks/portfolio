@@ -1,22 +1,35 @@
-import { navItems } from "@/data";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+
+import { navItems } from "@/data";
+import { useComboKeyPress } from "@/hooks/useKeyPress";
+import { useToggle } from "@/hooks/useToggle";
 import SearchModal from "./SearchModal";
 import SearchButton from "./header/SearchButton";
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./svgComponents";
 
-const AppHeader = ({
-  toggleSearchBar,
-  isDark,
-  toggleIsDark,
-  sideNav,
-  toggleSideNav,
-  searchBar,
-}) => {
+const AppHeader = () => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [searchBar, toggleSearchBar] = useToggle();
+  const [sideNav, toggleSideNav] = useToggle();
+  const combo = useComboKeyPress("k");
+  const { theme, setTheme } = useTheme();
+  const toggleTheme = () => {
+    if (theme === "dark") {
+      setTheme("light");
+    } else {
+      setTheme("dark");
+    }
+  };
+
+  useEffect(() => {
+    toggleSearchBar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [combo]);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +48,7 @@ const AppHeader = ({
       console.log(searchResults);
     })();
   }, [searchText]);
+
   return (
     <div className="fixed z-30 flex items-center justify-between w-full p-3 bg-white dark:bg-neutral-navy">
       <Link
@@ -73,11 +87,13 @@ const AppHeader = ({
             </li>
           ))}
           <li
-            onClick={toggleIsDark}
+            // onClick={toggleIsDark}
+            onClick={toggleTheme}
             className="p-3 rounded-full bg-whisper dark:bg-neutral-licorice hover:cursor-pointer"
           >
             <div className="w-[20px] text-midnight hover:text-primary dark:text-whisper dark:hover:text-primary">
-              {isDark ? <SunIcon /> : <MoonIcon />}
+              {/* fix this */}
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
             </div>
           </li>
         </ul>
@@ -98,9 +114,9 @@ const AppHeader = ({
                   <Link href={item.href}>{item.title}</Link>
                 </li>
               ))}
-              <li onClick={toggleIsDark}>
+              <li onClick={toggleTheme}>
                 <div className="w-8 h-auto hover:cursor-pointer hover:text-primary">
-                  {isDark ? <SunIcon /> : <MoonIcon />}
+                  {theme === "dark" ? <SunIcon /> : <MoonIcon />}
                 </div>
               </li>
             </ul>
