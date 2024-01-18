@@ -14,66 +14,36 @@ import getNoteFileNames from "@/utils/getNoteFileNames";
 import matter from "gray-matter";
 import Link from "next/link";
 import readingTime from "reading-time";
+import { RightArrowIcon } from "@/components/svgComponents";
 const Home = ({ recentBlogs }) => {
   return (
-    <main className="relative mt-[100px] w-full max-w-[1300px] h-auto text-midnight dark:text-whisper">
-      <p className="text-3xl font-semibold">
-        Hi,{" "}
-        <span className="relative inline-block duration-100 before:block before:absolute before:top-8 hover:before:top-0 before:bottom-0 before:-inset-1 before:bg-primary before:transition-all">
+    <main className="px-3 relative mt-[100px] w-full max-w-[800px] h-auto flex flex-col gap-3 font-space-mono">
+      {recentBlogs.map((blog) => {
+        const link = `/blog/${blog.slug}`;
+        return (
           <Link
-            href="/about"
-            className="relative text-midnight dark:text-whisper hover:text-whisper dark:hover:text-midnight"
+            className="flex items-center justify-between w-full group"
+            key={blog.customID}
+            href={link}
           >
-            I am Son
+            <div className="flex flex-row items-center gap-2 w-full max-w-[80%] text-light-teal-blue group-hover:text-light-blue text-[18px] leading-[33px]">
+              <div className="w-3">
+                <RightArrowIcon />
+              </div>
+              {blog.title}
+            </div>
+            <p className="italic text-neutral-nickel text-[15px] leading-[22px]">
+              {blog.createdAt}
+            </p>
           </Link>
-        </span>
-      </p>
-      <p className="flex flex-col text-6xl leading-[90px] text-midnight dark:text-whisper my-3">
-        <span className="">
-          I{" "}
-          <span className="relative inline-block before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:-skew-y-3 before:bg-secondary">
-            <Link
-              href="/blogs"
-              className="relative text-whisper hover:text-midnight"
-            >
-              make
-            </Link>
-          </span>{" "}
-          websites,
-        </span>
-        <span>
-          and{" "}
-          <span className="relative inline-block before:block before:absolute before:top-3 before:bottom-3 before:inset-0 before:skew-y-3 before:bg-secondary">
-            <Link
-              href="/blogs"
-              className="relative text-whisper hover:text-midnight"
-            >
-              write
-            </Link>
-          </span>{" "}
-          related content.
-        </span>
-      </p>
-      <p className="text-xl font-semibold">
-        Check out my Youtube for guitar covers!
-      </p>
-      <div className="flex gap-3 mt-5">
-        <Link href="/" className="hover:text-primary w-[40px]">
-          <YoutubeIcon />
-        </Link>
-        <Link href="/" className="hover:text-primary w-[40px]">
-          <TwitterIcon />
-        </Link>
-        <Link href="/" className="hover:text-primary w-[40px]">
-          <LinkedinIcon />
-        </Link>
-      </div>
-      <div className="w-full">
+        );
+      })}
+      {/* <div className="w-full">
         <BlogPreviewList blogs={recentBlogs} />
       </div>
       <div className="w-full mt-6">
         <BlogPreviewList blogs={recentBlogs} />
-      </div>
+      </div> */}
     </main>
   );
 };
@@ -147,7 +117,7 @@ export const getStaticProps = async () => {
 
   const recentBlogs = recentBlogsResult.map((blog) => {
     const blogObject = blog.toObject();
-    blogObject.createdAt = blogObject.createdAt.toDateString();
+    blogObject.createdAt = blogObject.createdAt.toLocaleDateString("en-US");
     return blogObject;
   });
 

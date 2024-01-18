@@ -4,6 +4,8 @@ import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
+import { SearchIcon } from "./svgComponents";
+import { FlashIcon } from "./svgComponents";
 import { navItems } from "@/data";
 import { useComboKeyPress } from "@/hooks/useKeyPress";
 import { useToggle } from "@/hooks/useToggle";
@@ -47,18 +49,12 @@ const AppHeader = () => {
       setSearchResults(data);
       console.log(searchResults);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
 
   return (
-    <div className="fixed z-30 flex items-center justify-between w-full p-3 bg-white dark:bg-neutral-navy">
-      <Link
-        href="/"
-        className="text-xl font-semibold text-dark md:text-2xl lg:text-3xl dark:text-whisper"
-      >
-        <span className="mr-1 text-primary">{"〈✎〉"}</span>
-        Sonny
-      </Link>
-      <div className="">
+    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white">
+      {/* <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
         {searchBar && (
           <SearchModal
@@ -68,37 +64,42 @@ const AppHeader = () => {
             toggleSearchBar={toggleSearchBar}
           />
         )}
-      </div>
-      <div className="flex items-center gap-5 md:gap-10 lg:gap-20 text-dark dark:text-whisper">
-        <div
+      </div> */}
+
+      {/* <div
           className="z-20 w-8 h-auto lg:hidden hover:cursor-pointer"
           onClick={toggleSideNav}
         >
           {!sideNav ? <MenuIcon /> : <CloseIcon />}
-        </div>
-
-        <ul className="items-center hidden gap-8 text-lg font-normal lg:flex ">
+        </div> */}
+      <div>
+        <ul className="items-center hidden gap-4 text-[18px] leading-[33px] font-normal lg:flex ">
           {navItems.map((item) => (
-            <li
-              key={nanoid()}
-              className="text-dark dark:text-whisper hover:cursor-pointer hover:text-primary dark:hover:text-primary"
-            >
+            <li key={nanoid()} className="hover:cursor-pointer">
               <Link href={item.href}>{item.title}</Link>
             </li>
           ))}
-          <li
-            // onClick={toggleIsDark}
-            onClick={toggleTheme}
-            className="p-3 rounded-full bg-whisper dark:bg-neutral-licorice hover:cursor-pointer"
-          >
-            <div className="w-[20px] text-midnight hover:text-primary dark:text-whisper dark:hover:text-primary">
-              {/* fix this */}
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </div>
-          </li>
         </ul>
       </div>
-      {sideNav && (
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
+          <div className="w-[18px] hover:text-midnight hover:cursor-pointer">
+            <FlashIcon />
+          </div>
+          <p className="text-[13px]">[Ctrl J]</p>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-[18px] hover:text-midnight hover:cursor-pointer">
+            <SearchIcon />
+          </div>
+          <p className="text-[13px]">[Ctrl K]</p>
+        </div>
+        <p className="text-[15px]" onClick={toggleTheme}>
+          light/dark
+        </p>
+      </div>
+
+      {/* {sideNav && (
         <div className="fixed top-0 left-0 z-10 grid w-full h-full grid-cols-5">
           <div
             className="col-span-2 opacity-10 bg-dark"
@@ -122,7 +123,7 @@ const AppHeader = () => {
             </ul>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -8,13 +8,24 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+      // backgroundImage: {
+      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      //   "gradient-conic":
+      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      // },
       screens: {},
       colors: {
+        light: {
+          "ghost-white": "#f6f8ff",
+          blue: "#0079ff",
+          "teal-blue": "#4b6a9b",
+          charcoal: "#2b3442",
+        },
+        dark: {
+          blue: "#0079ff",
+          "zodiac-blue": "#1e2a47",
+          mirage: "#141d2f",
+        },
         primary: "#08D9D6",
         secondary: "#FF2E63",
         midnight: "#252A34",
@@ -35,11 +46,13 @@ module.exports = {
         darkBlue1: "#24335a",
         darkBlue2: "#081b4b",
         darkBlue3: "hsl(240, 100%, 10%)",
+        yellow: "#FFFF00",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         openSans: ["Open Sans", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
+        "space-mono": ["Space Mono", "monospace"],
       },
     },
   },

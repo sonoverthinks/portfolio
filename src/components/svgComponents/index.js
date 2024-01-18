@@ -8,9 +8,10 @@ import SunIcon from "./SunIcon";
 import TwitterIcon from "./TwitterIcon";
 import YoutubeIcon from "./YoutubeIcon";
 import CloseIcon from "./closeIcon";
-import ChatBubbleIcon from "./ChatBubbleIcon";  
+import ChatBubbleIcon from "./ChatBubbleIcon";
 import TagIcon from "./TagIcon";
 import EnterIcon from "./EnterIcon";
+import FlashIcon from "./FlashIcon";
 
 export {
   CloseIcon,
@@ -26,4 +27,5 @@ export {
   ChatBubbleIcon,
   TagIcon,
   EnterIcon,
+  FlashIcon,
 };
