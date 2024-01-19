@@ -6,30 +6,30 @@ import { YoutubeIcon, LinkedinIcon, TwitterIcon } from "./svgComponents";
 
 const AppFooter = () => {
   return (
-    <ul className="mt-[100px] mb-2 flex items-center justify-between gap-4 text-3xl text-gray-700">
+    <ul className="flex items-center justify-between gap-4 mt-auto mb-2 text-3xl [&>*]:text-light-teal-blue">
       <li>
         <Link href="/">
-          <div className="w-[25px] text-primary hover:text-midnight">
+          <div className="w-[25px] hover:text-light-blue hover:dark:text-dark-blue">
             <TwitterIcon />
           </div>
         </Link>
       </li>
       <li>
         <Link href="/">
-          <div className="w-[25px] text-primary hover:text-midnight">
+          <div className="w-[25px] hover:text-light-blue hover:dark:text-dark-blue">
             <LinkedinIcon />
           </div>
         </Link>
       </li>
       <li>
         <Link href="/">
-          <div className="w-[25px] text-primary hover:text-midnight">
+          <div className="w-[25px] hover:text-light-blue hover:dark:text-dark-blue">
             <YoutubeIcon />
           </div>
         </Link>
       </li>
       <li>
-        <p className="text-base dark:text-whisper">© 2023 Son Dao</p>
+        <p className="text-base text-neutral-nickel">© 2023 Son Dao</p>
       </li>
     </ul>
   );

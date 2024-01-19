@@ -26,7 +26,7 @@ const Home = ({ recentBlogs }) => {
             key={blog.customID}
             href={link}
           >
-            <div className="flex flex-row items-center gap-2 w-full max-w-[80%] text-light-teal-blue group-hover:text-light-blue text-[18px] leading-[33px]">
+            <div className="flex flex-row items-center gap-1 w-full max-w-[80%] text-light-teal-blue dark:text-white dark:hover:text-dark-blue group-hover:text-light-blue text-[17px] leading-[33px]">
               <div className="w-3">
                 <RightArrowIcon />
               </div>

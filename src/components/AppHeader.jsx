@@ -14,6 +14,7 @@ import SearchButton from "./header/SearchButton";
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./svgComponents";
 
 const AppHeader = () => {
+  const [currentPath, setCurrentPath] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchBar, toggleSearchBar] = useToggle();
@@ -27,6 +28,12 @@ const AppHeader = () => {
       setTheme("dark");
     }
   };
+  useEffect(() => {
+    setCurrentPath(window.location.pathname);
+    return () => {
+      setCurrentPath("");
+    };
+  });
 
   useEffect(() => {
     toggleSearchBar();
@@ -53,7 +60,7 @@ const AppHeader = () => {
   }, [searchText]);
 
   return (
-    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white">
+    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
       {/* <div className="">
         <SearchButton toggleSearchBar={toggleSearchBar} />
         {searchBar && (
@@ -73,29 +80,54 @@ const AppHeader = () => {
           {!sideNav ? <MenuIcon /> : <CloseIcon />}
         </div> */}
       <div>
-        <ul className="items-center hidden gap-4 text-[18px] leading-[33px] font-normal lg:flex ">
+        <ul className="items-center hidden gap-4 text-[18px] leading-[33px] font-normal lg:flex">
           {navItems.map((item) => (
-            <li key={nanoid()} className="hover:cursor-pointer">
+            <li
+              key={nanoid()}
+              className={`hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue ${
+                currentPath === item.href
+                  ? "text-light-blue dark:text-dark-blue"
+                  : ""
+              }`}
+            >
               <Link href={item.href}>{item.title}</Link>
             </li>
           ))}
         </ul>
       </div>
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1">
-          <div className="w-[18px] hover:text-midnight hover:cursor-pointer">
+        <div className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue">
+          <div className="w-[18px] text-light-blue">
             <FlashIcon />
           </div>
           <p className="text-[13px]">[Ctrl J]</p>
         </div>
-        <div className="flex items-center gap-1">
-          <div className="w-[18px] hover:text-midnight hover:cursor-pointer">
+        <div className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue">
+          <div className="w-[18px]">
             <SearchIcon />
           </div>
           <p className="text-[13px]">[Ctrl K]</p>
         </div>
-        <p className="text-[15px]" onClick={toggleTheme}>
-          light/dark
+        <p className="ml-4 hover:cursor-pointer" onClick={toggleTheme}>
+          <span
+            className={
+              theme === "light"
+                ? "text-[15px] underline underline-offset-4 decoration-2"
+                : "text-[12px]"
+            }
+          >
+            light
+          </span>
+          /
+          <span
+            className={
+              theme === "dark"
+                ? "text-[15px] underline underline-offset-4 decoration-2"
+                : "text-[12px]"
+            }
+          >
+            dark
+          </span>
         </p>
       </div>
 
