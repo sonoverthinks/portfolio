@@ -1,7 +1,12 @@
-import React from "react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const about = () => {
+const About = () => {
+  const { push } = useRouter();
+  useEffect(() => {
+    push("/");
+  });
   return <div>about</div>;
 };
 
-export default about;
+export default About;

@@ -1,23 +1,43 @@
-import { useKeyPress } from "@/hooks/useKeyPress";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useEffect } from "react";
+
+import { useKeyPress } from "@/hooks/useKeyPress";
 import { EnterIcon } from "./svgComponents";
 
-const SearchModal = ({
-  searchText,
-  setSearchText,
-  searchResults,
-  toggleSearchBar,
-}) => {
+const SearchModal = ({ toggleSearchBar }) => {
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const exitModal = useKeyPress("Escape");
+
   useEffect(() => {
     setSearchText("");
     toggleSearchBar();
   }, [exitModal]);
+
+  useEffect(() => {
+    (async () => {
+      if (!searchText) {
+        setSearchResults([]);
+        return false;
+      }
+
+      const { data } = await axios.get("/api/search", {
+        params: {
+          query: searchText,
+        },
+      });
+
+      setSearchResults(data);
+      console.log(searchResults);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchText]);
+
   return (
     <div
       className="fixed top-0 left-0 z-10 w-full h-full bg-white/30 backdrop-blur-md"
-      onClick={toggleSearchBar}
+      // onClick={toggleSearchBar}
     >
       <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md divide-y-2">
         <input

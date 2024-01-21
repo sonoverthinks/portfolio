@@ -8,16 +8,16 @@ import LinkTag from "@/components/LinkTag";
 
 const Tag = ({ blogs }) => {
   return (
-    <div className="w-full max-w-[1000px] mt-[100px] mx-auto flex flex-col items-start gap-3">
-      <div className="flex flex-wrap items-center w-full gap-3 px-5 py-3 justify-normal">
-        <LinkTag href="/blogs" title="all tags" />
+    <div className="w-full max-w-[800px] mt-[100px] mx-auto flex flex-col items-start gap-3">
+      <div className="flex flex-wrap items-center w-full gap-3 px-3 py-3 justify-normal">
+        <LinkTag href="/blogs" title="all" />
       </div>
       {blogs.map((blog) => {
         const link = `/blog/${blog.slug}`;
         return (
           <Link
             href={link}
-            className="w-full p-5 text-midnight dark:bg-midnight"
+            className="w-full p-3 text-midnight dark:bg-midnight"
             key={nanoid()}
           >
             <div className="flex items-center gap-4 text-sm flex-normal text-neutral-nickel dark:text-neutral-lavenderGray">

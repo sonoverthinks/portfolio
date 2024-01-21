@@ -1,9 +1,5 @@
-import BlogPreviewList from "@/components/blog-preview/BlogPreviewList";
-import {
-  YoutubeIcon,
-  TwitterIcon,
-  LinkedinIcon,
-} from "@/components/svgComponents";
+// import { Redirect } from "next";
+
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import Note from "@/mongoose/models/Note";
@@ -11,13 +7,27 @@ import readBlogFiles from "@/utils/readBlogs";
 import getBlogFileNames from "@/utils/getBlogFileNames";
 import readNoteFiles from "@/utils/readNotes";
 import getNoteFileNames from "@/utils/getNoteFileNames";
+import LinkTag from "@/components/LinkTag";
+
 import matter from "gray-matter";
 import Link from "next/link";
 import readingTime from "reading-time";
 import { RightArrowIcon } from "@/components/svgComponents";
-const Home = ({ recentBlogs }) => {
+const Home = ({ recentBlogs, tagFrequency }) => {
+  const tags = Object.entries(tagFrequency);
   return (
     <main className="px-3 relative mt-[100px] w-full max-w-[800px] h-auto flex flex-col gap-3 font-space-mono">
+      <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
+        {tags.map((pair) => {
+          return (
+            <LinkTag
+              key={pair[0]}
+              href={`/tags/${pair[0]}`}
+              title={`${pair[0]}`}
+            />
+          );
+        })}
+      </div>
       {recentBlogs.map((blog) => {
         const link = `/blog/${blog.slug}`;
         return (
@@ -38,12 +48,6 @@ const Home = ({ recentBlogs }) => {
           </Link>
         );
       })}
-      {/* <div className="w-full">
-        <BlogPreviewList blogs={recentBlogs} />
-      </div>
-      <div className="w-full mt-6">
-        <BlogPreviewList blogs={recentBlogs} />
-      </div> */}
     </main>
   );
 };
@@ -110,18 +114,26 @@ export const getStaticProps = async () => {
     content: 0,
   };
   // get the most recent blogs
-  const limit = 3;
+  const limit = 5;
   const recentBlogsResult = await Blog.find({}, project)
     .sort("-createdAt")
     .limit(limit);
 
+  const tagFrequency = {};
+  const tagArray = [];
+
   const recentBlogs = recentBlogsResult.map((blog) => {
     const blogObject = blog.toObject();
+    tagArray.push(blogObject.tags);
     blogObject.createdAt = blogObject.createdAt.toLocaleDateString("en-US");
     return blogObject;
   });
 
+  for (const tag of tagArray.flat()) {
+    tagFrequency[tag] = tagFrequency[tag] ? tagFrequency[tag] + 1 : 1;
+  }
+
   return {
-    props: { recentBlogs },
+    props: { recentBlogs, tagFrequency },
   };
 };

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -10,13 +9,9 @@ import { navItems } from "@/data";
 import { useComboKeyPress } from "@/hooks/useKeyPress";
 import { useToggle } from "@/hooks/useToggle";
 import SearchModal from "./SearchModal";
-import SearchButton from "./header/SearchButton";
-import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./svgComponents";
 
 const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [searchBar, toggleSearchBar] = useToggle();
   const [sideNav, toggleSideNav] = useToggle();
   const combo = useComboKeyPress("k");
@@ -40,39 +35,8 @@ const AppHeader = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [combo]);
 
-  useEffect(() => {
-    (async () => {
-      if (!searchText) {
-        setSearchResults([]);
-        return false;
-      }
-
-      const { data } = await axios.get("/api/search", {
-        params: {
-          query: searchText,
-        },
-      });
-
-      setSearchResults(data);
-      console.log(searchResults);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText]);
-
   return (
     <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
-      {/* <div className="">
-        <SearchButton toggleSearchBar={toggleSearchBar} />
-        {searchBar && (
-          <SearchModal
-            searchResults={searchResults}
-            searchText={searchText}
-            setSearchText={setSearchText}
-            toggleSearchBar={toggleSearchBar}
-          />
-        )}
-      </div> */}
-
       {/* <div
           className="z-20 w-8 h-auto lg:hidden hover:cursor-pointer"
           onClick={toggleSideNav}
@@ -102,9 +66,13 @@ const AppHeader = () => {
           </div>
           <p className="text-[13px]">[Ctrl J]</p>
         </div>
-        <div className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue">
+        <div
+          onClick={toggleSearchBar}
+          className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
+        >
           <div className="w-[18px]">
             <SearchIcon />
+            {searchBar && <SearchModal toggleSearchBar={toggleSearchBar} />}
           </div>
           <p className="text-[13px]">[Ctrl K]</p>
         </div>

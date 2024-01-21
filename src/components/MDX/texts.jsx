@@ -4,7 +4,10 @@ function Typography({ className, children }) {
 
 function LinkTypography({ href, children }) {
   return (
-    <a href={href} className="text-xl text-blue-500 dark:text-blue-400">
+    <a
+      href={href}
+      className="sm:text-[15px] sm:leading-[28px] md:text-[16px] md:leading-[30px] lg:text-[17px] lg:leading-[32px] text-light-blue dark:text-dark-blue"
+    >
       {children}
     </a>
   );
@@ -25,7 +28,7 @@ components.p = (props) => (
   <Typography
     {...props}
     className={
-      "text-[18px] leading-[29px] md:text-[20px] md:leading-[32px] lg:text-[22px] lg:leading-[34px] text-typo-bistre dark:text-neutral-lavenderGray"
+      "sm:text-[15px] sm:leading-[28px] md:text-[16px] md:leading-[30px] lg:text-[17px] lg:leading-[32px] text-typo-bistre dark:text-neutral-lavenderGray"
     }
   />
 );
