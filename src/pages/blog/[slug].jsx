@@ -1,7 +1,7 @@
-import React from "react";
+import { MDXRemote } from "next-mdx-remote";
+import copy from "copy-text-to-clipboard";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
-import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 // import MdxComponents from "@/components/MDX/MdxComponents";
 import BlogHead from "@/components/blog-page/BlogHead";
@@ -9,9 +9,9 @@ import components from "@/components/MDX/MDXComponents";
 
 const BlogPage = ({ mdxSource, blogData }) => {
   return (
-    <div className="w-full max-w-[800px] mt-5 flex flex-col items-start gap-4 px-3">
+    <div className="w-full max-w-[800px] mt-[70px] flex flex-col items-start gap-4 px-3">
       <BlogHead {...blogData} />
-      <div className="w-full">
+      <div className="w-full mt-1">
         <MDXRemote {...mdxSource} components={components} />
       </div>
     </div>
@@ -35,7 +35,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
       // rehypePlugins: [[rehypeImgSize, { dir: "public" }]],
     },
   });
-  blogData.createdAt = createdAt.toDateString();
+  blogData.createdAt = createdAt.toLocaleDateString("en-US");
 
   return {
     props: { mdxSource, blogData },

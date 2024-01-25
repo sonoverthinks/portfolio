@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import extractCurrentPath from "@/utils/extractCurrentPath";
 
 import { SearchIcon } from "./svgComponents";
 import { FlashIcon } from "./svgComponents";
@@ -24,7 +25,7 @@ const AppHeader = () => {
     }
   };
   useEffect(() => {
-    setCurrentPath(window.location.pathname);
+    setCurrentPath(extractCurrentPath(window.location.pathname));
     return () => {
       setCurrentPath("");
     };
@@ -44,7 +45,7 @@ const AppHeader = () => {
           {!sideNav ? <MenuIcon /> : <CloseIcon />}
         </div> */}
       <div>
-        <ul className="items-center hidden gap-4 text-[18px] leading-[33px] font-normal lg:flex">
+        <ul className="items-center gap-4 text-[18px] leading-[33px] font-normal flex">
           {navItems.map((item) => (
             <li
               key={nanoid()}
@@ -59,28 +60,28 @@ const AppHeader = () => {
           ))}
         </ul>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <div className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue">
           <div className="w-[18px] text-light-blue">
             <FlashIcon />
           </div>
-          <p className="text-[13px]">[Ctrl J]</p>
+          <p className="hidden md:block text-[13px]">[Ctrl J]</p>
         </div>
         <div
           onClick={toggleSearchBar}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
-          <div className="w-[18px]">
+          <div className="w-[18px] text-light-blue">
             <SearchIcon />
             {searchBar && <SearchModal toggleSearchBar={toggleSearchBar} />}
           </div>
-          <p className="text-[13px]">[Ctrl K]</p>
+          <p className="hidden md:block text-[13px]">[Ctrl K]</p>
         </div>
-        <p className="ml-4 hover:cursor-pointer" onClick={toggleTheme}>
+        <p className="ml-2 md:ml-3 hover:cursor-pointer" onClick={toggleTheme}>
           <span
             className={
               theme === "light"
-                ? "text-[15px] underline underline-offset-4 decoration-2"
+                ? "text-[15px] underline-offset-4 decoration-2"
                 : "text-[12px]"
             }
           >
@@ -90,7 +91,7 @@ const AppHeader = () => {
           <span
             className={
               theme === "dark"
-                ? "text-[15px] underline underline-offset-4 decoration-2"
+                ? "text-[15px] underline-offset-4 decoration-2"
                 : "text-[12px]"
             }
           >

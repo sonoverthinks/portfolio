@@ -1,50 +1,21 @@
-import React from "react";
-import Blog from "@/mongoose/models/Blog";
 import connectDB from "@/mongoose/connectDB";
 import Link from "next/link";
+import Blog from "@/mongoose/models/Blog";
 import { nanoid } from "nanoid";
-// import Tag as MyTag from "@/components/Tag";
 import LinkTag from "@/components/LinkTag";
+import Article from "@/components/Article";
 
 const Tag = ({ blogs }) => {
   return (
-    <div className="w-full max-w-[800px] mt-[100px] mx-auto flex flex-col items-start gap-3">
-      <div className="flex flex-wrap items-center w-full gap-3 px-3 py-3 justify-normal">
-        <LinkTag href="/blogs" title="all" />
+    <div className="px-3 w-full max-w-[800px] mt-[70px] mx-auto flex flex-col items-start gap-3">
+      <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
+        <LinkTag href="/" title="all" />
       </div>
-      {blogs.map((blog) => {
-        const link = `/blog/${blog.slug}`;
-        return (
-          <Link
-            href={link}
-            className="w-full p-3 text-midnight dark:bg-midnight"
-            key={nanoid()}
-          >
-            <div className="flex items-center gap-4 text-sm flex-normal text-neutral-nickel dark:text-neutral-lavenderGray">
-              <span>{blog.createdAt}</span>
-              <span>{blog.readingTime}</span>
-              <span>{blog.totalViews} views</span>
-            </div>
-            <p className="mt-1 text-3xl font-bold hover:text-primary dark:hover:text-primary dark:text-whisper">
-              {blog.title}
-            </p>
-            <p className="text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray line-clamp-3 md:line-clamp-2">
-              {blog.description}
-            </p>
-            <div className="flex items-center gap-2 text-base flex-normal">
-              {blog.tags.map((tag) => (
-                <Link
-                  className="hover:cursor-pointer py-[1px] px-1 text-sm text-primary underline hover:text-secondary"
-                  key={nanoid}
-                  href={`/tags/${tag}`}
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </Link>
-        );
-      })}
+      <div className="flex flex-col w-full gap-2 mt-3">
+        {blogs.map((blog) => {
+          return <Article key={blog.customID} blog={blog} />;
+        })}
+      </div>
     </div>
   );
 };
@@ -59,7 +30,7 @@ export const getStaticProps = async ({ params: { tag } }) => {
 
   const blogs = results.map((blog) => {
     const blogObject = blog.toObject();
-    blogObject.createdAt = blogObject.createdAt.toDateString();
+    blogObject.createdAt = blogObject.createdAt.toLocaleDateString("en-US");
     return blogObject;
   });
 

@@ -1,4 +1,6 @@
 // import { Redirect } from "next";
+import matter from "gray-matter";
+import readingTime from "reading-time";
 
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
@@ -8,15 +10,12 @@ import getBlogFileNames from "@/utils/getBlogFileNames";
 import readNoteFiles from "@/utils/readNotes";
 import getNoteFileNames from "@/utils/getNoteFileNames";
 import LinkTag from "@/components/LinkTag";
+import Article from "@/components/Article";
 
-import matter from "gray-matter";
-import Link from "next/link";
-import readingTime from "reading-time";
-import { RightArrowIcon } from "@/components/svgComponents";
 const Home = ({ recentBlogs, tagFrequency }) => {
   const tags = Object.entries(tagFrequency);
   return (
-    <main className="px-3 relative mt-[100px] w-full max-w-[800px] h-auto flex flex-col gap-3 font-space-mono">
+    <main className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
       <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
         {tags.map((pair) => {
           return (
@@ -28,26 +27,11 @@ const Home = ({ recentBlogs, tagFrequency }) => {
           );
         })}
       </div>
-      {recentBlogs.map((blog) => {
-        const link = `/blog/${blog.slug}`;
-        return (
-          <Link
-            className="flex items-center justify-between w-full group"
-            key={blog.customID}
-            href={link}
-          >
-            <div className="flex flex-row items-center gap-1 w-full max-w-[80%] text-light-teal-blue dark:text-white dark:hover:text-dark-blue group-hover:text-light-blue text-[17px] leading-[33px]">
-              <div className="w-3">
-                <RightArrowIcon />
-              </div>
-              {blog.title}
-            </div>
-            <p className="italic text-neutral-nickel text-[15px] leading-[22px]">
-              {blog.createdAt}
-            </p>
-          </Link>
-        );
-      })}
+      <div className="flex flex-col gap-2 mt-3">
+        {recentBlogs.map((blog) => {
+          return <Article key={blog.customID} blog={blog} />;
+        })}
+      </div>
     </main>
   );
 };

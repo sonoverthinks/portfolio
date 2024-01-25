@@ -26,27 +26,13 @@ module.exports = {
           "zodiac-blue": "#1e2a47",
           mirage: "#141d2f",
         },
-        primary: "#08D9D6",
-        secondary: "#FF2E63",
-        midnight: "#252A34",
-        whisper: "#EAEAEA",
-
         neutral: {
-          navy: "#1a202c",
-          licorice: "#2d3748",
-          lavenderGray: "#C1C3D2",
+          whisper: "#EAEAEA",
           gray: "#b3b3b3",
           nickel: "#727472",
-        },
-        typo: {
           bistre: "#372822",
         },
-
-        lightBlue: "#4d5b7c",
-        darkBlue1: "#24335a",
-        darkBlue2: "#081b4b",
-        darkBlue3: "hsl(240, 100%, 10%)",
-        yellow: "#FFFF00",
+        typo: {},
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

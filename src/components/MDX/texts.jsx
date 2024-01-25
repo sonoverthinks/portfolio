@@ -20,7 +20,7 @@ headings.forEach((tag, index) => {
   const size = 6 - index;
   let className = `text-${
     size !== 1 ? size : ""
-  }xl font-bold text-midnight dark:text-whisper my-4`;
+  }xl font-bold text-neutral-bistre dark:text-neutral-whisper my-4`;
   components[tag] = (props) => <Typography className={className} {...props} />;
 });
 
@@ -28,7 +28,7 @@ components.p = (props) => (
   <Typography
     {...props}
     className={
-      "sm:text-[15px] sm:leading-[28px] md:text-[16px] md:leading-[30px] lg:text-[17px] lg:leading-[32px] text-typo-bistre dark:text-neutral-lavenderGray"
+      "sm:text-[15px] sm:leading-[28px] md:text-[16px] md:leading-[30px] lg:text-[17px] lg:leading-[32px] text-neutral-bistre dark:text-neutral-whisper"
     }
   />
 );
