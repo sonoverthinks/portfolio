@@ -5,14 +5,15 @@ import Link from "next/link";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { EnterIcon } from "./svgComponents";
 
-const SearchModal = ({ toggleSearchBar }) => {
+const SearchModal = ({ toggleSearch }) => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const exitModal = useKeyPress("Escape");
 
   useEffect(() => {
     setSearchText("");
-    toggleSearchBar();
+    toggleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exitModal]);
 
   useEffect(() => {
@@ -37,14 +38,14 @@ const SearchModal = ({ toggleSearchBar }) => {
   return (
     <div
       className="fixed top-0 left-0 z-10 w-full h-full bg-white/30 backdrop-blur-md"
-      // onClick={toggleSearchBar}
+      // onClick={toggleSearch}
     >
       <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md divide-y-2">
         <input
           type="text"
           placeholder="search..."
           autoFocus
-          className="flex items-center justify-between w-full px-3 py-4 text-base border-none outline-none bg-neutral-licorice text-whisper"
+          className="flex items-center justify-between w-full px-3 py-4 text-base border-none outline-none bg-light-ghost-white text-whisper"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);

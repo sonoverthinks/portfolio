@@ -10,12 +10,15 @@ import { navItems } from "@/data";
 import { useComboKeyPress } from "@/hooks/useKeyPress";
 import { useToggle } from "@/hooks/useToggle";
 import SearchModal from "./SearchModal";
+import TriviaModal from "./TriviaModal";
 
 const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
-  const [searchBar, toggleSearchBar] = useToggle();
+  const [search, toggleSearch] = useToggle();
+  const [trivia, toggleTrivia] = useToggle();
   const [sideNav, toggleSideNav] = useToggle();
-  const combo = useComboKeyPress("k");
+  const comboK = useComboKeyPress("k");
+  const comboJ = useComboKeyPress("j");
   const { theme, setTheme } = useTheme();
   const toggleTheme = () => {
     if (theme === "dark") {
@@ -32,9 +35,15 @@ const AppHeader = () => {
   });
 
   useEffect(() => {
-    toggleSearchBar();
+    toggleSearch();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [combo]);
+  }, [comboK]);
+
+  useEffect(() => {
+    toggleTrivia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comboJ]);
 
   return (
     <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
@@ -61,21 +70,25 @@ const AppHeader = () => {
         </ul>
       </div>
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue">
+        <div
+          onClick={toggleTrivia}
+          className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
+        >
           <div className="w-[18px] text-light-blue">
             <FlashIcon />
+            {trivia && <TriviaModal toggleTrivia={toggleTrivia} />}
           </div>
-          <p className="hidden md:block text-[13px]">[Ctrl J]</p>
+          <p className="hidden md:block text-[12px]">[Ctrl J]</p>
         </div>
         <div
-          onClick={toggleSearchBar}
+          onClick={toggleSearch}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
           <div className="w-[18px] text-light-blue">
             <SearchIcon />
-            {searchBar && <SearchModal toggleSearchBar={toggleSearchBar} />}
+            {search && <SearchModal toggleSearch={toggleSearch} />}
           </div>
-          <p className="hidden md:block text-[13px]">[Ctrl K]</p>
+          <p className="hidden md:block text-[12px]">[Ctrl K]</p>
         </div>
         <p className="ml-2 md:ml-3 hover:cursor-pointer" onClick={toggleTheme}>
           <span
