@@ -76,7 +76,6 @@ const AppHeader = () => {
         >
           <div className="w-[18px] text-light-blue">
             <FlashIcon />
-            {trivia && <TriviaModal toggleTrivia={toggleTrivia} />}
           </div>
           <p className="hidden md:block text-[12px]">[Ctrl J]</p>
         </div>
@@ -86,7 +85,6 @@ const AppHeader = () => {
         >
           <div className="w-[18px] text-light-blue">
             <SearchIcon />
-            {search && <SearchModal toggleSearch={toggleSearch} />}
           </div>
           <p className="hidden md:block text-[12px]">[Ctrl K]</p>
         </div>
@@ -111,11 +109,13 @@ const AppHeader = () => {
             dark
           </span>
         </p>
+        {search && <SearchModal toggleSearch={toggleSearch} />}
+        {trivia && <TriviaModal toggleTrivia={toggleTrivia} />}
       </div>
 
       {/* {sideNav && (
         <div className="fixed top-0 left-0 z-10 grid w-full h-full grid-cols-5">
-          <div
+        <div
             className="col-span-2 opacity-10 bg-dark"
             onClick={toggleSideNav}
           ></div>

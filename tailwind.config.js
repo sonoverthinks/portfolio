@@ -40,6 +40,9 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         "space-mono": ["Space Mono", "monospace"],
       },
+      boxShadow: {
+        blue: "0px 0px 100px 30px rgb(0,121,255, 0.7)",
+      },
     },
   },
   plugins: [],

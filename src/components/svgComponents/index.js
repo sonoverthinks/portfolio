@@ -12,6 +12,7 @@ import ChatBubbleIcon from "./ChatBubbleIcon";
 import TagIcon from "./TagIcon";
 import EnterIcon from "./EnterIcon";
 import FlashIcon from "./FlashIcon";
+import Divider from "./Divider";
 
 export {
   CloseIcon,
@@ -28,4 +29,5 @@ export {
   TagIcon,
   EnterIcon,
   FlashIcon,
+  Divider,
 };

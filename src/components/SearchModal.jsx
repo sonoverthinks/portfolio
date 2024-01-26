@@ -37,7 +37,7 @@ const SearchModal = ({ toggleSearch }) => {
 
   return (
     <div
-      className="fixed top-0 left-0 z-10 w-full h-full bg-white/30 backdrop-blur-md"
+      className="fixed top-0 left-0 z-10 w-full h-full bg-light-ghost-white/30 backdrop-blur-md"
       // onClick={toggleSearch}
     >
       <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md divide-y-2">
