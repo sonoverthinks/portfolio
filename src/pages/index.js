@@ -2,13 +2,15 @@
 import matter from "gray-matter";
 import readingTime from "reading-time";
 
+import { triviaData } from "@/data";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
-import Note from "@/mongoose/models/Note";
+import Trivia from "@/mongoose/models/Trivia";
+// import Note from "@/mongoose/models/Note";
 import readBlogFiles from "@/utils/readBlogs";
 import getBlogFileNames from "@/utils/getBlogFileNames";
-import readNoteFiles from "@/utils/readNotes";
-import getNoteFileNames from "@/utils/getNoteFileNames";
+// import readNoteFiles from "@/utils/readNotes";
+// import getNoteFileNames from "@/utils/getNoteFileNames";
 import LinkTag from "@/components/LinkTag";
 import Article from "@/components/Article";
 
@@ -68,29 +70,41 @@ export const getStaticProps = async () => {
   }));
   await Blog.bulkWrite(blogBulkUpdateArray);
 
-  // NOTESSSS
-  const noteNames = getNoteFileNames();
-
-  const allParsedNotes = noteNames.map((fileName) => {
-    const slug = fileName.replace(".mdx", "");
-    const parsedFile = readNoteFiles(fileName);
-    const { data, content } = matter(parsedFile);
-    data.slug = slug;
-    data.content = content;
-    return data;
-  });
-
-  const noteBulkUpdateArray = allParsedNotes.map((note) => ({
+  const triviaBulkUpdateArray = triviaData.map((trivia) => ({
     updateOne: {
-      filter: { customID: note.customID },
+      filter: { customID: trivia.customID },
       update: {
-        $set: note,
+        $set: trivia,
       },
       upsert: true,
       setDefaultOnInsert: true,
     },
   }));
-  await Note.bulkWrite(noteBulkUpdateArray);
+  await Trivia.bulkWrite(triviaBulkUpdateArray);
+
+  // NOTESSSS
+  // const noteNames = getNoteFileNames();
+
+  // const allParsedNotes = noteNames.map((fileName) => {
+  //   const slug = fileName.replace(".mdx", "");
+  //   const parsedFile = readNoteFiles(fileName);
+  //   const { data, content } = matter(parsedFile);
+  //   data.slug = slug;
+  //   data.content = content;
+  //   return data;
+  // });
+
+  // const noteBulkUpdateArray = allParsedNotes.map((note) => ({
+  //   updateOne: {
+  //     filter: { customID: note.customID },
+  //     update: {
+  //       $set: note,
+  //     },
+  //     upsert: true,
+  //     setDefaultOnInsert: true,
+  //   },
+  // }));
+  // await Note.bulkWrite(noteBulkUpdateArray);
 
   const project = {
     _id: 0,
