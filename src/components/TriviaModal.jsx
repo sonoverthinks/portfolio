@@ -14,15 +14,15 @@ const TriviaModal = ({ setModal }) => {
       const res = await fetch("/api/trivia");
       const data = await res.json();
       setTrivia(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchTrivia();
-  }, []);
+  // useEffect(() => {
+  //   fetchTrivia();
+  // }, []);
 
   useEffect(() => {
     fetchTrivia();
@@ -57,7 +57,7 @@ const TriviaModal = ({ setModal }) => {
               {trivia.topic}
             </p>
 
-            <p className="lg:text-[17px] lg:leading-[33px] text-light-ghost-white line-clamp-5 overflow-y-auto">
+            <p className="lg:text-[17px] lg:leading-[33px] text-light-ghost-white line-clamp-5 text-center overflow-y-auto capitalize">
               {trivia?.content}
             </p>
           </div>

@@ -43,21 +43,21 @@ const SearchModal = ({ setModal }) => {
   return (
     <div
       className="fixed top-0 left-0 z-10 w-full h-full bg-light-ghost-white/30 backdrop-blur-md"
-      onClick={() => {
-        setModal((prevModalState) => {
-          return {
-            trivia: false,
-            search: !prevModalState.search,
-          };
-        });
-      }}
+      // onClick={() => {
+      //   setModal((prevModalState) => {
+      //     return {
+      //       trivia: false,
+      //       search: !prevModalState.search,
+      //     };
+      //   });
+      // }}
     >
-      <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md divide-y-2">
+      <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md gap-2">
         <input
           type="text"
           placeholder="search..."
           autoFocus
-          className="flex items-center justify-between w-full px-3 py-4 text-base border-none outline-none bg-light-ghost-white text-whisper"
+          className="flex items-center justify-between w-full px-3 py-4 text-[17px] border-none rounded-md outline-none dark:bg-light-ghost-white bg-light-charcoal dark:text-light-charcoal text-light-ghost-white"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
@@ -68,20 +68,32 @@ const SearchModal = ({ setModal }) => {
           console.log(typeof item.createdAt);
           return (
             <Link
-              className="flex flex-col items-start w-full gap-2 p-3 bg-neutral-licorice group"
+              className="flex flex-col items-start w-full gap-2 p-3 rounded-md bg-light-charcoal group"
               href={link}
               key={item._id}
             >
-              <p className="w-full text-base group-hover:text-primary text-whisper">
-                {item.title}
-              </p>
-
-              <div className="flex justify-between w-full text-neutral-lavenderGray">
-                <p className="flex gap-2 text-sm">
-                  <span>{item.readingTime}</span>
+              <div
+                className="w-full h-auto"
+                onClick={() => {
+                  setModal((prevModalState) => {
+                    return {
+                      trivia: false,
+                      search: !prevModalState.search,
+                    };
+                  });
+                }}
+              >
+                <p className="w-full text-base text-light-ghost-white">
+                  {item.title}
                 </p>
-                <div className="w-5 mr-3 transition-all duration-150 group-hover:translate-x-2">
-                  <EnterIcon />
+
+                <div className="flex justify-between w-full text-light-teal-blue group-hover:text-light-blue">
+                  <p className="flex gap-2 text-sm">
+                    <span>{item.readingTime}</span>
+                  </p>
+                  <div className="w-5 mr-3 transition-all duration-150 group-hover:translate-x-2">
+                    <EnterIcon />
+                  </div>
                 </div>
               </div>
             </Link>

@@ -8,7 +8,7 @@ const stringRequired = {
 const schema = new Schema({
   topic: stringRequired,
   content: stringRequired,
-  customID: stringRequired,
+  // customID: stringRequired,
 });
 
 export default mongoose?.models?.trivia || model("trivia", schema);
