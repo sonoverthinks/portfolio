@@ -13,6 +13,7 @@ import TagIcon from "./TagIcon";
 import EnterIcon from "./EnterIcon";
 import FlashIcon from "./FlashIcon";
 import Divider from "./Divider";
+import Loader from "./Loader";
 
 export {
   CloseIcon,
@@ -30,4 +31,5 @@ export {
   EnterIcon,
   FlashIcon,
   Divider,
+  Loader,
 };

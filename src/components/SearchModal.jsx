@@ -5,14 +5,19 @@ import Link from "next/link";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { EnterIcon } from "./svgComponents";
 
-const SearchModal = ({ toggleSearch }) => {
+const SearchModal = ({ setModal }) => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const exitModal = useKeyPress("Escape");
 
   useEffect(() => {
     setSearchText("");
-    toggleSearch();
+    setModal((prevModalState) => {
+      return {
+        trivia: false,
+        search: !prevModalState.search,
+      };
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exitModal]);
 
@@ -38,7 +43,14 @@ const SearchModal = ({ toggleSearch }) => {
   return (
     <div
       className="fixed top-0 left-0 z-10 w-full h-full bg-light-ghost-white/30 backdrop-blur-md"
-      // onClick={toggleSearch}
+      onClick={() => {
+        setModal((prevModalState) => {
+          return {
+            trivia: false,
+            search: !prevModalState.search,
+          };
+        });
+      }}
     >
       <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md divide-y-2">
         <input

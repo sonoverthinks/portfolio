@@ -14,8 +14,10 @@ import TriviaModal from "./TriviaModal";
 
 const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
-  const [search, toggleSearch] = useToggle();
-  const [trivia, toggleTrivia] = useToggle();
+  const [modal, setModal] = useState({
+    search: false,
+    trivia: false,
+  });
   const [sideNav, toggleSideNav] = useToggle();
   const comboK = useComboKeyPress("k");
   const comboJ = useComboKeyPress("j");
@@ -35,13 +37,23 @@ const AppHeader = () => {
   });
 
   useEffect(() => {
-    toggleSearch();
+    setModal((prevModalState) => {
+      return {
+        trivia: false,
+        search: !prevModalState.search,
+      };
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comboK]);
 
   useEffect(() => {
-    toggleTrivia();
+    setModal((prevModalState) => {
+      return {
+        trivia: !prevModalState.trivia,
+        search: false,
+      };
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comboJ]);
 
@@ -71,7 +83,14 @@ const AppHeader = () => {
       </div>
       <div className="flex items-center gap-3">
         <div
-          onClick={toggleTrivia}
+          onClick={() => {
+            setModal((prevModalState) => {
+              return {
+                trivia: !prevModalState.trivia,
+                search: false,
+              };
+            });
+          }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
           <div className="w-[18px] text-light-blue">
@@ -80,7 +99,14 @@ const AppHeader = () => {
           <p className="hidden md:block text-[12px]">[Ctrl J]</p>
         </div>
         <div
-          onClick={toggleSearch}
+          onClick={() => {
+            setModal((prevModalState) => {
+              return {
+                trivia: false,
+                search: !prevModalState.search,
+              };
+            });
+          }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
           <div className="w-[18px] text-light-blue">
@@ -109,8 +135,8 @@ const AppHeader = () => {
             dark
           </span>
         </p>
-        {search && <SearchModal toggleSearch={toggleSearch} />}
-        {trivia && <TriviaModal toggleTrivia={toggleTrivia} />}
+        {modal.search && <SearchModal setModal={setModal} />}
+        {modal.trivia && <TriviaModal setModal={setModal} />}
       </div>
 
       {/* {sideNav && (
