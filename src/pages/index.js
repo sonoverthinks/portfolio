@@ -72,11 +72,11 @@ export const getStaticProps = async () => {
 
   const triviaBulkUpdateArray = triviaData.map((trivia) => ({
     updateOne: {
-      filter: { topic: trivia.topic },
+      filter: { customID: trivia.customID },
       update: {
-        $set: trivia,
+        $set: trivia, // apends new fields to existing document
       },
-      upsert: true,
+      upsert: true, // if true, creates a new document if no document matches the filter
       setDefaultOnInsert: true,
     },
   }));

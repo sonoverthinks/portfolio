@@ -39,23 +39,27 @@ const TriviaModal = ({ setModal }) => {
   }, [exitModal]);
 
   return (
-    <div
-      // onClick={() => {
-      //   setModal((prevModalState) => {
-      //     return {
-      //       trivia: !prevModalState.trivia,
-      //       search: false,
-      //     };
-      //   });
-      // }}
-      className="fixed top-0 left-0 z-10 items-center w-full h-full bg-light-ghost-white/30 backdrop-blur-md"
-    >
-      <div className="flex flex-col items-center gap-3 relative mx-auto mt-[100px] w-full max-w-[600px] bg-light-charcoal rounded-md p-5 overflow-visible">
-        {trivia.content ? (
+    <div className="fixed top-0 left-0 items-center w-full h-full bg-light-ghost-white/30 backdrop-blur-md">
+      <div
+        onClick={() => {
+          setModal((prevModalState) => {
+            return {
+              trivia: !prevModalState.trivia,
+              search: false,
+            };
+          });
+        }}
+        className="absolute w-full h-full"
+      ></div>
+      <div className="flex flex-col items-center gap-3 relative mx-auto mt-[100px] w-full max-w-[600px] bg-light-charcoal rounded-md p-6 overflow-visible">
+        {/* <div className="self-end text-center rounded-md w-7 h-7 bg-light-teal-blue">
+          X
+        </div> */}
+        {trivia ? (
           <div>
-            <p className="lg:text-[19px] w-full font-semibold text-center capitalize text-light-blue">
-              {trivia.topic}
-            </p>
+            {/* <p className="lg:text-[19px] w-full font-semibold text-center capitalize text-light-blue">
+              {trivia?.topic}
+            </p> */}
 
             <p className="lg:text-[17px] lg:leading-[33px] text-light-ghost-white line-clamp-5 text-center overflow-y-auto capitalize">
               {trivia?.content}

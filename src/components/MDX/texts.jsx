@@ -1,3 +1,4 @@
+// both headers p use typography
 function Typography({ className, children }) {
   return <p className={className}>{children}</p>;
 }

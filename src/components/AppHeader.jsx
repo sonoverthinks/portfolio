@@ -58,7 +58,7 @@ const AppHeader = () => {
   }, [comboJ]);
 
   return (
-    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 font-space-mono text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
+    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
       {/* <div
           className="z-20 w-8 h-auto lg:hidden hover:cursor-pointer"
           onClick={toggleSideNav}

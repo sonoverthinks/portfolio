@@ -14,7 +14,7 @@ const Codeblock = ({ children }) => {
   return (
     <Highlight theme={themes.palenight} code={code.trim()} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div className="font-space-mono w-full my-5 sm:text-[15px] sm:leading-[20px] md:text-[16px] md:leading-[22px] lg:text-[17px] lg:leading-[24px]">
+        <div className="w-full my-5 sm:text-[15px] sm:leading-[20px] md:text-[16px] md:leading-[22px] lg:text-[17px] lg:leading-[24px]">
           <pre
             className="relative p-3 overflow-x-auto rounded-lg group"
             style={style}
@@ -27,7 +27,7 @@ const Codeblock = ({ children }) => {
                   setCopyText("Copy");
                 }, 1000);
               }}
-              className="absolute hidden px-2 py-1 rounded-lg opacity-70 right-3 group-hover:block bg-light-teal-blue hover:bg-light-blue"
+              className="absolute hidden px-1 py-1 rounded-lg opacity-70 right-3 group-hover:block bg-light-teal-blue hover:bg-light-blue"
             >
               {copyText}
             </button>

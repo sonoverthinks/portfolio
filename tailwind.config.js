@@ -35,10 +35,7 @@ module.exports = {
         typo: {},
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
-        openSans: ["Open Sans", "sans-serif"],
-        roboto: ["Roboto", "sans-serif"],
-        "space-mono": ["Space Mono", "monospace"],
+        "source-code-pro": ["Source Code Pro", "monospace"],
       },
       boxShadow: {
         blue: "0px 0px 100px 30px rgb(0,121,255, 0.7)",

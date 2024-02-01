@@ -16,6 +16,8 @@ const BlogHead = ({
   // POST
   useEffect(() => {
     const url = `/api/views/${customID}`;
+    // useEffect callback function cannot be an async function so we use iife function
+    //
     (async () => {
       try {
         await axios.post(url);

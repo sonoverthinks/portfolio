@@ -41,17 +41,18 @@ const SearchModal = ({ setModal }) => {
   }, [searchText]);
 
   return (
-    <div
-      className="fixed top-0 left-0 z-10 w-full h-full bg-light-ghost-white/30 backdrop-blur-md"
-      // onClick={() => {
-      //   setModal((prevModalState) => {
-      //     return {
-      //       trivia: false,
-      //       search: !prevModalState.search,
-      //     };
-      //   });
-      // }}
-    >
+    <div className="fixed top-0 left-0 w-full h-full bg-light-ghost-white/30 backdrop-blur-md">
+      <div
+        className="absolute w-full h-full"
+        onClick={() => {
+          setModal((prevModalState) => {
+            return {
+              trivia: false,
+              search: !prevModalState.search,
+            };
+          });
+        }}
+      ></div>
       <div className="mx-auto mt-[100px] flex flex-col items-start w-full max-w-[600px] overflow-hidden rounded-md gap-2">
         <input
           type="text"
@@ -68,7 +69,7 @@ const SearchModal = ({ setModal }) => {
           console.log(typeof item.createdAt);
           return (
             <Link
-              className="flex flex-col items-start w-full gap-2 p-3 rounded-md bg-light-charcoal group"
+              className="z-50 flex flex-col items-start w-full gap-2 p-3 rounded-md bg-light-charcoal group"
               href={link}
               key={item._id}
             >

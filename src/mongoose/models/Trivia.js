@@ -6,9 +6,10 @@ const stringRequired = {
 };
 
 const schema = new Schema({
-  topic: stringRequired,
+  topic: String,
+  snippet: String,
   content: stringRequired,
-  // customID: stringRequired,
+  customID: stringRequired,
 });
 
 export default mongoose?.models?.trivia || model("trivia", schema);
