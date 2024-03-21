@@ -97,6 +97,26 @@ const triviaData = [
     content:
       "Next.js integrates Suspense directly into the App Router with a special loading.js file. This file will automatically wrap the page.js file with Suspense and render the custom UI in loading.js",
   },
+  {
+    customID: "804db787-b258-49e4-93b6-931134f7de78",
+    content:
+      "Specifying dependencies in useEffect executes the function after the initial render and subsequent re-renders where those dependencies change.",
+  },
+  {
+    customID: "53f736f3-5a89-4205-a817-d820035e465d",
+    content:
+      "A useEffect with empty dependency array will only run after the initial render.",
+  },
+  {
+    customID: "5d624c76-cae4-4dfd-b623-afa33b5b0a93",
+    content:
+      "A useEffect with no dependency array at all runs after every single render (and re-render) of your component.",
+  },
+  {
+    customID: "d9f133e1-caed-4f98-a98e-a7751634e25c",
+    content:
+      "The Object.is() is a static method that determines whether two values are the same value. React uses this method to compare dependency in the useEffect hook.",
+  },
 ];
 
 export { navItems, triviaData };

@@ -1,4 +1,3 @@
-// import { Redirect } from "next";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 

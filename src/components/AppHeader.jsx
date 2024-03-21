@@ -3,7 +3,6 @@ import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import extractCurrentPath from "@/utils/extractCurrentPath";
-
 import { SearchIcon } from "./svgComponents";
 import { FlashIcon } from "./svgComponents";
 import { navItems } from "@/data";
@@ -18,7 +17,7 @@ const AppHeader = () => {
     search: false,
     trivia: false,
   });
-  const [sideNav, toggleSideNav] = useToggle();
+  // const [sideNav, toggleSideNav] = useToggle();
   const comboK = useComboKeyPress("k");
   const comboJ = useComboKeyPress("j");
   const { theme, setTheme } = useTheme();
@@ -37,25 +36,26 @@ const AppHeader = () => {
   });
 
   useEffect(() => {
-    setModal((prevModalState) => {
-      return {
-        trivia: false,
-        search: !prevModalState.search,
-      };
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comboK]);
+    if (comboJ) {
+      setModal((prevModalState) => {
+        return {
+          trivia: !prevModalState.trivia,
+          search: false,
+        };
+      });
+    }
+  }, [comboJ]);
 
   useEffect(() => {
-    setModal((prevModalState) => {
-      return {
-        trivia: !prevModalState.trivia,
-        search: false,
-      };
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comboJ]);
+    if (comboK) {
+      setModal((prevModalState) => {
+        return {
+          trivia: false,
+          search: !prevModalState.search,
+        };
+      });
+    }
+  }, [comboK]);
 
   return (
     <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
