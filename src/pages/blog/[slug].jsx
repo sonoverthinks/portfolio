@@ -1,5 +1,4 @@
 import { MDXRemote } from "next-mdx-remote";
-import copy from "copy-text-to-clipboard";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import { serialize } from "next-mdx-remote/serialize";

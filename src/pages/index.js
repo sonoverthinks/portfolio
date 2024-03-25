@@ -1,31 +1,20 @@
 import matter from "gray-matter";
 import readingTime from "reading-time";
-
 import { triviaData } from "@/data";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import Trivia from "@/mongoose/models/Trivia";
-// import Note from "@/mongoose/models/Note";
 import readBlogFiles from "@/utils/readBlogs";
 import getBlogFileNames from "@/utils/getBlogFileNames";
-// import readNoteFiles from "@/utils/readNotes";
-// import getNoteFileNames from "@/utils/getNoteFileNames";
 import LinkTag from "@/components/LinkTag";
 import Article from "@/components/Article";
 
-const Home = ({ recentBlogs, tagFrequency }) => {
-  const tags = Object.entries(tagFrequency);
+const Home = ({ recentBlogs, uniqueTags }) => {
   return (
     <main className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
       <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
-        {tags.map((pair) => {
-          return (
-            <LinkTag
-              key={pair[0]}
-              href={`/tags/${pair[0]}`}
-              title={`${pair[0]}`}
-            />
-          );
+        {uniqueTags.map((tag) => {
+          return <LinkTag key={tag} href={`/tags/${tag}`} title={`${tag}`} />;
         })}
       </div>
       <div className="flex flex-col gap-2 mt-3">
@@ -57,7 +46,7 @@ export const getStaticProps = async () => {
     return data;
   });
 
-  const blogBulkUpdateArray = allParsedBlogs.map((blog) => ({
+  const blogOperations = allParsedBlogs.map((blog) => ({
     updateOne: {
       filter: { customID: blog.customID },
       update: {
@@ -67,7 +56,7 @@ export const getStaticProps = async () => {
       setDefaultOnInsert: true,
     },
   }));
-  await Blog.bulkWrite(blogBulkUpdateArray);
+  await Blog.bulkWrite(blogOperations);
 
   const triviaBulkUpdateArray = triviaData.map((trivia) => ({
     updateOne: {
@@ -81,56 +70,26 @@ export const getStaticProps = async () => {
   }));
   await Trivia.bulkWrite(triviaBulkUpdateArray);
 
-  // NOTESSSS
-  // const noteNames = getNoteFileNames();
-
-  // const allParsedNotes = noteNames.map((fileName) => {
-  //   const slug = fileName.replace(".mdx", "");
-  //   const parsedFile = readNoteFiles(fileName);
-  //   const { data, content } = matter(parsedFile);
-  //   data.slug = slug;
-  //   data.content = content;
-  //   return data;
-  // });
-
-  // const noteBulkUpdateArray = allParsedNotes.map((note) => ({
-  //   updateOne: {
-  //     filter: { customID: note.customID },
-  //     update: {
-  //       $set: note,
-  //     },
-  //     upsert: true,
-  //     setDefaultOnInsert: true,
-  //   },
-  // }));
-  // await Note.bulkWrite(noteBulkUpdateArray);
-
   const project = {
     _id: 0,
     _v: 0,
     content: 0,
   };
-  // get the most recent blogs
+  // get the most recent blogs and unique tags
   const limit = 5;
+  const allTags = [];
   const recentBlogsResult = await Blog.find({}, project)
     .sort("-createdAt")
     .limit(limit);
-
-  const tagFrequency = {};
-  const tagArray = [];
-
   const recentBlogs = recentBlogsResult.map((blog) => {
     const blogObject = blog.toObject();
-    tagArray.push(blogObject.tags);
+    allTags.push(blogObject.tags);
     blogObject.createdAt = blogObject.createdAt.toLocaleDateString("en-US");
     return blogObject;
   });
-
-  for (const tag of tagArray.flat()) {
-    tagFrequency[tag] = tagFrequency[tag] ? tagFrequency[tag] + 1 : 1;
-  }
+  const uniqueTags = [...new Set(allTags.flat())];
 
   return {
-    props: { recentBlogs, tagFrequency },
+    props: { recentBlogs, uniqueTags },
   };
 };

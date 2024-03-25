@@ -28,9 +28,9 @@ const AppFooter = () => {
           </div>
         </Link>
       </li>
-      <li>
+      {/* <li>
         <p className="text-base text-neutral-nickel">© 2023 Son Dao</p>
-      </li>
+      </li> */}
     </ul>
   );
 };

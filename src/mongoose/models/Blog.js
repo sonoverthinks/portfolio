@@ -7,11 +7,11 @@ const stringRequired = {
 
 const schema = new Schema({
   title: stringRequired,
-  description: stringRequired,
+  // description: stringRequired,
   slug: stringRequired,
   content: stringRequired,
-  banner: stringRequired,
-  altText: stringRequired,
+  // banner: stringRequired,
+  // altText: stringRequired,
   readingTime: stringRequired,
   customID: stringRequired,
   createdAt: {

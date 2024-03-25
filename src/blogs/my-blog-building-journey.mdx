@@ -1,0 +1,66 @@
+---
+title: My Blog Building Journey
+altText: My Blog Building Journey
+customID: 0191c3f7-1a5e-47c2-9f00-eddafbdaba0e
+tags: ["next.js"]
+---
+
+Building this blog has been quite the journey – definitely my most time-consuming project to date! I know there will come a day when I revisit the source code and wonder how I managed to pull it all off. While my memory is still fresh, I'll take this opportunity to document my thought process and answer the questions I imagine future-me will have.
+
+##### When a new blog post is written, how does it get added to the database?
+
+New blog posts are saved as MDX within the "blogs" folder. During the build process, `getStaticProps` iterates through these files to identify new content. It then adds new posts and updates existing ones, if necessary, to the MongoDB database using `bulkWrite`.
+
+##### How does bulkwrite work?
+
+Bulk write operations in MongoDB allow you to perform multiple write operations (inserts, updates, deletes) on a collection in a single request, improving efficiency compared to sending individual requests. In my implementation, I loop through the files in the "blogs" folder to create an array of operations, where each operation corresponds to a post. Then, I call `bulkWrite` on this array, and it handles the rest.
+
+##### How do I "loop" through the files?
+
+I use `fs.readdirSync` to get a list of filenames from the 'blog' directory. Then, I can read the content of each file using `fs.readFileSync`.
+
+##### How can I include information like reading time, date created, and writer in each blog post?
+
+This sort of information is called "metadata" and is typically written in JSON format at the beginning of the file. I include some of the metadata directly in the MDX file, like title and tags. Other information, such as reading time, is added later during build time within the `getStaticProps` function.
+
+##### How to read metadata in the MDX files?
+
+MDX files store metadata at the beginning in a section called "front matter." I use the gray-matter library to read and parse this front matter. The gray-matter library would take the following code block:
+
+```
+---
+title: My First Blog
+slug: my-first-blog
+---
+<h1>Hello world!</h1>
+```
+
+and return this object:
+
+```js
+{
+  content: '<h1>Hello world!</h1>',
+  data: {
+    title: 'My First Blog',
+    slug: 'my-first-blog'
+  }
+}
+```
+
+##### Now that my blog posts are saved, how do I display each one as a dedicated page on the website?
+
+To render blog posts, I leverage Next.js dynamic segments (`[slug]`) along with `getStaticPaths` and `getStaticProps`. This combo fetches slugs and their corresponding posts from MongoDB, then formats the content with `MDXRemote`.
+
+##### How does `mdxRemote` work?
+
+To display MDX content in React, `MDXRemote` uses its `serialize` function to convert raw MDX into a React-friendly format. This serialized content is then passed to the `MDXRemote` component along with an object that provides styling for the HTML elements, since `MDXRemote` doesn't handle styling by default. The styling object itself contains key-value structures, where each key is an HTML element and the corresponding value is a component styled with Tailwind CSS.
+
+##### How to implement the search function?
+
+I leverage MongoDB Atlas to build autocomplete search functionality. This involves defining a search index that specifies the 'title' field for autocomplete functionality. With this setup, I can utilize the autocomplete operator within my queries to generate suggestions based on the user's input as they type.
+
+##### Is there anything else I should know?
+
+"Initially, I put all trivia in a single file. During the build process, `getStaticProp` would iterate through this file and populate the database with all the entries. However, manually adding trivia became tedious. To streamline this process, I built a CLI tool using `npx`. This tool allows me to directly add trivia entries to the database, making it much faster. Now, whenever I stumble upon interesting trivia while browsing, I can quickly add it to my blog with a simple command.
+
+I learned how to build the CLI tool by reading Shahed Nasser's [blog](https://blog.shahednasser.com/how-to-create-a-npx-tool/). Additionally, I want to credit to thatanjan on GitHub and Youtube, who built an comprehensive blog in this [playlist](https://www.youtube.com/watch?v=dMGdsjmw0q8&list=PLEr-WXao6eSPBeUOaaHnQ1qG22_J5hM1o) using Next.js and ChakraUI, from which I drew a lot of ideas.

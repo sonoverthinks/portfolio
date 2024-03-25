@@ -36,6 +36,7 @@ module.exports = {
       },
       fontFamily: {
         "source-code-pro": ["Source Code Pro", "monospace"],
+        "crimson-text": ["Crimson Text", "serif"],
       },
       boxShadow: {
         blue: "0px 0px 100px 30px rgb(0,121,255, 0.7)",

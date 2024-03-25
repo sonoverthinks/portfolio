@@ -1,14 +1,11 @@
 import useGetViews from "@/hooks/useGetViews";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import Link from "next/link";
 import { RightArrowIcon } from "../svgComponents";
 
 const BlogPreviewCard = ({
-  banner,
   title,
-  description,
   slug,
-  altText,
   createdAt,
   readingTime,
   totalViews,
@@ -32,8 +29,7 @@ const BlogPreviewCard = ({
         {tags.map((tag) => (
           <buton
             className="mr-3 text-sm underline hover:cursor-pointer text-primary hover:text-secondary"
-            key={nanoid}
-            // href={`/tags/${tag}`}
+            key={tag}
           >
             {tag}
           </buton>
