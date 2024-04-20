@@ -1,0 +1,201 @@
+---
+title: Type Your Way to Better Code: A Beginner's Guide to TypeScrip
+customID: e8330818-208a-42b8-a02e-a4aa5e579353
+tags: ["typescript"]
+---
+
+I love JavaScript. It's the easygoing roommate who lets things slide, never throwing a fuss about the occasional mess. But sometimes, a little too much freedom can lead to chaos. That's where TypeScript comes in.
+
+Think of TypeScript as the roommate who sets clear boundaries. It might seem stricter at first, like they wouldn't dream of letting you shove that square peg in the round hole. But in the long run, these boundaries keep things organized and prevent bigger issues down the road.
+
+In this blog, we'll take a glance at the world of TypeScript typing. We might just learn to appreciate the structure and clarity it brings to the coding table, just like a good roommate can create a more peaceful living space.
+
+##### Type Annotations
+
+One of the key ways TypeScript enforces these boundaries is through type annotations. These annotations are essentially labels that tell TypeScript exactly what kind of data a variable, function, or property can hold. Imagine our roommate meticulously labeling every drawer and shelf. In reality, TypeScript uses three primitive types most often: `string`, `number`, and `boolean`. These primitive types represent basic building blocks of data, like text, numbers, and true/false values.
+
+```typescript
+const name: string = "Alive";
+const age: number = 30;
+const isFunny: boolean = true;
+```
+
+The `any` type in TypeScript is a bit of a wild card. It essentially acts as an escape hatch, allowing you to assign a variable or function argument to literally any type of data.
+
+```typescript
+const complicated: any = "something";
+complicated = 123;
+complicated = true;
+```
+
+The `any` type bypasses TypeScript's type checking. This means the compiler doesn't care what type of data you assign to `complicated`. It allows you to reassign a constant because there's no guarantee what type of data it will hold throughout the program.
+
+##### Type Inference
+
+Type inference refers to the TypeScript compiler's ability to automatically deduce the data type of a variable, function argument, or function return value. This means you don't always need to explicitly specify the type yourself, which can make your code more readable.
+
+```typescript
+let name = "Alice"; // type inferred as string
+let age = 30; // type inferred as number
+const isFunny = true; // type inferred as boolean
+```
+
+By analyzing the expression used to return a value from the function, the compiler can automatically determine the type of data a function returns and assign a type to the function's return value. This can make your code more concise because you often don't need to explicitly specify the return type if the expression is clear.
+
+```typescript
+function getLength(text: string): number {
+  return text.length;
+}
+const textLength = getLength("Hello World"); // inferred type: number
+```
+
+##### Working with function parameter in typescript
+
+Function parameters in TypeScript are like those in JavaScript, but with the added benefit of type annotations. These annotations provide static typing, which helps catch errors early and improves code readability.
+
+```typescript
+function greet(person: string) {
+  // function body
+}
+```
+
+Default parameters are a way to provide default values for function arguments in TypeScript. This means you can define a function with parameters that have fallback values in case no argument is passed during the function call.
+
+```typescript
+function greet(person: string = "stranger") {
+  return `Hi ${person}`;
+}
+```
+
+By default, all parameters are considered required. If you don't provide a value when calling the function, TypeScript will throw an error. You can make a parameter optional by adding a question mark (`?`) after the type annotation
+
+```typescript
+function greet(name: string, age?: number) {
+  // age is optional here
+  // function body
+}
+```
+
+##### Return type annotations
+
+In TypeScript, return type annotations are a way to explicitly declare the data type that a function will return.
+
+```typescript
+function getLength(text: string): number {
+  return text.length;
+}
+```
+
+While return type annotations are not strictly required for every function in TypeScript, especially for simple ones, it's generally considered a good practice to use them.
+
+When a function doesn't return any data, you specify its return type as `void`. This indicates that the function's primary purpose might be to perform side effects (like modifying variables, logging messages, etc.) rather than returning a value.
+
+```typescript
+function greet(name: string): void {
+  console.log("Hello, " + name + "!");
+}
+greet("Alice");
+// This function doesn't return a value, but it logs a message
+```
+
+The `never` type in TypeScript represents a value that can never occur under normal circumstances. It's a special type used in specific situations to indicate that a function never returns normally or a variable can never hold a valid value.
+
+```typescript
+function throwError(message: string): never {
+  throw new Error(message);
+}
+// This function never returns because it always throws an error
+```
+
+Anonymous functions in TypeScript can benefit from contextual typing, a feature that allows the compiler to infer the types of their parameters and return values based on how the function is used. You can often omit type annotations for anonymous functions, making your code more compact and easier to read.
+
+##### Object types
+
+Objects are a cornerstone of TypeScript for representing complex data structures. They group related properties together, each with a name (key) and a corresponding value. To ensure type safety and maintainability, TypeScript offers two main approaches for defining object types: interfaces and type literals.
+
+##### Interfaces
+
+An interface acts as a reusable blueprint for object structures. It defines the expected properties and their data types. This template can then be used as a reference for multiple objects that share the same structure, promoting code reuse and consistency.
+
+```typescript
+interface Person {
+  name: string;
+  age: number;
+}
+
+let employee: Person = {
+  name: "Alice",
+  age: 30,
+};
+
+let customer: Person = {
+  name: "Bob",
+  age: 25,
+};
+```
+
+In this example, the `Person` interface defines the structure for both `employee` and `customer` objects.
+
+One of the key strengths of interfaces is their extensibility. You can create new interfaces that inherit properties from existing ones using the `extends` keyword. This enables the creation of more complex object hierarchies.
+
+```typescript
+interface Employee extends Person {
+  department: string;
+}
+
+let manager: Employee = {
+  name: "John",
+  age: 40,
+  department: "Engineering",
+};
+```
+
+The `Employee` interface extends `Person` and adds a `department` property.
+
+**Type literals**
+
+Type literals serve a different purpose. They are used to define the exact structure and types for a single object instance. This approach ensures type safety for that specific object.
+
+```typescript
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+};
+let laptop: Product = {
+  id: 123,
+  name: "Dell XPS 13",
+  price: 899.99,
+};
+```
+
+The core distinction between interfaces and type literals lies in their reusability and extensibility:
+
+- Use interfaces for defining reusable structures that multiple objects can adhere to.
+- Use type literals for defining the exact structure of a single object instance, especially when reusability or inheritance isn't required.
+
+##### Array types
+
+To declare array types in TypeScript, you use square brackets `[]` after the array name and specify the type of elements within them.
+
+```typescript
+let numbers: number[] = [1, 2, 3]; // Array of numbers
+let colors: string[] = ["red", "green", "blue"]; // Array of strings
+```
+
+You can also create multidimensional arrays in TypeScript by nesting arrays within square brackets.
+
+```typescript
+let grid: number[][] = [
+  [1, 2, 3],
+  [4, 5, 6],
+]; // A 2D array of numbers
+```
+
+The `Array<type>` syntax is another way to define array types in TypeScript. It's essentially a shorthand for using square brackets `[]` where `type` represents the expected data type of the elements in the array.
+
+```typescript
+let numbers: Array<number> = [1, 2, 3]; // Equivalent to number[]
+```
+
+While there are still tuples and enums to learn about - concepts that are outside the scope of JavaScript - this blog offered a glimpse into TypeScript, the strict but reasonable roommate. Keep exploring, and you might just discover a newfound appreciation for the structure and clarity it brings.

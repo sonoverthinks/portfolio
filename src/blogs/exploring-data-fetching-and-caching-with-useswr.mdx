@@ -5,7 +5,7 @@ customID: c1b6c090-bf02-43fd-8fd0-d59fc9c56ee9
 tags: ["react", "useswr"]
 ---
 
-#### Introduction to useSWR
+##### Introduction to useSWR
 
 `useSWR` is a custom React Hook used for data fetching and caching. This custom hook reduces the complexities associated with storing and caching API responses. I personally find it useful enough to eliminate the need for global state management.
 
@@ -27,7 +27,7 @@ Cache Usage: Subsequent requests for the same data will first be fulfilled from 
 
 Stale-While-Revalidate: While using the cached data, SWR also sends a background request to the server to fetch fresh data (revalidate). If the server's response contains new data, SWR updates the cache, ensuring that the user always receives the latest data when available.
 
-#### Creating our custom hook with useSWR
+##### Creating our custom hook with useSWR
 
 Now let's built a custom hook `useFetchDog` to fetch data from the dog API.
 
