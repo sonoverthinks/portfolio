@@ -35,7 +35,7 @@ const Blogs = ({ recentBlogs, tagFrequency }) => {
             <p className="mt-1 text-3xl font-bold group-hover:text-primary dark:group-hover:text-primary dark:text-whisper">
               {blog.title}
             </p>
-            <p className="text-xl leading-[33px] text-typo-bistre dark:text-neutral-lavenderGray line-clamp-3 md:line-clamp-2">
+            <p className="text-xl leading-[33px] text-light-charcoal dark:text-neutral-lavenderGray line-clamp-3 md:line-clamp-2">
               {blog.description}
             </p>
             <div className="flex items-center gap-2 text-base flex-normal">

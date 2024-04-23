@@ -1,0 +1,154 @@
+---
+title: SQL in Plain English
+customID: 976c243a-917b-4851-a0c1-cbc64f8b32cd
+tags: ["sql"]
+---
+
+SQL, or Structured Query Language, is a powerful tool for interacting with relational databases. These databases store data in tables, with each table following a defined structure. Imagine a spreadsheet where each column represents a specific field (like name or age), and each row represents a record (like an individual person).
+
+In SQL, you define the structure of a table by creating columns with data types like text, numbers, or dates. This upfront planning ensures consistency and makes data retrieval and manipulation efficient. You can then populate these tables with records, adding information one row at a time.
+
+One of the strengths of SQL is its ability to form relationships between tables. This is particularly useful when your data has natural connections. For instance, an online store might have a Customers table and an Orders table. Using SQL, you can link these tables to see which customers placed specific orders.
+
+**SQL vs. NoSQL: Choosing the Right Tool**
+
+While SQL is a dominant player, NoSQL (Not Only SQL) databases have emerged as a popular alternative. Unlike SQL, NoSQL databases offer more flexibility in data structure. They can handle unstructured or semi-structured data, which is often the case with large datasets or frequently changing information.
+
+For a period between 2010 and 2018, NoSQL databases were particularly favored due to this flexibility. However, the ability to plan and structure data upfront in SQL offers advantages for code maintainability in the long run. As a result, SQL is experiencing a comeback. Among popular SQL database options are Oracle Database, PostgreSQL, MySQL, and SQLite. Popular NoSQL databases include MongoDB, Redis, and Amazon DynamoDB.
+
+Ultimately, the choice between SQL and NoSQL depends on your specific needs. If your data is structured and requires complex queries and relationships, SQL might be a better fit. If you have large amounts of unstructured or frequently changing data, NoSQL might be more suitable.
+
+We'll explore CRUD operations using PostgreSQL, a popular and widely used SQL database management system. We'll begin with the 'Create' aspect of CRUD. While the syntax may differ slightly between SQL implementations, the core concepts remain consistent. This makes transitioning between different SQL databases relatively smooth.
+
+##### Create
+
+Imagine we're managing a list of people with some attributes. Here's how to create a "People" table in PostgreSQL to store their names, ages, and whether they're considered funny.
+
+```sql
+CREATE TABLE People (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  age INTEGER,
+  is_funny BOOLEAN
+);
+```
+
+Let's break down the code:
+
+- `CREATE TABLE Person`: This defines that we're creating a new table named `People`.
+
+- `id SERIAL PRIMARY KEY`: This creates a column named `id` with the `SERIAL` data type. `SERIAL` is a special data type in PostgreSQL that automatically generates a unique integer value for each new row inserted into the table. We also designate it as the `PRIMARY KEY`, ensuring each person has a unique identifier.
+- `name VARCHAR(255) NOT NULL`: This creates a column named `name` with the `VARCHAR(255)` data type.
+
+Now that you have a well-structured `people` table in PostgreSQL, let's explore how to populate it with data! The `INSERT INTO` statement comes into play for this purpose.
+
+```sql
+INSERT INTO people (name, age, is_funny)
+VALUES ('Alice', 30, TRUE);
+```
+
+This statement inserts a new row into the `people` table. It specifies the values for `name` (`'Alice'`), `age` (30), and `is_funny` (TRUE). Since we listed the column names explicitly, the order of the values matches those columns.
+
+The `INSERT INTO` statement allows you to insert multiple rows at once.
+
+```sql
+INSERT INTO people (first_name, age, is_funny)
+VALUES ('Bob', 25, FALSE),
+       ('Charlie', 42, TRUE);
+```
+
+##### Read
+
+Let's say you want to see a list of all the people currently in your `people` table. Here's the command:
+
+```sql
+SELECT *
+FROM people;
+```
+
+The `*` symbol instructs PostgreSQL to select all columns from the `people` table, essentially giving you a complete picture of everyone stored within.
+
+Perhaps you're only interested in names and ages. You can modify the `SELECT` clause to specify the desired columns:
+
+```sql
+SELECT name, age
+FROM people;
+```
+
+This statement retrieves only the `name` and `age` columns from the `people` table.
+
+The `WHERE` clause is a powerful tool for narrowing down your search. Imagine you want to find all the funny people (those with `is_funny` set to TRUE).
+
+```sql
+SELECT *
+FROM people
+WHERE is_funny = TRUE;
+```
+
+You can even combine multiple `WHERE` conditions using logical operators (AND, OR, NOT) to create more specific filters. For instance, to find people older than 30 who are funny, you can use:
+
+```sql
+SELECT *
+FROM people
+WHERE age > 30 AND is_funny = TRUE;
+```
+
+Remember, the `WHERE` clause is optional, but it becomes invaluable when you want to target specific sets of data within your tables. By mastering `SELECT`, you'll be able to effectively retrieve and analyze information stored in your PostgreSQL database.
+
+##### Update
+
+As your PostgreSQL database grows with information, the need to update existing data becomes inevitable. The `UPDATE` statement empowers you to make changes to specific rows within your tables.
+
+Let's say we decide to update her Alice's age in the `people` table.
+
+```sql
+UPDATE people
+SET age = 31
+WHERE name = 'Alice';
+```
+
+This statement modifies the `age` column in the `people` table. It sets the new value to 31, but only for the row where `name` is 'Alice'. The `WHERE` clause ensures the update is targeted specifically.
+
+You can update multiple columns within a row at the same time.
+
+```sql
+UPDATE people
+SET age = 40, is_funny = TRUE
+WHERE name = 'Bob';
+```
+
+If you omit the `WHERE` clause, the `UPDATE` statement will modify all rows in the table. This can be useful for global updates, but it's essential to be sure about the changes you're making.
+
+```sql
+UPDATE people
+SET is_funny = FALSE;  -- Update everyone (be careful!)
+```
+
+This statement (without `WHERE`) would set `is_funny` to FALSE for all people in the table.
+
+##### Delete
+
+the basic of delete syntax:
+
+```sql
+DELETE FROM table_name
+WHERE condition;
+```
+
+Let's say a person has moved away and you no longer need their information in the `people` table.
+
+```sql
+DELETE FROM people
+WHERE name = 'Bob';
+```
+
+When your "People" table contains duplicate names, like multiple entries for "Bob," the `WHERE` clause in your `DELETE` statement becomes essential for precise deletion. To target the specific Bob you intend to remove, you can enhance the `WHERE` clause with additional criteria. A common approach is to use a unique identifier, like an `id` field, to pinpoint the exact Bob entry you want to delete.
+
+```sql
+DELETE FROM people
+WHERE name = 'BOB' AND id = 123 /* ID of the specific David you want to delete */;
+```
+
+Always double-check your `DELETE` statement, especially when targeting rows based on multiple criteria. Accidental deletions can be difficult to recover from.
+
+By mastering CRUD operations (Create, Read, Update, Delete) in PostgreSQL, or any other sql, you gain a fundamental skillset for effectively managing data within your database. You can create well-structured tables, insert and retrieve information, modify existing data, and even remove unwanted entries. This empowers you to build and interact with your PostgreSQL database with confidence.

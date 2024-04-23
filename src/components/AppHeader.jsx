@@ -138,32 +138,6 @@ const AppHeader = () => {
         {modal.search && <SearchModal setModal={setModal} />}
         {modal.trivia && <TriviaModal setModal={setModal} />}
       </div>
-
-      {/* {sideNav && (
-        <div className="fixed top-0 left-0 z-10 grid w-full h-full grid-cols-5">
-        <div
-            className="col-span-2 opacity-10 bg-dark"
-            onClick={toggleSideNav}
-          ></div>
-          <div className={`col-span-3 pt-16 bg-whisper dark:bg-dark`}>
-            <ul className="flex flex-col px-3 text-4xl gap-9">
-              {navItems.map((item) => (
-                <li
-                  key={nanoid()}
-                  className="hover:cursor-pointer dark:text-dark hover:text-primary dark:hover:text-primary"
-                >
-                  <Link href={item.href}>{item.title}</Link>
-                </li>
-              ))}
-              <li onClick={toggleTheme}>
-                <div className="w-8 h-auto hover:cursor-pointer hover:text-primary">
-                  {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
