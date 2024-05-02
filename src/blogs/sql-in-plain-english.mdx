@@ -35,10 +35,11 @@ CREATE TABLE People (
 
 Let's break down the code:
 
-- `CREATE TABLE Person`: This defines that we're creating a new table named `People`.
+`CREATE TABLE Person`: This defines that we're creating a new table named `People`.
 
-- `id SERIAL PRIMARY KEY`: This creates a column named `id` with the `SERIAL` data type. `SERIAL` is a special data type in PostgreSQL that automatically generates a unique integer value for each new row inserted into the table. We also designate it as the `PRIMARY KEY`, ensuring each person has a unique identifier.
-- `name VARCHAR(255) NOT NULL`: This creates a column named `name` with the `VARCHAR(255)` data type.
+`id SERIAL PRIMARY KEY`: This creates a column named `id` with the `SERIAL` data type. `SERIAL` is a special data type in PostgreSQL that automatically generates a unique integer value for each new row inserted into the table. We also designate it as the `PRIMARY KEY`, ensuring each person has a unique identifier.
+
+`name VARCHAR(255) NOT NULL`: This creates a column named `name` with the `VARCHAR(255)` data type.
 
 Now that you have a well-structured `people` table in PostgreSQL, let's explore how to populate it with data! The `INSERT INTO` statement comes into play for this purpose.
 

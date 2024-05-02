@@ -1,0 +1,75 @@
+---
+title: Supercharge Your React Forms with Server Actions
+customID: 3c15d5f5-05ba-4dcf-a412-6e68a0f0ceb2
+tags: ["nextjs"]
+---
+
+Let's jump right in! Startup your terminal, grab a coffee and create a nextjs application. We'll get into the bread and butter of creating forms with Next.js 14 with server actions.
+
+##### A Brief History
+
+Coming from React, the `onSubmit` prop might be your go-to for handling form submissions. But Next.js 14 takes a different approach, where the classic `action` attribute, which defines the URL for form data submission, comes back into play.
+
+```html
+<form action="URL" onSubmit="{handleSubmit}"></form>
+```
+
+The `onSubmit` prop allows you to attach a JavaScript function that executes before the default submission. We typically use it for client-side validation and data processing. The `action` attribute specifies the URL where the form data will be sent upon submission.
+
+##### Old but New
+
+Next.js 14 extends the form element to allow Server Actions to be invoked with the `action` prop. You can now pass a function directly to `action` to handle form data on the server-side.
+
+```jsx
+<form action={action}></form>
+```
+
+Functions that run on the server-side, triggered by a client-side event (like a form submission), are called `server actions`.
+
+```ts
+"use server";
+
+export async function action() {
+  // handle submission
+}
+```
+
+In Next.js, we use the `use server` directive at the top of a function within a module to mark it as a server action. All the logic within this function executes exclusively on the server. For example, any logging performed within the function will only occur on the server and won't be visible in the browser console.
+
+##### An Example
+
+Let's say we have a form to add a todo (how typical), here is its glorious self:
+
+```tsx
+<form">
+	<input name="todo" type="text" />
+        <button type="submit">Add</button>
+</form>
+```
+
+We also have a server action to handle data at submission:
+
+```ts
+"use server";
+
+export const addTodo = async (formData: FormData) => {
+  const name = formData.get("todo");
+  console.log(name);
+};
+```
+
+On the client-side you don't need to use React `useState` to manage fields in the form, instead, you can extract the data using the native `FormData` methods. This approach creates an uncontrolled form.
+
+To use the server function, we import it and pass it to the `action` attribute.
+
+```tsx
+import { addTodo } from "./actions/message.actions";
+// some code...
+<form">
+	<input action={addTodo} name="todo" type="text" />
+       <button type="submit">Add</button>
+</form>
+// some code...
+```
+
+If you run this code and submit the form, you should see something logged in the terminal. In this example, we simply log the user's input. However, remember that server actions run exclusively on the server-side (this code does not get sent to the client), allowing you to perform much more complex and resource-intensive calculations, data handling, or any other server-side tasks you need. Don't hesitate to leverage this power!
