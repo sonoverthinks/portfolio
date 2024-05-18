@@ -1,0 +1,132 @@
+---
+title: Unveiling the Power of React Server Components and Server Actions
+customID: 3f59428d-8bb2-405b-9afc-9e748e1ef823
+tags: ["nextjs", "react"]
+---
+
+Let's create a button in Next.js inside the app directory.
+
+```tsx
+const Button = () => {
+  return <button>Click me</button>;
+};
+```
+
+Click on it, but as expected, it does absolutely nothing. To make it responsive, we need to add an event handler to the button. In our case, we want it to log "hello" when clicked. Here's how we do it.
+
+```tsx
+const sayHello = () => {
+  console.log("hello");
+};
+const Button = () => {
+  return <button onClick={sayHello}>Click me</button>;
+};
+```
+
+This code looks fine and should work. However, it does not. Weird. The issue lies with the Next.js app directory. Components created there are React Server Components by default, which behaves a bit differently than the traditional React components we're used to. To disable this behavior, we add "use client" at the top of the file.
+
+```tsx
+"use client";
+
+const sayHello = () => {
+  console.log("hello");
+};
+const Button = () => {
+  return <button onClick={sayHello}>Click me</button>;
+};
+```
+
+Great! This code runs without runtime errors thanks to the `use client` directive. It effectively converts React Server Components into the regular components we're familiar with. But why do we have to use the "use client" directive? what are React Server Components (RSCs)? In essence, RSCs are components that render on the server-side before reaching the client's browser. Since this rendering happens outside the browser environment, user interactions like clicking aren't supported. This explains why the `onClick` event handler wouldn't work with RSCs.
+
+Let's summarize what we've observed so far:
+
+- In the Next.js app directory, components are React Server Components by default.
+- To disable this behavior, we add the "use client" directive at the top of the file containing that component.
+- RSCs are not hydrated after reaching the browser.
+- RSCs do not support user interactivity.
+
+Why should I use RSCs over regular components, now called React Client Components? To gain a deeper understanding of RSCs, let's remove the "use client" directive and see if we can make the `sayHello` function work within an RSC.
+
+```tsx
+const sayHello = () => {
+  console.log("hello");
+};
+const Button = () => {
+  return <button onClick={sayHello}>Click me</button>;
+};
+```
+
+First, let's make the `sayHello` function asynchronous and add the `use server` directive.
+
+```tsx
+const sayHello = async () => {
+  "use server";
+  console.log("hello");
+};
+```
+
+We cannot pass the `sayHello` function directly to an event handler in a React Server Component (RSC). However, we can achieve a similar effect by wrapping the button in a form and setting the `sayHello` function as the `action` prop. This works because React extends the behavior of the HTML `<form>` element to allow functions, specifically server actions, to be invoked using the `action` prop.
+
+```tsx
+const sayHello = async () => {
+  "use server";
+  console.log("hello");
+};
+const Button = () => {
+  return (
+    <form action={sayHello}>
+      <button type="submit">Click me</button>
+    </form>
+  );
+};
+```
+
+Now, run this code and click the button. Look at the browser – you won't see anything happen. But wait, check the terminal's console – you'll see "hello" logged there!
+
+- By making the `sayHello` function asynchronous and adding the `"use server"` directive, we effectively turn it into a `server action`.
+- Server-side actions can then be passed as the `action` prop in a form.
+- `server actions` run on the server NOT the browser.
+
+##### An Expensive Use Case
+
+We can leverage the fact that server actions run on the server to run expensive calculation. Let's modify our `sayHello` function to simulate calculating the factorial of a very large number.
+
+```tsx
+const factorial = async () => {
+  "use server";
+  // let's pretend it takes 3 seconds to calculate the factorial on n
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log("The factorial of n is ★★★");
+};
+```
+
+Since we're working with a form, let's modify our code to submit data to the server action.
+
+```tsx
+const sayHello = async (formData: FormData) => {
+  "use server";
+  const number = formData.get("number");
+  // let's pretend it takes 3 seconds to calculate the factorial of n
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const message = `The factorial of ${number} is ★★★`;
+  console.log(message);
+};
+const Button = () => {
+  return (
+    <form action={sayHello}>
+      {/* we don't need to keep track of the state of this input */}
+      <input type="text" name="number" />
+      <button type="submit">Click me</button>
+    </form>
+  );
+};
+```
+
+If you run this code, click the button, and then patiently check the terminal's console after 3 seconds. You should see something logged there.
+
+Perfect! Let's summarize what we've done so far:
+
+- `Server actions`, which run exclusively on the server, allow us to offload expensive calculations.
+- Data is extracted directly from the form using native `formData` methods within the server action. This eliminates the need to manage form state with `useState`.
+
+RSCs on their own aren't exactly magical or revolutionary, but when used together with server actions, they offer complementary advantages for building web applications. While we've focused on offloading expensive computations to the server, RSCs and server actions also excel at handling secure data and data validation.
