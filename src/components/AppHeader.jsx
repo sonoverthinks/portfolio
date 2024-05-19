@@ -15,7 +15,7 @@ const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [modal, setModal] = useState({
     search: false,
-    trivia: false,
+    trivia: true,
   });
   // const [sideNav, toggleSideNav] = useToggle();
   const comboK = useComboKeyPress("k");

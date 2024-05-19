@@ -76,7 +76,7 @@ export const getStaticProps = async () => {
     content: 0,
   };
   // get the most recent blogs and unique tags
-  const limit = 5;
+  const limit = 10;
   const allTags = [];
   const recentBlogsResult = await Blog.find({}, project)
     .sort("-createdAt")
