@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-function useComboKeyPress(targetKey) {
+function useComboKeyPress(targetKey, setKeyPressed, modalName) {
   // State for keeping track of whether key is pressed
-  const [keyPressed, setKeyPressed] = useState(false);
+  // const [keyPressed, setKeyPressed] = useState(false);
   // If pressed key is our target key then set to true
   function downHandler(event) {
     if (event.key === targetKey && event.ctrlKey) {
@@ -18,7 +18,7 @@ function useComboKeyPress(targetKey) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty array ensures that effect is only run on mount and unmount
-  return keyPressed;
+  // return keyPressed;
 }
 
 function useKeyPress(targetKey) {

@@ -7,20 +7,17 @@ import { SearchIcon } from "./svgComponents";
 import { FlashIcon } from "./svgComponents";
 import { navItems } from "@/data";
 import { useComboKeyPress } from "@/hooks/useKeyPress";
-import { useToggle } from "@/hooks/useToggle";
 import SearchModal from "./SearchModal";
 import TriviaModal from "./TriviaModal";
 
 const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
-  const [search, setSearch] = useState(false);
-  const [modal, setModal] = useState({
-    search: false,
-    trivia: true,
-  });
-  // const [sideNav, toggleSideNav] = useToggle();
-  const comboK = useComboKeyPress("k");
-  const comboJ = useComboKeyPress("j");
+
+  const [searchModal, setSearchModal] = useState(false);
+  const [triviaModal, setTriviaModal] = useState(false);
+  useComboKeyPress("k", setSearchModal);
+  useComboKeyPress("j", setTriviaModal);
+
   const { theme, setTheme } = useTheme();
   const toggleTheme = () => {
     if (theme === "dark") {
@@ -36,39 +33,8 @@ const AppHeader = () => {
     };
   });
 
-  useEffect(() => {
-    if (comboJ) {
-      setModal((prevModalState) => {
-        return {
-          trivia: !prevModalState.trivia,
-          search: false,
-        };
-      });
-    }
-  }, [comboJ]);
-
-  useEffect(() => {
-    // if (comboK) {
-    //   setModal((prevModalState) => {
-    //     return {
-    //       trivia: false,
-    //       search: !prevModalState.search,
-    //     };
-    //   });
-    // }
-    setSearch((prev) => {
-      return !prev;
-    });
-  }, [comboK]);
-
   return (
     <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
-      {/* <div
-          className="z-20 w-8 h-auto lg:hidden hover:cursor-pointer"
-          onClick={toggleSideNav}
-        >
-          {!sideNav ? <MenuIcon /> : <CloseIcon />}
-        </div> */}
       <div>
         <ul className="items-center gap-4 text-[18px] leading-[33px] font-normal flex">
           {navItems.map((item) => (
@@ -86,13 +52,10 @@ const AppHeader = () => {
         </ul>
       </div>
       <div className="flex items-center gap-3">
-        {/* <div
+        <div
           onClick={() => {
-            setModal((prevModalState) => {
-              return {
-                trivia: !prevModalState.trivia,
-                search: false,
-              };
+            setTriviaModal((prev) => {
+              return !prev;
             });
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
@@ -101,16 +64,10 @@ const AppHeader = () => {
             <FlashIcon />
           </div>
           <p className="hidden md:block text-[12px]">[Ctrl J]</p>
-        </div> */}
+        </div>
         <div
           onClick={() => {
-            // setModal((prevModalState) => {
-            //   return {
-            //     trivia: false,
-            //     search: !prevModalState.search,
-            //   };
-            // });
-            setSearch((prev) => {
+            setSearchModal((prev) => {
               return !prev;
             });
           }}
@@ -143,8 +100,8 @@ const AppHeader = () => {
           </span>
         </p>
         {/* {modal.search && <SearchModal setModal={setModal} />} */}
-        {search && <SearchModal setSearch={setSearch} />}
-        {/* {modal.trivia && <TriviaModal setModal={setModal} />} */}
+        {searchModal && <SearchModal setSearchModal={setSearchModal} />}
+        {triviaModal && <TriviaModal setTriviaModal={setTriviaModal} />}
       </div>
     </div>
   );

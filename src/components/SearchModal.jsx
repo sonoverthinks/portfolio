@@ -2,24 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { useKeyPress } from "@/hooks/useKeyPress";
+// import { useKeyPress } from "@/hooks/useKeyPress";
 import { EnterIcon } from "./svgComponents";
 
-const SearchModal = ({ setSearch }) => {
+const SearchModal = ({ setSearchModal }) => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const exitModal = useKeyPress("Escape");
-
-  // useEffect(() => {
-  //   setSearchText("");
-  //   // setModal((prevModalState) => {
-  //   //   return {
-  //   //     trivia: false,
-  //   //     search: !prevModalState.search,
-  //   //   };
-  //   // });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [exitModal]);
 
   useEffect(() => {
     (async () => {
@@ -45,13 +33,7 @@ const SearchModal = ({ setSearch }) => {
       <div
         className="absolute w-full h-full"
         onClick={() => {
-          // setModal((prevModalState) => {
-          //   return {
-          //     trivia: false,
-          //     search: !prevModalState.search,
-          //   };
-          // });
-          setSearch((prev) => {
+          setSearchModal((prev) => {
             return !prev;
           });
         }}
@@ -72,21 +54,14 @@ const SearchModal = ({ setSearch }) => {
           console.log(typeof item.createdAt);
           return (
             <Link
+              onClick={() => {
+                setSearchModal(false);
+              }}
               className="z-50 flex flex-col items-start w-full gap-2 p-3 rounded-md bg-light-charcoal group"
               href={link}
               key={item._id}
             >
-              <div
-                className="w-full h-auto"
-                onClick={() => {
-                  setModal((prevModalState) => {
-                    return {
-                      trivia: false,
-                      search: !prevModalState.search,
-                    };
-                  });
-                }}
-              >
+              <div className="w-full h-auto">
                 <p className="w-full text-base text-light-ghost-white">
                   {item.title}
                 </p>
