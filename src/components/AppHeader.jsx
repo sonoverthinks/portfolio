@@ -13,6 +13,7 @@ import TriviaModal from "./TriviaModal";
 
 const AppHeader = () => {
   const [currentPath, setCurrentPath] = useState("");
+  const [search, setSearch] = useState(false);
   const [modal, setModal] = useState({
     search: false,
     trivia: true,
@@ -47,14 +48,17 @@ const AppHeader = () => {
   }, [comboJ]);
 
   useEffect(() => {
-    if (comboK) {
-      setModal((prevModalState) => {
-        return {
-          trivia: false,
-          search: !prevModalState.search,
-        };
-      });
-    }
+    // if (comboK) {
+    //   setModal((prevModalState) => {
+    //     return {
+    //       trivia: false,
+    //       search: !prevModalState.search,
+    //     };
+    //   });
+    // }
+    setSearch((prev) => {
+      return !prev;
+    });
   }, [comboK]);
 
   return (
@@ -82,7 +86,7 @@ const AppHeader = () => {
         </ul>
       </div>
       <div className="flex items-center gap-3">
-        <div
+        {/* <div
           onClick={() => {
             setModal((prevModalState) => {
               return {
@@ -97,14 +101,17 @@ const AppHeader = () => {
             <FlashIcon />
           </div>
           <p className="hidden md:block text-[12px]">[Ctrl J]</p>
-        </div>
+        </div> */}
         <div
           onClick={() => {
-            setModal((prevModalState) => {
-              return {
-                trivia: false,
-                search: !prevModalState.search,
-              };
+            // setModal((prevModalState) => {
+            //   return {
+            //     trivia: false,
+            //     search: !prevModalState.search,
+            //   };
+            // });
+            setSearch((prev) => {
+              return !prev;
             });
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
@@ -135,8 +142,9 @@ const AppHeader = () => {
             dark
           </span>
         </p>
-        {modal.search && <SearchModal setModal={setModal} />}
-        {modal.trivia && <TriviaModal setModal={setModal} />}
+        {/* {modal.search && <SearchModal setModal={setModal} />} */}
+        {search && <SearchModal setSearch={setSearch} />}
+        {/* {modal.trivia && <TriviaModal setModal={setModal} />} */}
       </div>
     </div>
   );
