@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-function useComboKeyPress(targetKey, setKeyPressed, modalName) {
+function useComboKeyPress(targetKey, setKeyPressed) {
   // State for keeping track of whether key is pressed
   // const [keyPressed, setKeyPressed] = useState(false);
   // If pressed key is our target key then set to true

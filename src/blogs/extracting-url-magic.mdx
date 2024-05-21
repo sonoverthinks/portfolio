@@ -1,0 +1,44 @@
+---
+title: "Extracting URL Magic"
+customID: 85cde18a-3356-4bad-bf63-d7d0b99822bb
+tags: ["nextjs"]
+---
+
+Let's dive into working with dynamic route parameters (params) in a Next.js application. If you don't have one already, create a new Next.js project. Inside the `app` directory, create a folder named `[slug]`. Within the `[slug]` folder, create a file named `page.tsx`.
+
+This structure, `app/[slug]/page.js`, translates to a dynamic URL `http://localhost:3000/[slug]` in your local environment.
+
+To access the dynamic route parameter (the slug), we leverage the `params` prop. This object object containing the dynamic route parameters from the root segment down to that page. Copy and paste this snippet to `app/[slug]/page.js` file.
+
+```tsx
+type Params = {
+  slug?: string;
+};
+const Page = ({ params }: { params: Params }) => {
+  return <p>{params.slug}</p>;
+};
+export default Page;
+```
+
+Now, visit `http://localhost:3000/[slug]` in your browser, replacing `[slug]` with any value. You'll see the provided value displayed.
+
+Similarly, the `searchParams` prop grants access to the current URL's search parameters. Copy and paste this snippet into your `app/[slug]/page.js` file.
+
+```tsx
+type SearchParams = {
+  query?: string;
+};
+const Page = ({ searchParams }: { searchParams: SearchParams }) => {
+  return <p>{searchParams.query}</p>;
+};
+export default Page;
+```
+
+Visit `http://localhost:3000/[slug]?query=hello`, replacing `[slug]` with any value. You'll see "hello" displayed in your browser.
+
+Here are a couple of advantages to using `searchParams` for search state management compared to client-side state:
+
+- URLs with search queries can be bookmarked, allowing for easy sharing and future reference.
+- URL parameters can be directly consumed on the server to render the initial state.
+
+One of the things I love the most about `params` and `searchParams` is the ability to avoid managing search state on the client-side. This significantly improves developer experience (DX) – a big shout-out to the Next.js team!

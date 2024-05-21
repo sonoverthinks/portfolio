@@ -11,8 +11,27 @@ import SearchModal from "./SearchModal";
 import TriviaModal from "./TriviaModal";
 
 const AppHeader = () => {
+  const [modal, setModal] = useState({
+    search: false,
+    trivia: false,
+  });
+  const toggleSearch = () => {
+    setModal((prev) => {
+      return {
+        search: !prev.search,
+        trivia: false,
+      };
+    });
+  };
+  const toggleTrivia = () => {
+    setModal((prev) => {
+      return {
+        search: false,
+        trivia: !prev.trivia,
+      };
+    });
+  };
   const [currentPath, setCurrentPath] = useState("");
-
   const [searchModal, setSearchModal] = useState(false);
   const [triviaModal, setTriviaModal] = useState(false);
   useComboKeyPress("k", setSearchModal);
@@ -54,9 +73,10 @@ const AppHeader = () => {
       <div className="flex items-center gap-3">
         <div
           onClick={() => {
-            setTriviaModal((prev) => {
-              return !prev;
-            });
+            // setTriviaModal((prev) => {
+            //   return !prev;
+            // });
+            toggleTrivia();
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
@@ -67,9 +87,10 @@ const AppHeader = () => {
         </div>
         <div
           onClick={() => {
-            setSearchModal((prev) => {
-              return !prev;
-            });
+            // setSearchModal((prev) => {
+            //   return !prev;
+            // });
+            toggleSearch();
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >
