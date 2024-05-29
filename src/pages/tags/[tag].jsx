@@ -1,7 +1,7 @@
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import LinkTag from "@/components/LinkTag";
-import Article from "@/components/Title";
+import Title from "@/components/Title";
 
 const Tag = ({ blogs }) => {
   return (
@@ -11,7 +11,7 @@ const Tag = ({ blogs }) => {
       </div>
       <div className="flex flex-col w-full gap-2 mt-3">
         {blogs.map((blog) => {
-          return <Article key={blog.customID} blog={blog} />;
+          return <Title key={blog.customID} data={blog} />;
         })}
       </div>
     </div>
