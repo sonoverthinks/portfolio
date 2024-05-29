@@ -16,4 +16,4 @@ const schema = new Schema({
   },
 });
 
-export default mongoose.models.note || model("note", schema);
+export default mongoose.models?.project || model("project", schema);

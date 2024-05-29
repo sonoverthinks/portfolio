@@ -1,9 +1,7 @@
 import connectDB from "@/mongoose/connectDB";
-import Link from "next/link";
 import Blog from "@/mongoose/models/Blog";
-import { nanoid } from "nanoid";
 import LinkTag from "@/components/LinkTag";
-import Article from "@/components/Article";
+import Article from "@/components/Title";
 
 const Tag = ({ blogs }) => {
   return (

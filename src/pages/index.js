@@ -3,15 +3,18 @@ import readingTime from "reading-time";
 import { triviaData } from "@/data";
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
+import Project from "@/mongoose/models/Project";
 import Trivia from "@/mongoose/models/Trivia";
 import readBlogFiles from "@/utils/readBlogs";
 import getBlogFileNames from "@/utils/getBlogFileNames";
 import LinkTag from "@/components/LinkTag";
-import Article from "@/components/Article";
+import Title from "@/components/Title";
+import readProjectFiles from "@/utils/readProjects";
+import getProjectFileNames from "@/utils/getProjectFileNames";
 
 const Home = ({ recentBlogs, uniqueTags }) => {
   return (
-    <main className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
+    <div className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
       <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
         {uniqueTags.map((tag) => {
           return <LinkTag key={tag} href={`/tags/${tag}`} title={`${tag}`} />;
@@ -19,10 +22,10 @@ const Home = ({ recentBlogs, uniqueTags }) => {
       </div>
       <div className="flex flex-col gap-2 mt-3">
         {recentBlogs.map((blog) => {
-          return <Article key={blog.customID} blog={blog} />;
+          return <Title key={blog.customID} data={blog} source="blog" />;
         })}
       </div>
-    </main>
+    </div>
   );
 };
 
@@ -58,6 +61,30 @@ export const getStaticProps = async () => {
   }));
   await Blog.bulkWrite(blogOperations);
 
+  // PORTFOLIO
+  const projectNames = getProjectFileNames();
+  const allParsedProjects = projectNames.map((fileName) => {
+    const slug = fileName.replace(".mdx", "");
+    const parsedFile = readProjectFiles(fileName);
+    const { data, content } = matter(parsedFile);
+    data.slug = slug;
+    data.content = content;
+    return data;
+  });
+
+  const projectOperations = allParsedProjects.map((project) => ({
+    updateOne: {
+      filter: { customID: project.customID },
+      update: {
+        $set: project,
+      },
+      upsert: true,
+      setDefaultOnInsert: true,
+    },
+  }));
+  await Project.bulkWrite(projectOperations);
+
+  // TRIVIAS
   const triviaBulkUpdateArray = triviaData.map((trivia) => ({
     updateOne: {
       filter: { customID: trivia.customID },
