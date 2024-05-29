@@ -14,8 +14,9 @@ import EnterIcon from "./EnterIcon";
 import FlashIcon from "./FlashIcon";
 import Divider from "./Divider";
 import Loader from "./Loader";
-
+import GithubIcon from "./GithubIcon";
 export {
+  GithubIcon,
   CloseIcon,
   LeftArrowIcon,
   LinkedinIcon,

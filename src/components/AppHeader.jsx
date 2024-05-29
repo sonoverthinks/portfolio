@@ -120,7 +120,6 @@ const AppHeader = () => {
             dark
           </span>
         </p>
-        {/* {modal.search && <SearchModal setModal={setModal} />} */}
         {searchModal && <SearchModal setSearchModal={setSearchModal} />}
         {triviaModal && <TriviaModal setTriviaModal={setTriviaModal} />}
       </div>
