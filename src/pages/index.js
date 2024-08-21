@@ -11,10 +11,14 @@ import LinkTag from "@/components/LinkTag";
 import Title from "@/components/Title";
 import readProjectFiles from "@/utils/readProjects";
 import getProjectFileNames from "@/utils/getProjectFileNames";
+import Head from "next/head";
 
 const Home = ({ recentBlogs, uniqueTags }) => {
   return (
     <div className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
+      <Head>
+        <title>Sonoverthinks</title>
+      </Head>
       <div className="flex flex-wrap items-center w-full gap-3 justify-normal">
         {uniqueTags.map((tag) => {
           return <LinkTag key={tag} href={`/tags/${tag}`} title={`${tag}`} />;

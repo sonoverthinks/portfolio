@@ -76,6 +76,9 @@ const AppHeader = () => {
             // setTriviaModal((prev) => {
             //   return !prev;
             // });
+            setTriviaModal((prev) => {
+              return !prev;
+            });
             toggleTrivia();
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
@@ -90,7 +93,10 @@ const AppHeader = () => {
             // setSearchModal((prev) => {
             //   return !prev;
             // });
-            toggleSearch();
+            setSearchModal((prev) => {
+              return !prev;
+            });
+            // toggleSearch();
           }}
           className="flex items-center gap-1 hover:cursor-pointer hover:text-light-blue dark:hover:text-dark-blue"
         >

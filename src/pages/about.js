@@ -12,15 +12,20 @@ const About = ({ mdxSource, data }) => {
   // console.log("🚀 ~ About ~ mdxSource:", mdxSource);
   return (
     <>
-      <div className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-row gap-6 justify-between">
-        <div className="min-w-[250px] h-[330px] bg-sky-100 rounded-md hidden sm:block relative overflow-hidden drop-shadow-lg brightness-75">
-          <Image src="/son_selfie34_final.jpg" alt="selfie" fill />
-        </div>
+      <div className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-6 justify-between items-center">
+        {/* <div className="min-w-[250px] h-[330px] bg-sky-100 rounded-md hidden sm:block relative overflow-hidden drop-shadow-lg brightness-75"> */}
+        <Image
+          className="rounded-full"
+          src="/selfie.jpg"
+          alt="selfie"
+          height={140}
+          width={140}
+        />
+        <AppFooter />
         <div className="w-auto mr-auto">
           <MDXRemote {...mdxSource} components={components} />
         </div>
       </div>
-      <AppFooter />
     </>
   );
 };
