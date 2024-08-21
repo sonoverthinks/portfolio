@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>About me</title>
         <link rel="shortcut icon" href="code.svg" />
       </Head>
       <body>
