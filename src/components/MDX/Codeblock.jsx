@@ -14,7 +14,10 @@ const Codeblock = ({ children }) => {
   return (
     <Highlight theme={themes.palenight} code={code.trim()} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div className="w-full my-5 sm:text-[15px] sm:leading-[20px] md:text-[16px] md:leading-[22px] lg:text-[17px] lg:leading-[24px]">
+        <div
+          onClick={() => {}}
+          className="w-full my-5 sm:text-[15px] sm:leading-[20px] md:text-[16px] md:leading-[22px] lg:text-[17px] lg:leading-[24px]"
+        >
           <pre
             className="relative p-3 overflow-x-auto rounded-lg group"
             style={style}

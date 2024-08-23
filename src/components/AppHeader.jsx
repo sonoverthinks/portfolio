@@ -53,7 +53,7 @@ const AppHeader = () => {
   });
 
   return (
-    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 text-light-teal-blue dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
+    <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
       <div>
         <ul className="items-center gap-4 text-[18px] leading-[33px] font-normal flex">
           {navItems.map((item) => (
