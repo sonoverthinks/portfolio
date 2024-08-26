@@ -33,7 +33,7 @@ export const blogTitles = [
 ];
 ```
 
-Next, we'll build two essential components: `Search.tsx` and `Blogs.tsx`. The `Search.tsx` component will handle user input and trigger the search functionality with URL search params. The `Blogs.tsx` component will display the search results based on the user's query. 		
+Next, we'll build two essential components: `Search.tsx` and `Blogs.tsx`. The `Search.tsx` component will handle user input and trigger the search functionality with URL search params. The `Blogs.tsx` component will display the search results based on the user's query.
 
 First let's implement a simple search bar.
 
@@ -87,7 +87,7 @@ Next, we import `useSearchParams`,`usePathname`, and `useRouter` hooks from `nex
 ```tsx
 // src/app/components/Search.tsx
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 ```
 
 Assign `useSearchParams` hook to a variable, and create a new `URLSearchParams` instance using the new variable we just created inside `handleSearch` .
@@ -97,7 +97,7 @@ Assign `useSearchParams` hook to a variable, and create a new `URLSearchParams` 
 export default function Search() {
   const searchParams = useSearchParams();
   function handleSearch(term: string) {
-  	const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams);
   }
   // ...
 }
@@ -110,18 +110,18 @@ Next, we `set` the params string based on the user’s input. If the input is em
 ```tsx
 // src/app/components/Search.tsx
 // ...
- function handleSearch(term: string) {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set('query', term);
-    } else {
-      params.delete('query');
-    }
+function handleSearch(term: string) {
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set("query", term);
+  } else {
+    params.delete("query");
   }
+}
 // ...
 ```
 
-We use the `replace` method from `useRouter()` inside `handleSearch` to updates the URL with the user's search data. 
+We use the `replace` method from `useRouter()` inside `handleSearch` to updates the URL with the user's search data.
 
 ##### Synchronizing the URL and input
 
@@ -136,7 +136,7 @@ To ensure the input field is in sync with the URL, pass a `defaultValue` to inpu
   onChange={(e) => {
     handleSearch(e.target.value);
   }}
-  defaultValue={searchParams.get('query')?.toString()}
+  defaultValue={searchParams.get("query")?.toString()}
 />
 // ...
 ```
@@ -189,24 +189,27 @@ We modify the `handleSearch` function to incorporate a debounce mechanism to opt
 const handleSearch = useDebouncedCallback((term) => {
   const params = new URLSearchParams(searchParams);
   if (term) {
-    params.set('query', term);
+    params.set("query", term);
   } else {
-    params.delete('query');
+    params.delete("query");
   }
   replace(`${pathname}?${params.toString()}`);
 }, 300);
 // ...
 ```
 
-This code ensures that the code within the `handleSearch` function executes  300 milliseconds after the user has finished typing.
+This code ensures that the code within the `handleSearch` function executes 300 milliseconds after the user has finished typing.
 
 ##### Summary.
 
 To summarize, we successfully implemented search with URL search parameters by:
 
-1. **Capturing user input:** We monitored user input from the search field.
-2. **Updating the URL:** We dynamically updated the URL to include the search query as a parameter.
-3. **Synchronizing input and URL:** We ensured that the input field and URL remained consistent, reflecting the current search term.
-4. **Updating the UI:** We refreshed the user interface to display results based on the search query.
+- **Capturing user input:** We monitored user input from the search field.
+
+- **Updating the URL:** We dynamically updated the URL to include the search query as a parameter.
+
+- **Synchronizing input and URL:** We ensured that the input field and URL remained consistent, reflecting the current search term.
+
+- **Updating the UI:** We refreshed the user interface to display results based on the search query.
 
 Additionally, we incorporated a debounce mechanism to enhance performance and prevent excessive function calls, resulting in a more responsive and efficient search experience. Thank you for reading!
