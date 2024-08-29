@@ -1,5 +1,5 @@
 ---
-title: Essential TypeScript Prop Types 
+title: Essential TypeScript Prop Types
 customID: 2c224100-788f-4e72-9154-a0091d75a908
 tags: [typescript, react]
 ---
@@ -40,7 +40,6 @@ const page = () => {
   );
 };
 // ...
-
 ```
 
 ##### Expanding Prop Types
@@ -89,7 +88,7 @@ To make our component code cleaner, we can destructure the props directly in the
 
 ```tsx
 //...
-const Greet = ({name, age, isStudent, hobbies, address}: GreetProps) => {
+const Greet = ({ name, age, isStudent, hobbies, address }: GreetProps) => {
   return (
     <div>
       <h1>Hello, {name}!</h1>
@@ -148,7 +147,7 @@ Now let's explore some more advanced prop types that you'll often encounter in R
 
 ##### Function Props
 
-Function props are commonly used for callbacks and event handlers. 
+Function props are commonly used for callbacks and event handlers.
 
 ```tsx
 "use client";
@@ -238,7 +237,6 @@ const page = () => {
 };
 
 export default page;
-
 ```
 
 This approach ensures that `status` can only be one of the specified values, providing type safety and autocompletion in your IDE.
@@ -249,5 +247,4 @@ TypeScript's type system allows for precise and flexible typing of React props. 
 
 Remember to experiment with these concepts and adapt them to your specific use cases. As you become more comfortable with these patterns, you'll find yourself writing more reliable and maintainable React applications.
 
-Happy coding!
-
+Thank you for reading and happy coding!
