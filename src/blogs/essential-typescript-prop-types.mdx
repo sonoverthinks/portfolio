@@ -1,0 +1,253 @@
+---
+title: Essential TypeScript Prop Types 
+customID: 2c224100-788f-4e72-9154-a0091d75a908
+tags: [typescript, react]
+---
+
+React and TypeScript are a powerful combination for building robust web applications. In this blog post, we'll explore how to use TypeScript with React, focusing on defining and using prop types. We'll cover everything from basic prop types to more advanced concepts like children props, union types, and function props.
+
+##### Getting Started with Basic Props Types
+
+Let's start with a simple example of how to define prop types for a React component using Typescript.
+
+```tsx
+type GreetProps = {
+  name: string;
+};
+
+const Greet = (props: GreetProps) => {
+  return <h1>Hello, {props.name}!</h1>;
+};
+```
+
+In this example, we've defined a `GreetProps` type with a single property `name` of type `string`. We then use this type to specify the props for our `Greet` component.
+
+```tsx
+// ...
+type GreetProps = {
+  name: string;
+};
+
+const Greet = (props: GreetProps) => {
+  return <h1>Hello, {props.name}!</h1>;
+};
+
+const page = () => {
+  return (
+    <div>
+      <Greet name="John" />
+    </div>
+  );
+};
+// ...
+
+```
+
+##### Expanding Prop Types
+
+Now, let's expand our `GreetProps` to include other basic prop types:
+
+```tsx
+// ...
+type GreetProps = {
+  name: string;
+  age: number;
+  isStudent: boolean;
+  hobbies: string[];
+  address: {
+    street: string;
+    city: string;
+  };
+};
+
+const Greet = (props: GreetProps) => {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Age: {props.age}</p>
+      <p>Student: {props.isStudent ? "Yes" : "No"}</p>
+      <p>Hobbies: {props.hobbies.join(", ")}</p>
+      <p>
+        Address: {props.address.street}, {props.address.city}
+      </p>
+    </div>
+  );
+};
+// ...
+```
+
+In this expanded example, we've added:
+
+- `age` as a `number`
+- `isStudent` as a `boolean`
+- `hobbies` as an array of strings
+- `address` as an object with `street` and `city` properties
+
+##### Destructuring Props
+
+To make our component code cleaner, we can destructure the props directly in the function parameters:
+
+```tsx
+//...
+const Greet = ({name, age, isStudent, hobbies, address}: GreetProps) => {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      <p>Age: {age}</p>
+      <p>Student: {isStudent ? "Yes" : "No"}</p>
+      <p>Hobbies: {hobbies.join(", ")}</p>
+      <p>
+        Address: {address.street}, {address.city}
+      </p>
+    </div>
+  );
+};
+// ...
+```
+
+This approach can make your code more readable, especially when you're using many props.
+
+##### Optional Props
+
+In many cases, you might want to make some props optional. Optional means that a prop can be provided or omitted without causing an error. You can do this by adding a `?` after the prop name.
+
+```tsx
+type GreetProps = {
+  name: string;
+  age?: number;
+  isStudent?: boolean;
+  hobbies?: string[];
+  address?: {
+    street: string;
+    city: string;
+  };
+};
+
+const Greet = ({ name, age, isStudent, hobbies, address }: GreetProps) => {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      {age && <p>Age: {age}</p>}
+      {isStudent !== undefined && <p>Student: {isStudent ? "Yes" : "No"}</p>}
+      {hobbies && <p>Hobbies: {hobbies.join(", ")}</p>}
+      {address && (
+        <p>
+          Address: {address.street}, {address.city}
+        </p>
+      )}
+    </div>
+  );
+};
+```
+
+In this example, all props except `name` are optional. We've also added some conditional rendering to handle cases where optional props are not provided.
+
+##### Somewhat more advanced prop types
+
+Now let's explore some more advanced prop types that you'll often encounter in React applications.
+
+##### Function Props
+
+Function props are commonly used for callbacks and event handlers. 
+
+```tsx
+"use client";
+
+type GreetProps = {
+  name: string;
+  onGreet: (name: string) => void;
+};
+
+const Greet = ({ name, onGreet }: GreetProps) => {
+  return <button onClick={() => onGreet(name)}>Greet {name}</button>;
+};
+
+// usage
+const page = () => {
+  const handleGreet = (name: string) => {
+    alert(`Hello, ${name}!`);
+  };
+
+  return <Greet name="Alice" onGreet={handleGreet} />;
+};
+
+export default page;
+```
+
+In this example, `onGreet` is typed as a function that takes a `string` parameter and returns `void`. This clearly defines the expected shape of the function prop.
+
+##### Children
+
+In React, the `children` prop is a special prop that allows you to pass components as data to other components. Here's how you can type it:
+
+```tsx
+type ContainerProps = {
+  children: React.ReactNode;
+};
+
+const Container = ({ children }: ContainerProps) => {
+  return <div>{children}</div>;
+};
+
+// usage
+const page = () => {
+  return (
+    <div>
+      <Container>
+        <h1>Hello, World!</h1>
+        <p>This is a child element.</p>
+      </Container>
+    </div>
+  );
+};
+
+export default page;
+```
+
+In this example, `React.ReactNode` is used to type the `children` prop. It's a catch-all type for anything that can be rendered in React: JSX, strings, numbers, fragments, arrays, etc.
+
+##### Union of String Literals
+
+Union types are powerful in TypeScript, allowing you to specify that a prop can be one of several specific values. This is particularly useful for status props or any prop with a fixed set of possible values:
+
+```tsx
+type StatusProps = {
+  status: "loading" | "success" | "error";
+};
+
+const StatusMessage: React.FC<StatusProps> = ({ status }) => {
+  switch (status) {
+    case "loading":
+      return <p>Loading...</p>;
+    case "success":
+      return <p>Data loaded successfully!</p>;
+    case "error":
+      return <p>Error loading data. Please try again.</p>;
+  }
+};
+
+// usage
+const page = () => {
+  return (
+    <div>
+      <StatusMessage status="loading" />
+      {/* Later, when status changes: */}
+      <StatusMessage status="success" />
+    </div>
+  );
+};
+
+export default page;
+
+```
+
+This approach ensures that `status` can only be one of the specified values, providing type safety and autocompletion in your IDE.
+
+##### Conclusion
+
+TypeScript's type system allows for precise and flexible typing of React props. By using a range of prop types from basic to advanced, you can create robust and self-documenting React components. These techniques not only catch errors early but also improve the developer experience through better autocompletion and type inference.
+
+Remember to experiment with these concepts and adapt them to your specific use cases. As you become more comfortable with these patterns, you'll find yourself writing more reliable and maintainable React applications.
+
+Happy coding!
+
