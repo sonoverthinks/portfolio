@@ -4,15 +4,7 @@ customID: 3f59428d-8bb2-405b-9afc-9e748e1ef823
 tags: ["nextjs", "react"]
 ---
 
-Let's create a button in Next.js inside the app directory.
-
-```tsx
-const Button = () => {
-  return <button>Click me</button>;
-};
-```
-
-Click on it, but as expected, it does absolutely nothing. To make it responsive, we need to add an event handler to the button. In our case, we want it to log "hello" when clicked. Here's how we do it.
+Let's start by creating a simple button component in Next.js within the app directory:
 
 ```tsx
 const sayHello = () => {
@@ -23,40 +15,42 @@ const Button = () => {
 };
 ```
 
-This code looks fine and should work. However, it does not. Weird. The issue lies with the Next.js app directory. Components created there are React Server Components by default, which behaves a bit differently than the traditional React components we're used to. To disable this behavior, we add "use client" at the top of the file.
+At first glance, this code appears correct and should function as expected. However, when implemented in a Next.js application within the app directory, it doesn't behave as anticipated. This seeming inconsistency stems from a fundamental feature of Next.js.
+
+The root cause lies in how Next.js handles components within the app directory. By default, all components created here are React Server Components. These differ significantly from the traditional React components we're accustomed to. This default behavior explains why our button component, which relies on client-side interactivity, fails to function as expected.
+
+##### The Solution: "use client" Directive
 
 ```tsx
 "use client";
 
-const sayHello = () => {
-  console.log("hello");
-};
-const Button = () => {
-  return <button onClick={sayHello}>Click me</button>;
-};
+// component code here
 ```
 
-Great! This code runs without runtime errors thanks to the `use client` directive. It effectively converts React Server Components into the regular components we're familiar with. But why do we have to use the "use client" directive? what are React Server Components (RSCs)? In essence, RSCs are components that render on the server-side before reaching the client's browser. Since this rendering happens outside the browser environment, user interactions like clicking aren't supported. This explains why the `onClick` event handler wouldn't work with RSCs.
+This directive tells Next.js to process this file and its dependencies as Client Components, enabling client-side interactivity and restoring the expected behavior of our button.
 
-Let's summarize what we've observed so far:
+Understanding this distinction between Server and Client Components is crucial when working with Next.js, especially within the app directory. It allows developers to leverage the benefits of server-side rendering where appropriate while maintaining the flexibility to use client-side features when necessary.
 
-- In the Next.js app directory, components are React Server Components by default.
-- To disable this behavior, we add the "use client" directive at the top of the file containing that component.
-- RSCs are not hydrated after reaching the browser.
-- RSCs do not support user interactivity.
+##### Why Use React Server Components?
 
-Why should I use RSCs over regular components, now called React Client Components? To gain a deeper understanding of RSCs, let's remove the "use client" directive and see if we can make the `sayHello` function work within an RSC.
+React Server Components (RSCs) offer advantages over traditional Client Components. By rendering parts of the application on the server, RSCs can reduce the amount of JavaScript sent to the client, improving performance. Additionally, server-side rendering enhances Search Engine Optimization (SEO) by providing search engines with pre-rendered HTML content. Furthermore, RSCs allow for direct access to backend resources without the need for extra API routes, streamlining data fetching and reducing complexity. Let's explore how to leverage RSCs effectively.
+
+##### Transforming Client-Side Logic to Server-Side
+
+Consider this server side component:
 
 ```tsx
+// ...
 const sayHello = () => {
   console.log("hello");
 };
 const Button = () => {
   return <button onClick={sayHello}>Click me</button>;
 };
+// ...
 ```
 
-First, let's make the `sayHello` function asynchronous and add the `use server` directive.
+The `sayHello` function won't work in an RSC because it relies on client-side event handling. Let's adapt it for server-side execution. To make our `sayHello` function work within an RSC, we'll convert it to a server action:
 
 ```tsx
 const sayHello = async () => {
@@ -65,7 +59,9 @@ const sayHello = async () => {
 };
 ```
 
-We cannot pass the `sayHello` function directly to an event handler in a React Server Component (RSC). However, we can achieve a similar effect by wrapping the button in a form and setting the `sayHello` function as the `action` prop. This works because React extends the behavior of the HTML `<form>` element to allow functions, specifically server actions, to be invoked using the `action` prop.
+The `"use server"` directive marks this function as a server action, allowing it to run on the server.
+
+We can't use `onClick` in an RSC, but we can use server actions with forms:
 
 ```tsx
 const sayHello = async () => {
@@ -81,9 +77,11 @@ const Button = () => {
 };
 ```
 
+This works because React extends the HTML `<form>` element to support server actions via the `action` prop.
+
 Now, run this code and click the button. Look at the browser – you won't see anything happen. But wait, check the terminal's console – you'll see "hello" logged there!
 
-- By making the `sayHello` function asynchronous and adding the `"use server"` directive, we effectively turn it into a `server action`.
+- By making the `sayHello` function asynchronous and adding the `"use server"` directive, we turn it into a `server action`.
 - Server-side actions can then be passed as the `action` prop in a form.
 - `server actions` run on the server NOT the browser.
 
