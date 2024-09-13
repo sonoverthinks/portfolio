@@ -1,39 +1,28 @@
 import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
 import PageLayout from "@/components/PageLayout";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider attribute="class">
+      <Head>
+        <title>Son Dao - Web Developer | React & Next.js Specialist</title>
+        <meta
+          name="description"
+          content="Personal website of Son Dao, a web developer specializing in React and Next.js. Explore my projects, articles, and insights on modern web development."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="keywords"
+          content="web developer, React, Next.js, JavaScript, front-end development, tech writing"
+        />
+        <meta name="author" content="Son Dao" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <PageLayout>
         <Component {...pageProps} />
       </PageLayout>
     </ThemeProvider>
   );
 }
-
-/* 
-Frontend:
-Nextjs
-tailwind
-swr
-
-Backend:
-Nextjs api routes
-mongodb
-
-Steps:
-1. setup environment
-  1. Build app header
-  2. Create Blog Preview Card
-  3. Layout 
-
-2. Homepage UI
-3. Understand SSG
-4. Setup mdx, database, and make homepage static
-5. generate static blog page
-6. style blog page
-7. build the view counter
-8. Implement autocomplete blog
-9. Deploy
-*/
