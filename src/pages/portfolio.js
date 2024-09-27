@@ -6,7 +6,7 @@ const Portfolio = ({ allProjects }) => {
   return (
     <div className="px-3 relative mt-[70px] w-full max-w-[800px] h-auto flex flex-col gap-3">
       <div className="flex flex-col gap-2 mt-3">
-        {allProjects.map((project) => {
+        {allProjects.reverse().map((project) => {
           return (
             <Title key={project.customID} data={project} source="project" />
           );

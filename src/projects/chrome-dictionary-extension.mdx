@@ -1,0 +1,38 @@
+---
+title: Chrome Dictionary Extension
+customID: f6530d1e-d28e-4a06-bc47-8c45ffbc6036
+---
+
+##### Project Overview
+
+This Chrome extension aims to replicate the functionality of Google Dictionary (by Google), providing users with instant access to word definitions directly within their browser. By simply highlighting a word on any webpage, users can view its definition and hear its pronunciation.
+
+You can find the project on (Github)[https://github.com/sonny-coding/diction-extension]. To use this extension:
+
+- Download the project as a ZIP file from the GitHub repository.
+- Unzip the file to a local directory.
+- Open Chrome and navigate to `chrome://extensions/`.
+- Enable "Developer mode" in the top right corner.
+- Click "Load unpacked" and select the unzipped directory.
+- Restart your Chrome browser and the extension should now be active.
+
+##### Key Features
+
+- **Instant Definition**s: Displays definitions for highlighted words in a non-intrusive popup.
+- **Multiple Definitions**: Shows up to four definitions for comprehensive understanding.
+- **Audio Pronunciation**: Offers audio playback of word pronunciation when available.
+- **Smart Positioning**: Intelligently positions the popup to ensure visibility, adapting to screen edges and scroll position.
+
+##### Technologies
+
+- Vanilla JavaScript (ES6+)
+- RESTful API integration (Dictionary API)
+- DOM manipulation, event handling and asynchronous programming (Fetch API)
+
+This project is built entirely with vanilla JavaScript, which required me brushing up on core JavaScript concepts without relying on modern frameworks.
+
+##### Development Challenges
+
+Developing my first Chrome extension in vanilla JavaScript was an enjoyable challenge. The most significant technical hurdle was precisely positioning the definition popup next to highlighted text. I overcame this by implementing a dynamic positioning system, centering the popup above the selected word (or below if space is limited) and ensuring it stays within the viewport boundaries.
+
+This Chrome extension is just the starting point. I welcome your feedback and suggestions for future enhancements. Share your thoughts on how to improve it by following me on (Twitter)[https://twitter.com/sonoverthinks]. Happy coding!
