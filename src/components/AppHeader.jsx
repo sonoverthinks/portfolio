@@ -44,7 +44,7 @@ const AppHeader = () => {
           ))}
         </ul>
       </nav>
-      <div className="flex items-center gap-1 md:gap-2">
+      <div className="flex items-center gap-2">
         <HeaderIcon
           Icon={FlashIcon}
           onClick={() => setTriviaModal((prev) => !prev)}
