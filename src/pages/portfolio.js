@@ -1,6 +1,7 @@
 import connectDB from "@/mongoose/connectDB";
 import Project from "@/mongoose/models/Project";
 import ProjectTitle from "@/components/ProjectTitle";
+import BlogTitle from "@/components/BlogTitle";
 
 const Portfolio = ({ allProjects }) => {
   return (
@@ -8,9 +9,9 @@ const Portfolio = ({ allProjects }) => {
       <div className="flex flex-col mt-3">
         {allProjects.reverse().map((project) => {
           return (
-            <div className="" key={project.customID}>
-              <ProjectTitle data={project} source="project" />
-              <hr className="h-1 my-3 border-neutral-whisper dark:border-dark-zodiac-blue border-t-1" />
+            <div className="flex flex-col gap-2 mt-3" key={project.customID}>
+              <BlogTitle data={project} source="project" />
+              {/* <hr className="h-1 my-3 border-neutral-whisper dark:border-dark-zodiac-blue border-t-1" /> */}
             </div>
           );
         })}
