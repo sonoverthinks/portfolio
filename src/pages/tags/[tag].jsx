@@ -1,7 +1,7 @@
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
 import LinkTag from "@/components/LinkTag";
-import Title from "@/components/Title";
+import Title from "@/components/ProjectTitle";
 
 const Tag = ({ blogs }) => {
   return (

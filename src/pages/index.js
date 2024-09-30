@@ -8,7 +8,7 @@ import Trivia from "@/mongoose/models/Trivia";
 import readBlogFiles from "@/utils/readBlogs";
 import getBlogFileNames from "@/utils/getBlogFileNames";
 import LinkTag from "@/components/LinkTag";
-import Title from "@/components/Title";
+import BlogTitle from "@/components/BlogTitle";
 import readProjectFiles from "@/utils/readProjects";
 import getProjectFileNames from "@/utils/getProjectFileNames";
 import Head from "next/head";
@@ -26,7 +26,7 @@ const Home = ({ recentBlogs, uniqueTags }) => {
       </div>
       <div className="flex flex-col gap-2 mt-3">
         {recentBlogs.map((blog) => {
-          return <Title key={blog.customID} data={blog} source="blog" />;
+          return <BlogTitle key={blog.customID} data={blog} source="blog" />;
         })}
       </div>
     </div>
@@ -73,6 +73,7 @@ export const getStaticProps = async () => {
     const { data, content } = matter(parsedFile);
     data.slug = slug;
     data.content = content;
+    data.foo = "bar";
     return data;
   });
 

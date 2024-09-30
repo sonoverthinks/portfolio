@@ -9,7 +9,6 @@ import AppFooter from "@/components/AppFooter";
 import Image from "next/image";
 
 const About = ({ mdxSource, data }) => {
-  // console.log("🚀 ~ About ~ mdxSource:", mdxSource);
   return (
     <>
       <div className="px-3 relative mt-[70px] lg:mt-[100px] w-full max-w-[800px] h-auto text-[17px] mb-5">

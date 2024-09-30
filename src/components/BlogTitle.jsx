@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Title = ({ data, source }) => {
+const BlogTitle = ({ data, source }) => {
   const link = `/${source}/${data.slug}`;
 
   return (
@@ -19,4 +19,4 @@ const Title = ({ data, source }) => {
   );
 };
 
-export default Title;
+export default BlogTitle;

@@ -29,7 +29,7 @@ const AppHeader = () => {
   return (
     <div className="fixed z-30 flex items-center justify-between w-full max-w-[800px] p-3 dark:text-white bg-light-ghost-white dark:bg-dark-mirage">
       <nav>
-        <ul className="flex items-center gap-4 text-[18px] leading-[33px] font-normal">
+        <ul className="flex items-center gap-2 md:gap-4 md:text-[18px] text-[16px] leading-[28px] md:leading-[33px] font-normal">
           {navItems.map(({ href, title }) => (
             <li
               key={href}
@@ -44,7 +44,7 @@ const AppHeader = () => {
           ))}
         </ul>
       </nav>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1 md:gap-2">
         <HeaderIcon
           Icon={FlashIcon}
           onClick={() => setTriviaModal((prev) => !prev)}
@@ -76,7 +76,7 @@ const HeaderIcon = ({ Icon, onClick, shortcut }) => (
 );
 
 const ThemeToggle = ({ theme, toggleTheme }) => (
-  <p className="ml-2 md:ml-3 hover:cursor-pointer" onClick={toggleTheme}>
+  <p className="hover:cursor-pointer" onClick={toggleTheme}>
     <span
       className={
         theme === "light"
