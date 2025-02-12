@@ -5,7 +5,7 @@ import { GithubIcon, LinkedinIcon, TwitterIcon } from "./svgComponents";
 const socialLinks = [
   { href: "https://twitter.com/sonoverthinks", Icon: TwitterIcon },
   { href: "/", Icon: LinkedinIcon },
-  { href: "https://github.com/sonny-coding", Icon: GithubIcon },
+  { href: "https://github.com/sonoverthinks", Icon: GithubIcon },
 ];
 
 const SocialLink = ({ href, Icon }) => (
