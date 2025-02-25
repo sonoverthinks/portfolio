@@ -1,0 +1,301 @@
+---
+title: Mysql 101
+customID: b7a51725-0da6-4211-be5e-edab766273f4
+tags: ["mysql"]
+---
+
+```bash
+mysql -u root -p
+// database
+show databases; //list available databases
+CREATE DATABASE <name>
+DROP DATABASE <name>
+USE <name>
+SELECT database(); // return the current db
+```
+
+```bash
+// data types
+There are numeric types, string types, date types
+int: a whole number with a max (signed) value of 2147483647 = 2^32 - 1
+varchar: a variable-length string
+varchar(100): specify a maximum of characters allowed
+```
+
+```bash
+// show tables
+SHOW TABLES;
+SHOW COLUMNS FROM <name>;
+DESC <name> or DESCRIBE <name>
+// drop tables
+DROP TABLE <name>
+-- This is a comment
+```
+
+```bash
+// insert data
+INSERT INTO cats(name, age)
+VALUES ("Jetson", 7);
+// pay attention to the name of the table and the order of the variables, you can switch the order of the variables but make sure the values follow that order to.
+select * from cats;
+// multi inserts
+INSERT INTO cats(name, age) values("Beth", 3), ("Turkey", 1), ("Ugly", 11);
+```
+
+```bash
+// null = YES means null is permitted, null = no value, unknown
+name varchar(40) NOT NULL // null is not permitted
+```
+
+```shell
+// quotation marks in sql
+// in mysql, you could use "" or ''
+// in other flavors of sql, you couldn't
+// good practice to use ''
+INSERT INTO shops (name) values ('mario\'s pizza');
+// use backslash to use quotation mark inside a piece of text
+// if you use double quote inside single quote, you do not have to use escape
+INSERT INTO shops (name) values ('she said "haha"');
+```
+
+```bash
+// default values
+name VARCHAR(50) DEFAULT "unnamed"
+name VARCHAR(50) NOT NULL DEFAULT 'unnamed' // this means that name cannot be empty, if there is not value specify then set it to default
+// we can still manually set things to null
+INSERT INTO cats(name, age) VALUES (NULL, NULL)
+```
+
+```bash
+// primary key = unique identifier
+cat_id INT NOT NULL PRIMARY KEY,
+cat_id INT NOT NULL
+// PRIMARY KEYs cannot be NULL so specify NOT NULL is redundant
+// AUTO_INCREMENT
+cat_id INT AUTO_INCREMENT,
+PRIMARY KEY (cat_id),
+```
+
+```bash
+// CRUD
+// READ
+SELECT * FROM <table>
+SELECT name FROM <table>
+SELECT name, age FROM <table>
+// WHERE clause
+// aliases - easier to read
+SELECT cat_id as id from cats;
+// UPDATE
+UPDATE <table> SET breed = 'shorthair' WHERE breed = 'Tabby';
+// a good rule of thumb
+// select before update
+// DELETE
+DELETE FROM <table> WHERE name = 'egg';
+DELETE FROM <table> // empty out the table, table still exists
+```
+
+```bash
+// string functions
+// concat
+SELECT CONCAT(x, y, z) from <table>;
+SELECT CONCAT_WS(' ', x, y, z) as foo_bar from <table>;
+// substring
+SELECT SUBSTRING('Hello World', 1, 5); // 1 is the starting index, 5 is the length
+SELECT SUBSTR(); // same a substring
+SELECT CONCAT (SUBSTRING(title, 1, 10), '...') AS 'short title' FROM books;
+// replace
+SELECT REPLACE(title, ' ', '-') FROM books;
+// reverse
+SELECT REVERSE(author_fname) FROM books;
+SELECT CHAR_LENGTH('Hello World');
+// upper and lower
+SELECT CONCAT('MY FAVORITE BOOK IS ', UPPER(title)) FROM books;
+SELECT CONCAT('MY FAVORITE BOOK IS ', LOWER(title)) FROM books;
+// others
+SELECT INSERT('Hello Bobby', 6, 0, 'There');
+SELECT LEFT('omghahalol!', 3);
+SELECT RIGHT('omghahalol!', 4);
+SELECT REPEAT('ha', 4);
+SELECT TRIM('  pickle  ');
+```
+
+```bash
+// refining selection
+SELECT DISTINCT author_lname FROM books;
+// order by
+SELECT * FROM books ORDER BY author_lname;
+SELECT book_id, author_fname, author_lname, pages FROM books ORDER BY author_lname, author_fname;
+// limit
+SELECT * FROM books LIMIT 1;
+// like
+SELECT title, author_fname, author_lname, pages FROM books WHERE author_fname LIKE '%da%';
+SELECT * FROM books WHERE title LIKE '%\%%';
+```
+
+```bash
+// aggregate functions
+SELECT COUNT(*) FROM books;
+// group by
+SELECT author_lname, COUNT(*) FROM books GROUP BY author_lname;
+// min and max
+SELECT MAX(pages) FROM books;
+// subqueries
+SELECT title, released_year FROM books WHERE released_year = (SELECT MIN(released_year) FROM books);
+SELECT author_fname, author_lname, COUNT(*) FROM books GROUP BY author_lname, author_fname;
+SELECT author_lname, MIN(released_year) FROM books GROUP BY author_lname;
+// sum
+SELECT SUM(pages) FROM books;
+ // avg
+SELECT AVG(pages) FROM books;
+```
+
+```bash
+// more on data types
+```
+
+```bash
+// comparisons and logical operators
+SELECT * FROM books WHERE released_year != 2017;
+SELECT * FROM books WHERE title NOT LIKE '%e%';
+SELECT * FROM books WHERE released_year > 2005;
+SELECT title, author_lname, released_year FROM books WHERE released_year > 2010 AND author_lname = 'Eggers';
+SELECT title, pages FROM books WHERE pages < 200 OR title LIKE '%stories%';
+SELECT title, released_year FROM books WHERE released_year BETWEEN 2004 AND 2014;
+// comparing dates
+SELECT * FROM people WHERE HOUR(birthtime) BETWEEN 12 AND 16;
+// in
+SELECT title, author_lname FROM books WHERE author_lname IN ('Carver', 'Lahiri', 'Smith');
+// case
+SELECT title, released_year,
+CASE
+	WHEN released_year >= 2000 THEN 'modern lit'
+    ELSE '20th century lit'
+END AS genre
+FROM books;
+SELECT * FROM books WHERE author_lname IS NULL;
+```
+
+```bash
+constraints and alter table
+// unique
+CREATE TABLE contacts (
+	name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL UNIQUE
+);
+// named constraints
+CREATE TABLE users2 (
+    username VARCHAR(20) NOT NULL,
+    age INT,
+    CONSTRAINT age_not_negative CHECK (age >= 0)
+);
+CREATE TABLE companies (
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    CONSTRAINT name_address UNIQUE (name , address)
+);
+// altar table
+ALTER TABLE companies
+ADD COLUMN phone VARCHAR(15);
+ALTER TABLE companies DROP COLUMN phone;
+RENAME TABLE companies to suppliers;
+ALTER TABLE companies MODIFY company_name VARCHAR(100) DEFAULT 'unknown';
+```
+
+```bash
+// one to many and joins
+one to one
+one to many
+many to many
+// one to many
+CREATE TABLE customers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50)
+);
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATE,
+    amount DECIMAL(8,2),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+// cross join gives all possible combinations
+SELECT * FROM orders
+WHERE customer_id = (SELECT id FROM customers WHERE last_name = 'George');
+// inner join combines two tables by matching specified columns in both tables and only returns the rows where there are matching values in both tables
+SELECT * FROM customers JOIN orders ON orders.customer_id = customers.id;
+SELECT
+    first_name, last_name, SUM(amount) AS total
+FROM
+    customers
+        JOIN
+    orders ON orders.customer_id = customers.id
+GROUP BY first_name , last_name
+ORDER BY total;
+// left join returns all rows from the left (first) table and the matching rows from the right (second) table, with NULL values for the right tables columns if there are no matches,
+SELECT
+    first_name, last_name, order_date, amount
+FROM
+    customers
+        LEFT JOIN
+    orders ON orders.customer_id = customers.id;
+// right join
+SELECT
+    first_name, last_name, order_date, amount
+FROM
+    customers
+        RIGHT JOIN
+    orders ON customers.id = orders.customer_id;
+// on delete cascade
+FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+```
+
+```bash
+// many to many
+Many-to-Many Relationship Key Points:
+Always use a junction/mapping table
+Junction table has foreign keys to main tables
+```
+
+```bash
+// views
+views are some queries that we can name and store
+CREATE VIEW full_review AS ... some query
+SELECT * FROM full_reviews;
+// cannot delete from views
+// some views are insertable
+// to alter views
+ALTER VIEW ordered_series AS
+SELECT * FROM series ORDER BY released_year;
+// having filters our groups that we create with group by
+SELECT * from reviews GROUP BY something HAVING condition
+// roll up Creates subtotals for each group, Adds a grand total row, NULL values indicate subtotal/total rows
+// modes
+?????????????????????????????
+```
+
+```bash
+// window functions perform aggregate operations on group of rows, but they produce a result FOR EACH ROW
+// window functions allow us to look at aggregate info along side indidual rows
+// over
+avg(salary) over() // the over() clause constructs a window. when it is empty, the window will include all records.
+AVG(salary) OVER(PARTITION BY department); // inside of the over() use PARTITION BY to form rows into group of row
+SELECT emp_no, department, salary, AVG(salary) OVER(partition by department) FROM employees;
+// order by with windows re-order rows within each window
+ORDER BY in a window creates a rolling result
+SUM(salary) OVER(PARTITION BY department ORDER BY salary) AS rolling_dept_salary
+// ONLY WINDOW FUNCTIONS
+// RANK
+select department, salary, rank() over(order by salary desc) as overall_salary_rank from employees;
+// dense_rank and row_number
+?????????????????
+// NTILE
+break up a window into a diffrent buckets and for each value, you tell me which bucket we land in.
+NTILE(4) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_quartile,
+// first value, last value, nth_value
+ FIRST_VALUE(emp_no) OVER(PARTITION BY department ORDER BY salary DESC) as highest_paid_dept,
+ // lead and lag used to make some comparison between rows
+ salary - LAG(salary) OVER(ORDER BY salary DESC) as salary_diff
+
+```
