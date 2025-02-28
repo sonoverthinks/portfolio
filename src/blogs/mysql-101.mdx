@@ -220,10 +220,13 @@ CREATE TABLE orders (
     customer_id INT,
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
+```
+
+```bash
 // cross join gives all possible combinations
 SELECT * FROM orders
 WHERE customer_id = (SELECT id FROM customers WHERE last_name = 'George');
-// inner join combines two tables by matching specified columns in both tables and only returns the rows where there are matching values in both tables
+// INNER JOIN combines two tables by matching specified columns in both tables and only returns the rows where there are matching values in both tables
 SELECT * FROM customers JOIN orders ON orders.customer_id = customers.id;
 SELECT
     first_name, last_name, SUM(amount) AS total
@@ -233,14 +236,14 @@ FROM
     orders ON orders.customer_id = customers.id
 GROUP BY first_name , last_name
 ORDER BY total;
-// left join returns all rows from the left (first) table and the matching rows from the right (second) table, with NULL values for the right tables columns if there are no matches,
+// LEFT JOIN returns all rows from the left (first) table and the matching rows from the right (second) table, with NULL values for the right tables columns if there are no matches,
 SELECT
     first_name, last_name, order_date, amount
 FROM
     customers
         LEFT JOIN
     orders ON orders.customer_id = customers.id;
-// right join
+// RIGHT JOIN
 SELECT
     first_name, last_name, order_date, amount
 FROM
@@ -249,6 +252,71 @@ FROM
     orders ON customers.id = orders.customer_id;
 // on delete cascade
 FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+```
+
+```bash
+// join example
+CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50)
+);
+CREATE TABLE papers (
+    title VARCHAR(50),
+    grade INT,
+    student_id INT,
+    FOREIGN KEY (student_id)
+        REFERENCES students (id)
+);
+
+// inner join
+SELECT
+    first_name, title, grade
+FROM
+    students
+        JOIN
+    papers ON papers.student_id = students.id
+ORDER BY grade DESC;
+
+// left join
+SELECT
+    first_name, title, grade
+FROM
+    students
+        LEFT JOIN
+    papers ON papers.student_id = students.id;
+
+// left join
+SELECT
+    first_name, IFNULL(title, 'MISSING'), IFNULL(grade, 0)
+FROM
+    students
+        LEFT JOIN
+    papers ON papers.student_id = students.id;
+
+// left join
+SELECT
+    first_name, IFNULL(AVG(grade), 0) AS average
+FROM
+    students
+        LEFT JOIN
+    papers ON students.id = papers.student_id
+GROUP BY first_name
+ORDER BY average DESC;
+
+// left join
+SELECT
+    first_name,
+    IFNULL(AVG(grade), 0) AS average,
+    CASE
+        WHEN IFNULL(AVG(grade), 0) >= 75 THEN 'passing'
+        ELSE 'failing'
+    END AS passing_status
+FROM
+    students
+        LEFT JOIN
+    papers ON students.id = papers.student_id
+GROUP BY first_name
+ORDER BY average DESC;
 ```
 
 ```bash
