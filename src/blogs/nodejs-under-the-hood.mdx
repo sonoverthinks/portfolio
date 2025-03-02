@@ -1,0 +1,248 @@
+---
+title: Node.js Under the Hood
+customID: 2a40af3c-266d-4e90-8bb5-a58eb249b1f0
+tags: ["nodejs"]
+---
+
+#### 📌Important libraries
+
+- **v8** - js runtime environment, convert js to machine code, written in c++
+- **libuv** - a support library that provides async I/O and event driven capabilities to Node.js, crucial for handling non-blocking operations, written in c++
+
+#### 📌Single thread - single sequence of instructions
+
+1️⃣ **Single thread operation**
+
+- **Initialize program** – Start Node.js runtime (V8, libuv, etc.).
+- **Execute top-level code** – Run synchronous code first.
+- **Require modules** – Load dependencies and execute their code.
+- **Register event callbacks** – Asynchronous tasks (e.g., I/O, timers, HTTP requests) register callbacks.
+- **Start event loop** – Continuously checks and executes pending tasks.
+- **Exit when done** – Node.js exits when no pending tasks or active event listeners remain.
+
+2️⃣ **Thread pool**
+
+Thread pool **helps with specific async tasks**, keeping the event loop **non-blocking**. Node.js offloads some tasks to a separate thread pool (default: 4 threads) when needed, these tasks include:
+
+- **File I/O** – `fs.readFile`, `fs.writeFile`
+- **Crypto** – `crypto.pbkdf2`, `crypto.randomBytes`
+- **Compression** – `zlib.deflate`, `zlib.gzip`
+- **DNS** – `dns.lookup`
+- **C++ Add-ons** – Native modules for heavy tasks
+
+#### 📌Event loop - the orchestrator
+
+Event loop contains all the application code that is inside **callback functions** (non top-level code).
+
+1️⃣ **Event-driven architecture**
+
+- **Events are emitted** – e.g., a timer expires, a file is read, or a request arrives.
+- **Event loop picks them up** – Checks the event queue for pending events.
+- **Callbacks are executed** – Associated callback functions run asynchronously.
+
+2️⃣ **Ways to avoid blocking the event loop**
+
+- **Avoid using synchronous functions** from `fs`, `crypto`, and `zlib` modules (e.g., `fs.readFileSync`, `crypto.pbkdf2Sync`).
+- **Don’t perform complex calculations** (e.g., nested loops) that can block the event loop.
+- **Be cautious with JSON processing** in large objects to avoid performance bottlenecks.
+- **Avoid using complex regular expressions** (e.g., nested quantifiers), as they can be slow and block execution.
+
+### 📌Streams in Node.js
+
+Streams are **efficient data handling mechanisms** that allow processing large amounts of data **chunk by chunk** instead of loading everything into memory at once.
+
+1️⃣ **Types of Streams**
+
+Node.js provides **four types** of streams:
+
+- **Readable Streams** → Data flows **into** the app (e.g., `fs.createReadStream()`).
+- **Writable Streams** → Data flows **out of** the app (e.g., `fs.createWriteStream()`).
+- **Duplex Streams** → Both readable & writable (e.g., sockets).
+- **Transform Streams** → Modifies data while streaming (e.g., `zlib.createGzip()`).
+
+👉 **Example:**
+
+```js
+const fs = require("fs");
+const readStream = fs.createReadStream("largeFile.txt", "utf8");
+
+readStream.on("data", (chunk) => {
+  console.log("Received chunk:", chunk);
+});
+```
+
+2️⃣ **How Streams Work**
+
+- **Chunks** → Data is broken into smaller pieces.
+- **Buffering** → Node.js handles data in small portions, reducing memory usage.
+- **Event-Driven** → Uses `data`, `end`, `error`, and `finish` events.
+
+👉 **Example:**
+
+```js
+readStream.on("end", () => {
+  console.log("Reading complete.");
+});
+```
+
+3️⃣ **Piping Streams (Automatic Handling)**
+
+- Pipes allow easy transfer between readable & writable streams.
+
+👉 **Example:**
+
+```js
+const writeStream = fs.createWriteStream("output.txt");
+readStream.pipe(writeStream); // Transfers data efficiently
+```
+
+4️⃣ **Transform Streams (Modify Data on the Fly)**
+
+- Used for compression, encryption, or modifying data while streaming.
+
+👉 **Example:**
+
+```js
+const zlib = require("zlib");
+const gzip = zlib.createGzip();
+
+readStream.pipe(gzip).pipe(fs.createWriteStream("output.txt.gz"));
+```
+
+5️⃣ **Why Use Streams?**
+
+✅ **Memory Efficient** → No need to load entire file into RAM.
+✅ **Faster Processing** → Handles large files efficiently.
+✅ **Real-Time Data** → Useful for video/audio streaming, logs, and sockets.
+
+#### 📌CommonJS Module Loading Process in Node.js
+
+1️⃣ **Resolving and Loading**
+
+- Node.js locates the module using `require()`.
+- Searches in built-in modules, `node_modules`, or relative/absolute paths.
+- Tries different file extensions (`.js`, `.json`, `.node`).
+
+2️⃣ **Wrapping** (Module Wrapper Function)
+
+- Node.js wraps the module code in a function:
+  ```js
+  (function (exports, require, module, __filename, __dirname) {
+    // Module code
+  });
+  ```
+- Provides `exports`, `require`, `module`, `__filename`, `__dirname`.
+
+3️⃣ **Execution**
+
+- The wrapped function runs in **module scope** (not global).
+- The module’s code executes, and `module.exports` is prepared.
+
+4️⃣ **Returning `module.exports`**
+
+- `require()` returns the **exported object or function** from the module.
+
+5️⃣ **Caching**
+
+- Once loaded, modules are **cached** in `require.cache`.
+- If required again, Node.js returns the cached version instead of reloading.
+- To force reload:
+
+  ```js
+  delete require.cache[require.resolve("./myModule")];
+  ```
+
+✅ **Final Execution Order:**
+Resolving & Loading → Wrapping → Execution → Returning `exports` → Caching
+
+#### 📌ES Modules (ESM) Loading Process in Node.js
+
+Unlike CommonJS, ES Modules (ESM) follow a different **loading process** that is **asynchronous and optimized for modern JavaScript**. Here’s the step-by-step breakdown:
+
+1️⃣ **Resolving and Loading**
+
+- Node.js resolves the module’s location based on:
+  - Explicit file extensions (`.js`, `.mjs`, `.cjs`).
+  - **Package type** (`"type": "module"` in `package.json` enables ESM for `.js` files).
+  - **Relative and absolute paths** (e.g., `./module.js`, `/home/user/module.js`).
+  - Named imports must come from an **absolute or relative path** (no implicit extensions).
+
+👉 **Example:**
+
+```js
+// Explicit file extension required
+import { func } from "./myModule.js"; // ✅ Correct
+import { func } from "./myModule"; // ❌ Error (no implicit .js)
+```
+
+2️⃣ **Parsing (Strict Mode by Default)**
+
+- ESM is always in strict mode (`'use strict'`), meaning:
+  - No undeclared variables.
+  - No `this` defaulting to `global`.
+  - No `arguments.callee`, etc.
+
+👉 **Example:**
+
+```js
+// myModule.js
+console.log(this); // undefined (not global)
+```
+
+3️⃣ **Execution (Top-Level `await` Allowed)**
+
+- ESM loads asynchronously, meaning:
+  - `import` does **not** block execution.
+  - Can use **top-level `await`** (unlike CommonJS).
+
+👉 **Example:**
+
+```js
+// myModule.js
+export const data = await fetch("https://api.example.com").then((res) =>
+  res.json()
+);
+console.log(data);
+```
+
+4️⃣ **Returning Exports (`export` and `import`)**
+
+```js
+// Named Exports
+// myModule.js
+export const greeting = "Hello, World!";
+// main.js
+import { greeting } from "./myModule.js";
+console.log(greeting); // "Hello, World!"
+```
+
+```js
+// default exports
+// myModule.js
+export default function hello() {
+  console.log("Hello, ESM!");
+}
+// main.js
+import hello from "./myModule.js";
+hello(); // "Hello, ESM!"
+```
+
+5️⃣ **Caching (Same as CommonJS, but per module graph)**
+
+- Once loaded, **ES modules are cached** in memory.
+- Re-importing the same module returns the cached version.
+- Unlike CommonJS, ESM **maintains per-module execution context** (doesn't execute multiple times in different places).
+
+🔥 **Final Execution Order**
+
+Resolving & Loading → Parsing → Execution → Returning `export` → Caching
+
+⚡ **Key Differences**
+
+| Feature               | CommonJS (`require`)   | ES Modules (`import`)                     |
+| --------------------- | ---------------------- | ----------------------------------------- |
+| **Execution**         | Synchronous (blocking) | Asynchronous (non-blocking)               |
+| **File Extension**    | `.js` (by default)     | `.mjs` or `.js` (with `"type": "module"`) |
+| **Strict Mode**       | Optional               | Always enabled                            |
+| **Top-Level `await`** | ❌ Not allowed         | ✅ Allowed                                |
+| **Caching**           | Per `require()` call   | Per module graph                          |
