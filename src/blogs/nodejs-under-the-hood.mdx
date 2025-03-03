@@ -147,7 +147,6 @@ readStream.pipe(gzip).pipe(fs.createWriteStream("output.txt.gz"));
 - Once loaded, modules are **cached** in `require.cache`.
 - If required again, Node.js returns the cached version instead of reloading.
 - To force reload:
-
   ```js
   delete require.cache[require.resolve("./myModule")];
   ```

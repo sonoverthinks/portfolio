@@ -1,8 +1,8 @@
 import { MDXRemote } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm"; // https://mdxjs.com/table-of-components/ I want to style table
 import connectDB from "@/mongoose/connectDB";
 import Blog from "@/mongoose/models/Blog";
-import { serialize } from "next-mdx-remote/serialize";
-// import MdxComponents from "@/components/MDX/MdxComponents";
 import BlogHead from "@/components/blog-page/BlogHead";
 import components from "@/components/MDX/MDXComponents";
 
@@ -31,7 +31,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const { content, createdAt, ...blogData } = result.toObject();
   const mdxSource = await serialize(content, {
     mdxOptions: {
-      // rehypePlugins: [[rehypeImgSize, { dir: "public" }]],
+      remarkPlugins: [remarkGfm], // Enable GFM support
     },
   });
   blogData.createdAt = createdAt.toLocaleDateString("en-US");
