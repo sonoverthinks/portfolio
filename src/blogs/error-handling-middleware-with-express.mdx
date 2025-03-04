@@ -1,0 +1,120 @@
+---
+title: Error Handling Middleware with Express
+customID: d6e8f45e-f992-4766-a32a-fa6d2eeeae12
+tags: [express, nodejs]
+---
+
+#### 📌 Handling Unhandled Routes
+
+- Catch all requests to undefined routes and return a `404` error.
+- This should be placed **at the very end** of the middleware stack, after all route handlers.
+
+👉 **Example**:
+
+```js
+jsCopyEditapp.all("*", (req, res) => {
+  res.status(404).json({ error: "Route not found" }); // No need for next() here
+});
+```
+
+Here’s the rewritten note with added details in your preferred format:
+
+#### 📌 Types of Errors
+
+- Operational Errors - predictable issues that can occur in real-world usage. These are typically handled in advance to prevent crashes. Examples:
+  - Invalid path access
+  - Failing to connect to the database
+  - Request timeouts
+  - Authentication failures
+- Programming Error: - bugs introduced by developers. These are usually caused by mistakes in the code that lead to unexpected behavior. Examples:
+  - Reading properties of `undefined`
+  - Incorrectly handling data types
+  - Logic errors causing incorrect calculations
+
+#### 📌 Error Middleware
+
+- In Express, **operational errors** are usually handled by an **error-handling middleware**. This middleware catches errors and sends appropriate responses to the client.
+
+1️⃣ **Typical Error Middleware**
+
+```js
+const errorMiddleware = (err, req, res, next) => {
+  // The error-handling middleware must accept **four parameters** `(err, req, res, next)` to properly handle errors.
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Server Error";
+
+  // Handle Mongoose bad ObjectId error
+  if (err.name === "CastError") {
+    message = "Resource not found";
+    statusCode = 404;
+  }
+  // handle other errors..
+
+  // Send the error response
+  res.status(statusCode).json({
+    success: false,
+    error: message,
+  });
+};
+
+export default errorMiddleware;
+```
+
+2️⃣ **Important Points**
+
+- **Error Middleware**: Always placed at the **end of the middleware stack** to catch any unhandled errors.
+- **Operational vs. Programming Errors**: While operational errors should be handled gracefully with proper responses, programming errors might require fixing the code to prevent crashes.
+
+Here’s a structured note about **HTTP Status Codes** and a table of commonly used ones in Express:
+
+#### 📌 HTTP Status Codes
+
+HTTP status codes are standard responses returned by the server to indicate the result of a client’s request. They are categorized into five classes:
+
+1️⃣ **1xx - Informational**: These codes indicate that the request has been received and is being processed.
+
+2️⃣ **2xx - Success**: These codes indicate that the request was successfully processed.
+
+3️⃣ **3xx - Redirection**: These codes indicate that further action is needed to complete the request.
+
+4️⃣ **4xx - Client Errors**: These codes indicate that there was an error in the client’s request (e.g., invalid data or missing parameters).
+
+5️⃣ **5xx - Server Errors**: These codes indicate that there was an issue with the server processing the request.
+
+#### 📌Common Status Codes
+
+| **Status Code**               | **Description**                                                       | **When to Use**                                                                                   |
+| ----------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **200 OK**                    | The request was successful.                                           | When a request is successfully processed.                                                         |
+| **201 Created**               | The request has been fulfilled and a new resource was created.        | When creating a new resource, e.g., new user or item.                                             |
+| **204 No Content**            | The request was successful, but there is no content to return.        | When no data needs to be sent back (e.g., for DELETE).                                            |
+| **400 Bad Request**           | The request cannot be processed due to client error.                  | When the client sends invalid data or bad parameters.                                             |
+| **401 Unauthorized**          | Authentication is required and has failed or has not been provided.   | When a user needs to log in but hasn’t or failed authentication.                                  |
+| **403 Forbidden**             | The client does not have permission to access the resource.           | When a user tries to access a resource they are not allowed to.                                   |
+| **404 Not Found**             | The requested resource could not be found.                            | When the route or resource does not exist.                                                        |
+| **405 Method Not Allowed**    | The HTTP method used is not allowed for the requested resource.       | When a client tries to access a resource using an invalid HTTP method (e.g., PUT on a GET route). |
+| **500 Internal Server Error** | A generic error message when something goes wrong on the server side. | When an unexpected error occurs on the server.                                                    |
+| **503 Service Unavailable**   | The server is temporarily unavailable, often due to maintenance.      | When the server is down or temporarily unavailable.                                               |
+
+- When returning error responses in Express, use `res.status(code).json()`.
+
+#### 📌 Passing Errors from a Route to Error Middleware
+
+1️⃣ **How to Pass Errors**
+
+- Use the `next()` function with the error object inside route handlers or other middleware.
+- Express will then forward the error to the next error-handling middleware, where you can handle it appropriately (e.g., send a response to the client).
+
+👉 **Example**:
+
+```js
+// Route that throws an error
+app.get("/example", (req, res, next) => {
+  try {
+    // Simulate an error
+    throw new Error("Something went wrong!");
+  } catch (error) {
+    next(error); // Pass the error to the error-handling middleware
+  }
+});
+```

@@ -29,7 +29,7 @@ components.table = (props) => (
 components.th = (props) => (
   <TableHeaderTypography
     {...props}
-    className="border-gray-300 dark:bg-dark-mirage"
+    className="border-gray-300 bg-light-ghost-white dark:bg-dark-mirage"
   />
 );
 components.td = (props) => (
