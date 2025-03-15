@@ -4,239 +4,234 @@ customID: 65df4b33-0b31-4fab-9d06-b8bc9aa2c6d1
 tags: ["git", "github"]
 ---
 
-git - checkpoint, Version Control System, Linus Torvalds, software the runs locally on the machine
+## Introduction to Git
 
-github - service that hosts git repositories in the cloud and makes it easier to collaborate
+### What is Git?
 
-bash - command line interface, unix-based, default shell for linux and mac
+- A **checkpoint system** that tracks changes in files.
+- A **Version Control System (VCS)** created by Linus Torvalds.
+- Runs **locally** on a machine.
 
-git bash - a tool that emulates a Bash on a windows machine
+### What is GitHub?
 
-command prompt - the default shell for windows
+- A **cloud-based** service for hosting Git repositories.
+- Facilitates collaboration and version control.
 
-setting up name and email
+### Command-Line Interfaces
+
+- **Bash**: Unix-based command-line interface (default shell for Linux and macOS).
+- **Git Bash**: Emulates Bash on Windows for a Unix-like experience.
+- **Command Prompt**: Default shell for Windows.
+
+## Configuring Git
 
 ```bash
-git config user.name
 git config --global user.name "Son Dao"
-git config user.email
 git config --global user.email "sondao@gmail.com"
 ```
 
-#### Basic unix commands
+- Use `--global` to apply settings system-wide.
+- Use `--local` for per-repository configuration.
+
+## Basic Unix Commands
 
 ```bash
-ls
-ls -a
-pwd
-cd directory
-cd ..
-touch purple.txt
-mkdir colors
-rm purple.txt
-rm -rf colors
+ls         # List files
+ls -a      # Show hidden files
+pwd        # Print working directory
+cd <dir>   # Change directory
+cd ..      # Move up one directory
+mkdir <dir> # Create directory
+rm <file>  # Remove file
+rm -rf <dir> # Remove directory recursively
 ```
 
-#### Adding & committing
+## Git Workflow
+
+1. **Working Directory** → `git add` → **Staging Area** → `git commit` → **Repository**
+2. Always run `git status` to check the state of your repo.
+3. Avoid nesting repositories inside each other.
+
+## Adding & Committing Changes
 
 ```bash
-git init
-git status
-git log
+git init           # Initialize a new repo
+git status        # Check status
+git log           # View commit history
+git add <file>    # Stage a file
+git add .         # Stage all changes
+git commit -m "Commit message" # Commit changes
 ```
 
-always run git status before you initialize so you don't end with a git repo nested in another git repo. Delete the .git folder if you want to remove the nested repo
+### Atomic Commits
 
-working directory > git add > staging area > git commit > repository
+- Each commit should represent a **single logical change**.
+- Use imperative mood for commit messages: _"Fix bug"_, not _"Fixed bug"_.
 
-`git add` allows you to selectively which changes to include in the next commit. You don't necessary have to include all the files with `git add .`
-
-#### Commits in detail
-
-atomic commit - a commit should encompass a single feature, change, or fix.
-
-describe your changes in imperative mood, -m 'make abc add xyz', use present tense
+## Amending Commits
 
 ```bash
-git log --pretty=oneline
-git log --abbrev-commit
-git log --oneline
+git commit --amend  # Modify last commit message or add files
 ```
 
-amending commit
+## Working with Branches
 
 ```bash
-git commit -m 'some commit'
-git add forgotten_file.txt
-git commit --amend
+git branch             # List branches
+git branch <name>      # Create a new branch
+git switch <name>      # Switch branches
+git switch -c <name>   # Create & switch branch
+git switch -           # Switch to last branch
 ```
 
-#### Working with branches
+- `HEAD` points to the current commit/branch.
+- `git commit -a -m "msg"` combines `add` and `commit` (excludes untracked files).
 
-branches - alternative timelines of a project
+## Undoing Changes & Time Travel
 
-in 2020, github renamed the master branch to main
-
-head - a pointer that refers to the 'current' location in the repo. It points to a particular branch reference.
+### Checkout
 
 ```bash
-git branch // show the current branches
-git branch <branch-name> // create a new branch based upon the current HEAD
-git switch <branch-name> // switch to the brand
-git switch -c <branch-name> // create new branch and switch to new branch
-git switch - // go to the last branch
+git checkout <commit>    # View previous commit
+git checkout <branch>    # Switch branches
+git checkout -- <file>   # Discard changes to file
 ```
 
-combine `git add` and `git commit` into a single command using the `-a` option with `git commit`. This option automatically stages files that have been modified or deleted, but it does not include new (untracked) files.
+### Restore (Newer Alternative)
 
 ```bash
-git commit -a -m 'your commit message'
+git restore <file>       # Restore to last committed state
+git restore --staged <file> # Unstage file
 ```
 
-historically, we used `git checkout <branch-name>` to switch branches, but it also does additional things.
-
-switching branches with unstaged changes? the behavior of unstaged changes when switching branches depends on whether the changes conflict with the state of the target branch. Git provides mechanisms like stashing and committing to help manage these changes safely.
-
-#### Undoing changes & time traveling
-
-git checkout - git Swiss army knife
-
-Normally, HEAD points to the latest commit on the current branch. When you use `git checkout` to switch to an earlier commit, you're essentially moving the HEAD pointer to that specific commit.
+### Reset (Moving HEAD)
 
 ```bash
-git checkout commit-hash
-git checkout branch-name
-git chechout HEAD~1 // checkout the previous commit
-git checkout HEAD <file-name> // revert the file to the last commit/HEAD
-git chekout -- <file-name> // same as above
+git reset <commit>        # Reset to commit, keep changes
+git reset --hard <commit> # Reset and discard changes
 ```
 
-git restore - undoing operations
+### Revert (Safe Alternative)
 
 ```bash
-git restore <file-name> // revert/restore the file to the last commit/HEAD
-git restore --source HEAD~1 <file-name> // revert a file to a specific commit
-git restore --staged <file-name> // un-staged a file
+git revert <commit> # Create a commit that undoes a previous commit
 ```
 
-git reset - reset a repo back to a particular commit
+## Working with Remote Repositories
 
 ```bash
-git reset <commit-hash> // revert back to some commit but keep changes in working directory, use this in conjunction with git switch -c <new-branch> to move the changes to another branch.
-git reset --hard <commit-harsh> // undo both commits and changes
+git clone <url>                     # Clone repo
+git remote -v                        # List remotes
+git remote add <name> <url>          # Add a new remote
+git remote rename <old> <new>        # Rename remote
+git push <remote> <branch>           # Push changes
+git push -u origin master            # Set upstream branch
 ```
 
-git revert - similar to git reset but create brand new commit which reverse/undo the changes
+## Fetching & Pulling Updates
 
 ```bash
-git revert <commit-hash>
+git fetch <remote>                   # Get latest changes (no merge)
+git pull <remote> <branch>            # Fetch and merge
 ```
 
-git revert - use this command when collaborating
+### Remote Tracking Branches
 
-git reset - use this command when working by yourself
+- `origin/master` tracks the remote `master` branch.
+- `git switch <remote-branch>` creates a local branch from a remote branch.
 
-#### Github the basics
+## Git Workflows
+
+### Centralized Workflow
+
+- Everyone works directly on `main`.
+
+### Feature Branch Workflow
+
+- Developers work on separate branches, then merge into `main`.
+
+### Fork & Clone Workflow
+
+- Each developer maintains their own repository.
+
+## Merging & Rebasing
+
+### Merge (Default Method)
 
 ```bash
-git clone <url>
+git merge <branch>
 ```
+
+### Rebase (Alternative to Merge)
 
 ```bash
-git remote
-git remote -v // view existing remote repo
-git remote add <name> <url> // add a new remote
-git remote rename <old> <new>
-git remote remove <name>
-git push <remote> <branch>
-git push <remote> <local-branch>:<remote-branch> // pushing a local branch to a remote branch with different name
-git push -u origin master // set up the upstream, this allows us to use git push without classifying local and remote branches
-git clone <url>
+git rebase <branch>
 ```
 
-#### Fetching & Pulling
+- Moves branch commits to **start** at the latest `main`.
+- **Do not rebase** commits that have been pushed to a shared repository.
 
-remote tracking branch - a reference to the state of the master branch on the remote, it can't move itself, it's like a bookmark pointing to the last known commit on the main branch on origin.
+### Interactive Rebase
 
 ```bash
-<remote>/<branch> origin/master
-git remote -r // remote tracking branch
-git checkout origin/master
-// working with remote branches
-git switch <remote branch name> // create a local branch from the remote branch
+git rebase -i HEAD~4  # Modify last 4 commits
 ```
 
-centralized workflow - everyone works on the main branch
-
-feature branches workflow - working on features brand instead of the main brand
-
-pull request - requesting a brand to be merged into another brand
-
-fork & clone workflow - every dev has their own repo in addition to the main repo, commonly used in large open-source projects
-
-```mermaid
-graph TD;
-    A[Developer 1] -->|Fork Repository| B[Personal Repo];
-    A2[Developer 2] -->|Fork Repository| B2[Personal Repo];
-
-    B -->|Clone Repo| C[Local Machine];
-    B2 -->|Clone Repo| C2[Local Machine];
-
-    C -->|Create Feature Branch| D[Feature Branch];
-    C2 -->|Create Feature Branch| D2[Feature Branch];
-
-    D -->|Make Changes & Commit| E[Local Commits];
-    D2 -->|Make Changes & Commit| E2[Local Commits];
-
-    E -->|Push to Personal Repo| F[Push to GitHub];
-    E2 -->|Push to Personal Repo| F2[Push to GitHub];
-
-    F -->|Open Pull Request| G[Pull Request to Main Repo];
-    F2 -->|Open Pull Request| G2[Pull Request to Main Repo];
-
-    G -->|Code Review & Discussion| H[Review Process];
-    G2 -->|Code Review & Discussion| H;
-
-    H -->|Approved & Merged| I[Changes Merged to Main Repo];
-
-    I -->|Sync Fork| J[Developers Pull Latest Changes];
-
-    J -->|Continue Development| C;
-    J -->|Continue Development| C2;
-```
-
-#### Rebase
-
-rebase - an alternative to merge, a clean up tool. Rebase a feature brand means moving the entire feature brand so that it BEGINS at the tip of the master branch.
+## Stashing (Saving Temporary Work)
 
 ```bash
-git switch feature
-git rebase master
+git stash             # Save uncommitted changes temporarily
+git stash list        # Show list of stashed changes
+git stash apply       # Apply the most recent stash
+git stash pop         # Apply and remove the most recent stash
+git stash drop        # Delete the most recent stash
+git stash clear       # Remove all stashes
 ```
 
-never rebase commits that have been shared with others. If you have already pushed the commits, do not rebase them unless you are positive no one else is using those commits
+## Cherry-Picking (Picking Specific Commits)
 
 ```bash
-git rebase -i HEAD~4 //interactive mode
+git cherry-pick <commit-hash>
 ```
 
-#### Git Tags
-
-git tags - pointers that refer to particular points in Git history. They are often used to mark version releases.
-
-lightweight tags - name/label that points to a particular commit.
-
-annotated tags - store extra meta data include author's name and email, etc.
+## Diff (Comparing Changes)
 
 ```bash
-git tag // list tag
-git tag -l "*beta*" // filter
+git diff                  # Show unstaged changes
+git diff --staged         # Show staged changes
+git diff <commit1> <commit2> # Compare two commits
 ```
 
-#### Good to know topics
+## Blame (Tracking Who Changed What)
 
-Git behind the scenes - hashing & objects
+```bash
+git blame <file>
+```
 
-Git reflogs
+## Clean (Removing Untracked Files)
 
-Writing Custom git aliases
+```bash
+git clean -n   # Show untracked files to delete
+git clean -f   # Force delete untracked files
+git clean -fd  # Remove both untracked files and directories
+```
+
+## Reflog (History of HEAD Movements)
+
+```bash
+git reflog               # View history of HEAD changes
+git reset --hard HEAD@{n}  # Restore repo to a previous state
+```
+
+## Squashing Commits (Combining Multiple Commits)
+
+```bash
+git rebase -i HEAD~3  # Squash last 3 commits interactively
+```
+
+## Git Tags
+
+```bash
+git tag                    # List tags
+git tag -l "*beta*"         # Filter tags
+```
